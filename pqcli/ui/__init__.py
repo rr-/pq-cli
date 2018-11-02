@@ -8,14 +8,16 @@ from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
 
-urwid.command_map["k"] = "cursor up"
-urwid.command_map["K"] = "cursor up"
-urwid.command_map["j"] = "cursor down"
-urwid.command_map["J"] = "cursor down"
-urwid.command_map["h"] = "cursor left"
-urwid.command_map["H"] = "cursor left"
-urwid.command_map["l"] = "cursor right"
-urwid.command_map["L"] = "cursor right"
+for key, direction in {
+    "k": "up",
+    "j": "down",
+    "h": "left",
+    "l": "right",
+}.items():
+    for key_variant in {key, key.upper()}:
+        urwid.command_map[key_variant] = f"cursor {direction}"
+urwid.command_map["tab"] = f"cursor down"
+urwid.command_map["shift tab"] = f"cursor up"
 
 PALETTE: T.List[T.Tuple[str]] = [
     ("button", "", ""),
