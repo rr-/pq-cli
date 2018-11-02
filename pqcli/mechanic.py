@@ -12,6 +12,10 @@ def level_up_time(level: int) -> int:
     return 20 * level * 60
 
 
+def random_low(below):
+    return min(random.randint(0, below), random.randint(0, below))
+
+
 def generate_name() -> str:
     parts = [
         "br|cr|dr|fr|gr|j|kr|l|m|n|pr||||r|sh|tr|v|wh|x|y|z".split("|"),
@@ -82,6 +86,10 @@ class Bar:
         self.position = position
         self.max_ = max_
 
+    def reset(self, new_max: int, position: int = 0) -> None:
+        self.max_ = new_max
+        self.position = position
+
 
 class TaskType(enum.Enum):
     task = "task"
@@ -149,6 +157,56 @@ class Player:
             Equipment.hauberk: "-3 Burlap",
         }
 
+    def level_up(self) -> None:
+        self.level += 1
+        self.stats[Stat.hp_max] += (
+            self.stats[Stat.condition] // 3 + 1 + random.randint(0, 3)
+        )
+        self.stats[Stat.mp_max] += (
+            self.stats[Stat.intelligence] // 3 + 1 + random.randint(0, 3)
+        )
+        self.win_stat()
+        self.win_stat()
+        self.win_spell()
+        self.exp_bar.reset(level_up_time(self.level))
+
+    def win_stat(self) -> bool:
+        if random.choice([False, True]):
+            chosen_stat = random.choice(list(Stat))
+        else:
+            # favor the beststat so it will tend to clump
+            t = sum(value ** 2 for _stat, value in self.stats)
+            t = random.randint(0, t - 1)
+            chosen_stat: Stat = None
+            for stat, value in self.stats:
+                chosen_stat = stat
+                t -= value ** 2
+                if t < 0:
+                    return False
+
+        self.stats[chosen_stat] += 1
+        if chosen_stat == Stat.strength:
+            self.encum_bar.reset(
+                10 + self.stats[Stat.strength], self.encum_bar.position
+            )
+        return True
+
+    def win_spell(self) -> None:
+        self.spell_book.add(
+            SPELLS[
+                random_low(
+                    min(
+                        self.stats[Stat.wisdom] + self.level - 1,
+                        len(SPELLS) - 1,
+                    )
+                )
+            ],
+            1,
+        )
+
+    def win_item(self) -> None:
+        self.inventory.add(special_item(), 1)
+
 
 def special_item() -> str:
     return interesting_item() + " of " + random.choice(ITEM_OFS)
@@ -160,10 +218,6 @@ def interesting_item() -> str:
 
 def boring_item() -> str:
     return random.choice(BORING_ITEMS)
-
-
-def win_item(player: Player) -> None:
-    player.inventory.add(special_item(), 1)
 
 
 class Roster:
