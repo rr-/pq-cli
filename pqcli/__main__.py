@@ -3,9 +3,8 @@ from pathlib import Path
 
 import xdg
 
-from pqcli.game_state import Roster
+from pqcli.mechanic import Roster
 from pqcli.ui import Ui
-
 
 SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 

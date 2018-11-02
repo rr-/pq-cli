@@ -4,8 +4,8 @@ import typing as T
 import urwid
 import urwid_readline
 
-from pqcli.game_state import Player, StatsBuilder, generate_name, create_player
-from pqcli.config import RACES, CLASSES, PRIME_STATS
+from pqcli.config import CLASSES, PRIME_STATS, RACES
+from pqcli.mechanic import Player, StatsBuilder, create_player, generate_name
 from pqcli.ui.button import MenuButton
 from pqcli.ui.line_box import LineBox
 

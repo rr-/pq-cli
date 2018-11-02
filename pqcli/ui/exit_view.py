@@ -2,7 +2,7 @@ import typing as T
 
 import urwid
 
-from pqcli.game_state import Roster
+from pqcli.mechanic import Roster
 from pqcli.ui.button import MenuButton
 
 

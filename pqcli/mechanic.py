@@ -3,7 +3,7 @@ import random
 import typing as T
 from dataclasses import dataclass
 
-from pqcli.config import Stat, PRIME_STATS, Race, Class, RACES, CLASSES
+from pqcli.config import CLASSES, PRIME_STATS, RACES, Class, Race, Stat
 
 
 def generate_name() -> str:
