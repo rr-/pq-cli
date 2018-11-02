@@ -6,8 +6,12 @@ def seed(source: T.Any) -> None:
     random.seed(source)
 
 
-def choice(source: T.Iterable[T.Any]) -> T.Any:
-    return random.choice(source)
+def choice(source: T.Sequence[T.Any]) -> T.Any:
+    return source[below(len(source))]
+
+
+def choice_low(source: T.Sequence[T.Any]) -> T.Any:
+    return source[below_low(len(source))]
 
 
 def below(num: int) -> int:

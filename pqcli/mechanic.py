@@ -1,10 +1,14 @@
 import datetime
-import enum
+import itertools
+import logging
 import typing as T
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from pqcli import random
 from pqcli.config import *
+from pqcli.lingo import *
+
+logger = logging.getLogger(__name__)
 
 
 def level_up_time(level: int) -> int:
@@ -12,31 +16,57 @@ def level_up_time(level: int) -> int:
     return 20 * level * 60
 
 
-def generate_name() -> str:
-    parts = [
-        "br|cr|dr|fr|gr|j|kr|l|m|n|pr||||r|sh|tr|v|wh|x|y|z".split("|"),
-        "a|a|e|e|i|i|o|o|u|u|ae|ie|oo|ou".split("|"),
-        "b|ck|d|g|k|m|n|p|t|v|x|z".split("|"),
-    ]
-    result = ""
-    for i in range(6):
-        result += random.choice(parts[i % 3])
-    return result.title()
+class Bar:
+    def __init__(self, max_: int, position: float = 0.0) -> None:
+        self.position = position
+        self.max_ = max_
+
+    def reset(self, new_max: int, position: float = 0.0) -> None:
+        self.max_ = new_max
+        self.position = position
+
+    def increment(self, inc: float) -> None:
+        self.reposition(self.position + inc)
+
+    @property
+    def done(self) -> bool:
+        return self.position >= self.max_
+
+    def reposition(self, new_pos: float) -> None:
+        self.position = float(min(new_pos, self.max_))
 
 
-@dataclass
 class Stats:
-    def __init__(self) -> None:
-        self.values = {stat: 0 for stat in Stat}
+    def __init__(self, values: T.Dict[StatType, int]) -> None:
+        self.values = values
 
-    def __iter__(self) -> T.Iterable[T.Tuple[Stat, int]]:
+    def __iter__(self) -> T.Iterator[T.Tuple[StatType, int]]:
         return iter(self.values.items())
 
-    def __setitem__(self, stat: Stat, value: int) -> None:
-        self.values[stat] = value
-
-    def __getitem__(self, stat: Stat) -> int:
+    def __getitem__(self, stat: StatType) -> int:
         return self.values[stat]
+
+    def increment(self, stat: StatType, qty: int = 1) -> None:
+        self.values[stat] += qty
+        logger.info("Increased %s to %d", stat.value, self[stat])
+
+
+class QuestBook:
+    def __init__(self) -> None:
+        self._quests: T.List[str] = []
+        self.quest_bar = Bar(max_=1)
+        self.monster: T.Optional[Monster] = None
+
+    @property
+    def current(self) -> T.Optional[str]:
+        if self._quests:
+            return self._quests[-1]
+        return None
+
+    def add(self, name: str) -> None:
+        logger.info("Commencing quest: %s", name)
+        self._quests = self._quests[-100:]
+        self._quests.append(name)
 
 
 @dataclass
@@ -45,58 +75,113 @@ class Item:
     quantity: int
 
 
+class Inventory:
+    def __init__(self, capacity: int = 0) -> None:
+        self._gold = 0
+        self._items: T.List[Item] = []
+        self.encum_bar = Bar(max_=capacity)
+
+    @property
+    def gold(self) -> int:
+        return self._gold
+
+    def __len__(self) -> int:
+        return len(self._items)
+
+    def __iter__(self) -> T.Iterator[Item]:
+        return iter(self._items)
+
+    def add_gold(self, quantity: int) -> None:
+        logger.info(
+            "%s %s",
+            "Spent" if quantity < 0 else "Got paid",
+            indefinite("gold piece", abs(quantity)),
+        )
+        self._gold += quantity
+
+    def at(self, index: int) -> Item:
+        return self._items[index]
+
+    def pop(self, index: int) -> None:
+        item = self._items[index]
+        logger.info("Lost %s (qty=%d)", item.name, item.quantity)
+        self._items.pop(index)
+        self.sync_encumbrance()
+
+    def add(self, item_name: str, quantity: int) -> None:
+        logger.info("Gained %s", indefinite(item_name, quantity))
+        for item in self._items:
+            if item.name == item_name:
+                item.quantity += quantity
+                break
+        else:
+            self._items.append(Item(name=item_name, quantity=quantity))
+        self.sync_encumbrance()
+
+    def sync_encumbrance(self) -> None:
+        self.encum_bar.reposition(sum(item.quantity for item in self._items))
+
+    def set_capacity(self, capacity: int) -> None:
+        self.encum_bar.reset(capacity, self.encum_bar.position)
+
+
 @dataclass
 class Spell:
     name: str
     level: int
 
 
-class Inventory:
-    def __init__(self, items: T.Optional[T.List[Item]] = []) -> None:
-        self.items = [] if items is None else items
-
-    def add(self, item_name: str, quantity: int) -> None:
-        for item in self.items:
-            if item.name == item_name:
-                item.quantity += quantity
-                break
-        else:
-            self.items.append(Item(name=item_name, quantity=quantity))
-
-
 class SpellBook:
-    def __init__(self, spells: T.Optional[T.List[Item]] = None) -> None:
-        self.spells = [] if spells is None else spells
+    def __init__(self) -> None:
+        self.spells: T.List[Spell] = []
+
+    def __iter__(self) -> T.Iterator[Spell]:
+        return iter(self.spells)
 
     def add(self, spell_name: str, level: int) -> None:
-        for item in self.spells:
-            if item.name == spell_name:
-                item.level += level
+        for spell in self.spells:
+            if spell.name == spell_name:
+                spell.level += level
+                logger.info("Learned %s at level %d", spell_name, spell.level)
                 break
         else:
             self.spells.append(Spell(name=spell_name, level=level))
-
-
-class Bar:
-    def __init__(self, max_: int, position: int = 0) -> None:
-        self.position = position
-        self.max_ = max_
-
-    def reset(self, new_max: int, position: int = 0) -> None:
-        self.max_ = new_max
-        self.position = position
-
-
-class TaskType(enum.Enum):
-    task = "task"
-    plot = "plot"
+            logger.info("Learned %s at level %d", spell_name, level)
 
 
 @dataclass
-class Task:
-    task_type: TaskType
-    length: int
+class BaseTask:
     description: str
+    duration: int
+
+
+@dataclass
+class KillTask(BaseTask):
+    monster: T.Optional[Monster] = None
+
+
+class BuyTask(BaseTask):
+    pass
+
+
+class HeadingToKillingFieldsTask(BaseTask):
+    pass
+
+
+class HeadingToMarketTask(BaseTask):
+    pass
+
+
+class SellTask(BaseTask):
+    pass
+
+
+class RegularTask(BaseTask):
+    pass
+
+
+class PlotTask(RegularTask):
+    pass
 
 
 class Player:
@@ -113,53 +198,66 @@ class Player:
         self.race: Race = race
         self.class_: Class = class_
         self.stats: Stats = stats
-        self.level = 1
         self.act = 0
 
-        self.queue: T.List[Task] = [
-            Task(
-                TaskType.task,
-                10,
-                "Experiencing an enigmatic and foreboding night vision",
+        self.exp_bar = Bar(max_=level_up_time(1))
+        self.level = 1
+
+        self.task_bar = Bar(max_=0)
+        self.task: T.Optional[BaseTask] = None
+        self.queue: T.List[BaseTask] = [
+            RegularTask(
+                "Experiencing an enigmatic and foreboding night vision", 10_000
             ),
-            Task(
-                TaskType.task,
-                6,
-                "Much is revealed about that wise old bastard you'd underestimated",
+            RegularTask(
+                "Much is revealed about that wise old bastard "
+                "you'd underestimated",
+                6_000,
             ),
-            Task(
-                TaskType.task,
-                6,
-                "A shocking series of events leaves you alone and bewildered, but resolute",
+            RegularTask(
+                "A shocking series of events leaves you "
+                "alone and bewildered, but resolute",
+                6_000,
             ),
-            Task(
-                TaskType.task,
-                4,
-                "Drawing upon an unrealized reserve of determination, you set out on a long and dangerous journey",
+            RegularTask(
+                "Drawing upon an unrealized reserve of determination, "
+                "you set out on a long and dangerous journey",
+                4_000,
             ),
-            Task(TaskType.plot, 2, "Loading"),
+            PlotTask(f"Loading {act_name(self.act + 1)}", 2_000),
         ]
 
-        self.exp_bar = Bar(max_=level_up_time(1))
-        self.encum_bar = Bar(max_=stats[Stat.strength] + 10)
-        self.quest_bar = Bar(max_=1)
-        self.task_bar = Bar(max_=2000)
-        self.plot_bar = Bar(max_=sum(task.length for task in self.queue))
+        self.plot_bar = Bar(max_=sum(task.duration for task in self.queue))
+        self.quest_book = QuestBook()
 
-        self.inventory = Inventory([Item(name="Gold", quantity=0)])
-        self.spell_book = SpellBook()
-        self.equipment: T.Dict[Equipment, str] = {
-            Equipment.weapon: "Sharp Rock",
-            Equipment.hauberk: "-3 Burlap",
+        self.inventory = Inventory(capacity=10 + self.stats[StatType.strength])
+        self.equipment: T.Dict[EquipmentType, str] = {
+            EquipmentType.weapon: "Sharp Rock",
+            EquipmentType.hauberk: "-3 Burlap",
         }
+
+        self.spell_book = SpellBook()
+
+        self.set_task(RegularTask("Loading", 2_000))
+
+    def set_task(self, task: BaseTask) -> None:
+        self.task = task
+        self.task_bar.reset(task.duration)
+        logger.info("%s...", task.description)
+
+    def equip_price(self) -> int:
+        return 5 * (self.level ** 2) + 10 * self.level + 20
 
     def level_up(self) -> None:
         self.level += 1
-        self.stats[Stat.hp_max] += (
-            self.stats[Stat.condition] // 3 + 1 + random.below(4)
+        logger.info("Leveled up to level %d!", self.level)
+        self.stats.increment(
+            StatType.hp_max,
+            self.stats[StatType.condition] // 3 + 1 + random.below(4),
         )
-        self.stats[Stat.mp_max] += (
-            self.stats[Stat.intelligence] // 3 + 1 + random.below(4)
+        self.stats.increment(
+            StatType.mp_max,
+            self.stats[StatType.intelligence] // 3 + 1 + random.below(4),
         )
         self.win_stat()
         self.win_stat()
@@ -167,50 +265,496 @@ class Player:
         self.exp_bar.reset(level_up_time(self.level))
 
     def win_stat(self) -> bool:
+        chosen_stat: T.Optional[StatType] = None
+
         if random.odds(1, 2):
-            chosen_stat = random.choice(list(Stat))
+            chosen_stat = random.choice(list(StatType))
         else:
-            # favor the beststat so it will tend to clump
+            # favor the best stat so it will tend to clump
             t = sum(value ** 2 for _stat, value in self.stats)
             t = random.below(t)
-            chosen_stat: Stat = None
+            chosen_stat = None
             for stat, value in self.stats:
                 chosen_stat = stat
                 t -= value ** 2
                 if t < 0:
-                    return False
+                    break
 
-        self.stats[chosen_stat] += 1
-        if chosen_stat == Stat.strength:
-            self.encum_bar.reset(
-                10 + self.stats[Stat.strength], self.encum_bar.position
-            )
+        assert chosen_stat is not None
+        self.stats.increment(chosen_stat)
+        if chosen_stat == StatType.strength:
+            self.inventory.set_capacity(10 + self.stats[StatType.strength])
         return True
 
     def win_spell(self) -> None:
         self.spell_book.add(
             SPELLS[
                 random.below_low(
-                    min(self.stats[Stat.wisdom] + self.level, len(SPELLS))
+                    min(self.stats[StatType.wisdom] + self.level, len(SPELLS))
                 )
             ],
             1,
         )
 
+    def win_equipment(self) -> None:
+        choice = random.choice(list(EquipmentType))
+
+        stuff: T.List[Equipment]
+        better: T.List[Modifier]
+        worse: T.List[Modifier]
+
+        if choice == EquipmentType.weapon:
+            stuff = WEAPONS
+            better = OFFENSE_ATTRIB
+            worse = OFFENSE_BAD
+        else:
+            stuff = SHIELDS if choice == EquipmentType.shield else ARMORS
+            better = DEFENSE_ATTRIB
+            worse = DEFENSE_BAD
+
+        equipment = pick_equipment(stuff, self.level)
+        name = equipment.name
+        plus = self.level - equipment.quality
+        if plus < 0:
+            modifier_pool = worse
+        else:
+            modifier_pool = better
+        count = 0
+        while count < 2 and plus:
+            modifier = random.choice(modifier_pool)
+            if modifier.name in name:
+                break  # no repeats
+            if abs(plus) < abs(modifier.quality):
+                break  # too much
+            name = modifier.name + " " + name
+            plus -= modifier.quality
+            count += 1
+
+        if plus < 0:
+            name = f"{plus} {name}"
+        if plus > 0:
+            name = f"+{plus} {name}"
+
+        logger.info("Gained %s %s", name, choice.value)
+        self.equipment[choice] = name
+
     def win_item(self) -> None:
         self.inventory.add(special_item(), 1)
 
 
+class Simulation:
+    def __init__(self, player: Player) -> None:
+        self.player = player
+        self.last_tick = datetime.datetime.now()
+        self.elapsed = 0
+
+    def tick(self) -> None:
+        if not self.player.task_bar.done:
+            self.elapsed = 100
+            self.player.task_bar.increment(100)
+            return
+
+        # gain XP / level up
+        gain = self.player.task and isinstance(self.player.task, KillTask)
+        if gain:
+            if self.player.exp_bar.done:
+                self.player.level_up()
+            else:
+                self.player.exp_bar.increment(self.player.task_bar.max_ / 1000)
+
+        # advance quest
+        if gain and self.player.act >= 1:
+            if (
+                self.player.quest_book.quest_bar.done
+                or self.player.quest_book.current is None
+            ):
+                self.complete_quest()
+            else:
+                self.player.quest_book.quest_bar.increment(
+                    self.player.task_bar.max_ / 1000
+                )
+
+        # advance plot
+        if gain or not self.player.act:
+            if self.player.plot_bar.done:
+                self.interplot_cinematic()
+            else:
+                self.player.plot_bar.increment(
+                    self.player.task_bar.max_ / 1000
+                )
+
+        self.dequeue()
+
+    def dequeue(self) -> None:
+        while self.player.task_bar.done:
+            if isinstance(self.player.task, KillTask):
+                if (
+                    self.player.task.monster is None
+                    or self.player.task.monster.item is None
+                ):
+                    # npc
+                    self.player.win_item()
+                elif self.player.task.monster.item:
+                    self.player.inventory.add(
+                        (
+                            self.player.task.monster.name
+                            + " "
+                            + self.player.task.monster.item
+                        ).lower(),
+                        1,
+                    )
+
+            elif isinstance(self.player.task, BuyTask):
+                # buy some equipment
+                self.player.inventory.add_gold(-self.player.equip_price())
+                self.player.win_equipment()
+
+            elif isinstance(self.player.task, (HeadingToMarketTask, SellTask)):
+                if isinstance(self.player.task, SellTask):
+                    item = self.player.inventory.at(0)
+                    amount = item.quantity * self.player.level
+                    if " of " in item.name:
+                        amount *= (1 + random.below_low(10)) * (
+                            1 + random.below_low(self.player.level)
+                        )
+                    self.player.inventory.pop(0)
+                    self.player.inventory.add_gold(amount)
+                if len(self.player.inventory):
+                    item = self.player.inventory.at(0)
+                    self.player.set_task(
+                        SellTask(
+                            "Selling " + indefinite(item.name, item.quantity),
+                            1_000,
+                        )
+                    )
+                    break
+
+            elif isinstance(self.player.task, PlotTask):
+                self.complete_act()
+
+            old = self.player.task
+            if self.player.queue:
+                self.player.set_task(self.player.queue.pop(0))
+            elif self.player.inventory.encum_bar.done:
+                self.player.set_task(
+                    HeadingToMarketTask(
+                        "Heading to market to sell loot", 4_000
+                    )
+                )
+            elif not isinstance(old, (KillTask, HeadingToKillingFieldsTask)):
+                if self.player.inventory.gold > self.player.equip_price():
+                    self.player.set_task(
+                        BuyTask(
+                            "Negotiating purchase of better equipment", 5_000
+                        )
+                    )
+                else:
+                    self.player.set_task(
+                        HeadingToKillingFieldsTask(
+                            "Heading to the killing fields", 4_000
+                        )
+                    )
+            else:
+                self.player.set_task(
+                    monster_task(
+                        self.player.level, self.player.quest_book.monster
+                    )
+                )
+
+    def complete_act(self) -> None:
+        self.player.act += 1
+        self.player.plot_bar.reset(60 * 60 * (1 + 5 * self.player.act))
+        if self.player.act > 1:
+            self.player.win_item()
+            self.player.win_equipment()
+
+    def complete_quest(self) -> None:
+        self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))
+        if self.player.quest_book.current:
+            logger.info("Quest completed: %s", self.player.quest_book.current)
+            random.choice(
+                [
+                    self.player.win_spell,
+                    self.player.win_equipment,
+                    self.player.win_stat,
+                    self.player.win_item,
+                ]
+            )()
+
+        self.player.quest_book.monster = None
+        caption = ""
+        choice = random.below(5)
+        if choice == 0:
+            self.player.quest_book.monster = unnamed_monster(
+                self.player.level, iterations=3
+            )
+            caption = "Exterminate " + definite(
+                self.player.quest_book.monster.name, 2
+            )
+        elif choice == 1:
+            caption = "Seek " + definite(interesting_item(), 1)
+        elif choice == 2:
+            caption = "Deliver this " + boring_item()
+        elif choice == 3:
+            caption = "Fetch me " + indefinite(boring_item(), 1)
+        elif choice == 4:
+            monster = unnamed_monster(self.player.level, iterations=1)
+            caption = "Placate " + definite(monster.name, 2)
+        else:
+            raise AssertionError
+
+        self.player.quest_book.add(caption)
+
+    def interplot_cinematic(self) -> None:
+        def enqueue(task: BaseTask) -> None:
+            self.player.queue.append(task)
+            self.dequeue()
+
+        choice = random.below(3)
+        if choice == 0:
+            enqueue(
+                RegularTask(
+                    "Exhausted, you arrive at a friendly oasis "
+                    "in a hostile land",
+                    1_000,
+                )
+            )
+            enqueue(
+                RegularTask("You greet old friends and meet new allies", 2_000)
+            )
+            enqueue(
+                RegularTask(
+                    "You are privy to a council of powerful do-gooders", 2_000
+                )
+            )
+            enqueue(
+                RegularTask("There is much to be done. You are chosen!", 1_000)
+            )
+
+        elif choice == 1:
+            enqueue(
+                RegularTask(
+                    "Your quarry is in sight, "
+                    "but a mighty enemy bars your path!",
+                    1_000,
+                )
+            )
+
+            nemesis = named_monster(self.player.level + 3)
+
+            enqueue(
+                RegularTask(
+                    f"A desperate struggle commences with {nemesis}", 4_000
+                )
+            )
+
+            s = random.below(3)
+            for i in itertools.count(start=1):
+                if i > random.below(1 + self.player.act + 1):
+                    break
+                s += 1 + random.below(2)
+                if s % 3 == 0:
+                    enqueue(
+                        RegularTask(
+                            f"Locked in grim combat with {nemesis}", 2_000
+                        )
+                    )
+                elif s % 3 == 1:
+                    enqueue(
+                        RegularTask(
+                            f"{nemesis} seems to have the upper hand", 2_000
+                        )
+                    )
+                elif s % 3 == 2:
+                    enqueue(
+                        RegularTask(
+                            f"You seem to gain the advantage over {nemesis}",
+                            2_000,
+                        )
+                    )
+                else:
+                    raise AssertionError()
+
+            enqueue(
+                RegularTask(
+                    f"Victory! {nemesis} is slain! "
+                    "Exhausted, you lose conciousness",
+                    3_000,
+                )
+            )
+            enqueue(
+                RegularTask(
+                    "You awake in a friendly place, but the road awaits", 2_000
+                )
+            )
+
+        elif choice == 2:
+            nemesis = impressive_guy()
+            enqueue(
+                RegularTask(
+                    "Oh sweet relief! "
+                    f"You've reached the protection of the good {nemesis}",
+                    2_000,
+                )
+            )
+            enqueue(
+                RegularTask(
+                    "There is rejoicing, "
+                    f"and an unnerving encouter with {nemesis} in private",
+                    3_000,
+                )
+            )
+            enqueue(
+                RegularTask(
+                    f"You forget your {boring_item()} and go back to get it",
+                    2_000,
+                )
+            )
+            enqueue(
+                RegularTask(
+                    "What's this!? You overhear something shocking!", 2_000
+                )
+            )
+            enqueue(
+                RegularTask(
+                    f"Could {nemesis} be a dirty double-dealer?", 2_000
+                )
+            )
+            enqueue(
+                RegularTask(
+                    "Who can possibly be trusted with this news!? ... "
+                    "Oh yes, of course",
+                    3_000,
+                )
+            )
+
+        else:
+            raise AssertionError
+
+        enqueue(PlotTask(f"Loading {act_name(self.player.act + 1)}", 1_000))
+
+
 def special_item() -> str:
-    return interesting_item() + " of " + random.choice(ITEM_OFS)
+    return interesting_item() + " of " + T.cast(str, random.choice(ITEM_OFS))
 
 
 def interesting_item() -> str:
-    return random.choice(ITEM_ATTRIB) + " " + random.choice(SPECIALS)
+    return (
+        T.cast(str, random.choice(ITEM_ATTRIB))
+        + " "
+        + T.cast(str, random.choice(SPECIALS))
+    )
 
 
 def boring_item() -> str:
-    return random.choice(BORING_ITEMS)
+    return T.cast(str, random.choice(BORING_ITEMS))
+
+
+def impressive_guy() -> str:
+    return T.cast(str, random.choice(IMPRESSIVE_TITLES)) + (
+        " of the " + T.cast(Race, random.choice(RACES)).name
+        if random.below(2)
+        else " of " + generate_name()
+    )
+
+
+def unnamed_monster(level: int, iterations: int) -> Monster:
+    result = T.cast(Monster, random.choice(MONSTERS))
+    for _ in range(iterations):
+        alternative = T.cast(Monster, random.choice(MONSTERS))
+        if abs(level - alternative.level) < abs(level - result.level):
+            result = alternative
+    return result
+
+
+def named_monster(level: int) -> str:
+    monster = unnamed_monster(level, iterations=4)
+    return generate_name() + " the " + monster.name
+
+
+def pick_equipment(source: T.List[Equipment], goal: int) -> Equipment:
+    result = T.cast(Equipment, random.choice(source))
+    for _ in range(5):
+        alternative = T.cast(Equipment, random.choice(source))
+        if abs(goal - alternative.quality) < abs(goal - result.quality):
+            result = alternative
+    return result
+
+
+def monster_task(
+    player_level: int, quest_monster: T.Optional[Monster]
+) -> KillTask:
+    level = player_level
+    for _ in range(level):
+        if random.odds(2, 5):
+            level += random.below(2) * 2 - 1
+    if level < 1:
+        level = 1
+
+    definite = False
+    monster: T.Optional[Monster] = None
+    if random.odds(1, 25):
+        # use an NPC every once in a while
+        race = random.choice(RACES)
+        if random.odds(1, 2):
+            result = "passing " + race.name + " " + random.choice(CLASSES).name
+        else:
+            result = (
+                random.choice_low(TITLES)
+                + " "
+                + generate_name()
+                + " the "
+                + race.name
+            )
+            definite = True
+        lev = level
+    elif quest_monster and random.odds(1, 4):
+        # use the quest monster
+        monster = quest_monster
+        result = monster.name
+        lev = monster.level
+    else:
+        # pick the monster out of so many random ones closest to the level we want
+        monster = unnamed_monster(level, iterations=5)
+        result = monster.name
+        lev = monster.level
+
+    qty = 1
+    if level - lev > 10:
+        # lev is too low. multiply
+        qty = (level + random.below(max(lev, 1))) // max(lev, 1)
+        if qty < 1:
+            qty = 1
+        level //= qty
+
+    if level - lev <= -10:
+        result = "imaginary " + result
+    elif level - lev < -5:
+        i = 10 + level - lev
+        i = 5 - random.below(i + 1)
+        result = sick(i, young(lev - level - i, result))
+    elif level - lev < 0 and random.below(2) == 1:
+        result = sick(level - lev, result)
+    elif level - lev < 0:
+        result = young(level - lev, result)
+    elif level - lev >= 10:
+        result = "messianic " + result
+    elif level - lev > 5:
+        i = 10 - (level - lev)
+        i = 5 - random.below(i + 1)
+        result = big(i, special(level - lev - i, result))
+    elif level - lev > 0 and random.below(2) == 1:
+        result = big(level - lev, result)
+    elif level - lev > 0:
+        result = special(level - lev, result)
+
+    lev = level
+    level = lev * qty
+    if not definite:
+        result = indefinite(result, qty)
+
+    duration = (2 * 3 * level * 1000) // player_level
+    return KillTask(f"Executing {result}", duration, monster=monster)
 
 
 class Roster:
@@ -226,13 +770,17 @@ class StatsBuilder:
         self.history: T.List[Stats] = []
 
     def roll(self) -> Stats:
-        stats = Stats()
-        for stat in PRIME_STATS:
-            stats[stat] = (
-                3 + random.below(6) + random.below(6) + random.below(6)
-            )
-        stats[Stat.hp_max] = random.below(8) + stats[Stat.condition] // 6
-        stats[Stat.mp_max] = random.below(8) + stats[Stat.intelligence] // 6
+        values: T.Dict[StatType, int] = {
+            stat: 3 + random.below(6) + random.below(6) + random.below(6)
+            for stat in PRIME_STATS
+        }
+        values[StatType.hp_max] = (
+            random.below(8) + values[StatType.condition] // 6
+        )
+        values[StatType.mp_max] = (
+            random.below(8) + values[StatType.intelligence] // 6
+        )
+        stats = Stats(values)
         self.history.append(stats)
         return stats
 
