@@ -1,19 +1,15 @@
 import datetime
 import enum
-import random
 import typing as T
 from dataclasses import dataclass, field
 
+from pqcli import random
 from pqcli.config import *
 
 
 def level_up_time(level: int) -> int:
     # seconds
     return 20 * level * 60
-
-
-def random_low(below):
-    return min(random.randint(0, below), random.randint(0, below))
 
 
 def generate_name() -> str:
@@ -160,10 +156,10 @@ class Player:
     def level_up(self) -> None:
         self.level += 1
         self.stats[Stat.hp_max] += (
-            self.stats[Stat.condition] // 3 + 1 + random.randint(0, 3)
+            self.stats[Stat.condition] // 3 + 1 + random.below(4)
         )
         self.stats[Stat.mp_max] += (
-            self.stats[Stat.intelligence] // 3 + 1 + random.randint(0, 3)
+            self.stats[Stat.intelligence] // 3 + 1 + random.below(4)
         )
         self.win_stat()
         self.win_stat()
@@ -171,12 +167,12 @@ class Player:
         self.exp_bar.reset(level_up_time(self.level))
 
     def win_stat(self) -> bool:
-        if random.choice([False, True]):
+        if random.odds(1, 2):
             chosen_stat = random.choice(list(Stat))
         else:
             # favor the beststat so it will tend to clump
             t = sum(value ** 2 for _stat, value in self.stats)
-            t = random.randint(0, t - 1)
+            t = random.below(t)
             chosen_stat: Stat = None
             for stat, value in self.stats:
                 chosen_stat = stat
@@ -194,11 +190,8 @@ class Player:
     def win_spell(self) -> None:
         self.spell_book.add(
             SPELLS[
-                random_low(
-                    min(
-                        self.stats[Stat.wisdom] + self.level - 1,
-                        len(SPELLS) - 1,
-                    )
+                random.below_low(
+                    min(self.stats[Stat.wisdom] + self.level, len(SPELLS))
                 )
             ],
             1,
@@ -236,15 +229,10 @@ class StatsBuilder:
         stats = Stats()
         for stat in PRIME_STATS:
             stats[stat] = (
-                3
-                + random.randint(0, 5)
-                + random.randint(0, 5)
-                + random.randint(0, 5)
+                3 + random.below(6) + random.below(6) + random.below(6)
             )
-        stats[Stat.hp_max] = random.randint(0, 7) + stats[Stat.condition] // 6
-        stats[Stat.mp_max] = (
-            random.randint(0, 7) + stats[Stat.intelligence] // 6
-        )
+        stats[Stat.hp_max] = random.below(8) + stats[Stat.condition] // 6
+        stats[Stat.mp_max] = random.below(8) + stats[Stat.intelligence] // 6
         self.history.append(stats)
         return stats
 
