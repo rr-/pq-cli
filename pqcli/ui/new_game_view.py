@@ -7,6 +7,7 @@ import urwid_readline
 from pqcli.game_state import Player, StatsBuilder, generate_name, create_player
 from pqcli.config import RACES, CLASSES, PRIME_STATS
 from pqcli.ui.button import MenuButton
+from pqcli.ui.line_box import LineBox
 
 
 class StatsGroupBox(urwid.Pile):
@@ -29,8 +30,8 @@ class StatsGroupBox(urwid.Pile):
             [
                 urwid.Columns(
                     [
-                        (8, urwid.ListBox(label_texts)),
-                        urwid.ListBox(value_texts),
+                        urwid.Filler(urwid.Pile(label_texts)),
+                        urwid.Filler(urwid.Pile(value_texts)),
                     ]
                 ),
                 urwid.Filler(roll_button),
@@ -109,13 +110,11 @@ class NewGameView(urwid.Pile):
                 ),
                 urwid.Columns(
                     [
-                        urwid.LineBox(
-                            urwid.ListBox(race_checkboxes), title="Race"
-                        ),
-                        urwid.LineBox(
+                        LineBox(urwid.ListBox(race_checkboxes), title="Race"),
+                        LineBox(
                             urwid.ListBox(class_checkboxes), title="Class"
                         ),
-                        urwid.LineBox(
+                        LineBox(
                             StatsGroupBox(self.player, stats_builder),
                             title="Stats",
                         ),
