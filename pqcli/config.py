@@ -3,11 +3,6 @@ import typing as T
 from dataclasses import dataclass
 
 
-def level_up_time(level) -> int:
-    # seconds
-    return 20 * level * 60
-
-
 class Traits(enum.Enum):
     name = "Name"
     race = "Race"
@@ -26,6 +21,20 @@ class Stat(enum.Enum):
     mp_max = "MP Max"
 
 
+class Equipment(enum.Enum):
+    weapon = "Weapon"
+    shield = "Shield"
+    helm = "Helm"
+    hauberk = "Hauberk"
+    brassairts = "Brassairts"
+    vambraces = "Vambraces"
+    gauntlets = "Gauntlets"
+    gambeson = "Gambeson"
+    cuisses = "Cuisses"
+    greaves = "Greaves"
+    sollerets = "Sollerets"
+
+
 PRIME_STATS = [
     Stat.strength,
     Stat.condition,
@@ -37,20 +46,6 @@ PRIME_STATS = [
 
 ALL_STATS = PRIME_STATS + [Stat.hp_max, Stat.mp_max]
 
-
-EQUIPS = [
-    "Weapon",
-    "Shield",
-    "Helm",
-    "Hauberk",
-    "Brassairts",
-    "Vambraces",
-    "Gauntlets",
-    "Gambeson",
-    "Cuisses",
-    "Greaves",
-    "Sollerets",
-]
 
 SPELLS = [
     "Slime Finger",
