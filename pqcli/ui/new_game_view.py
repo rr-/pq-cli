@@ -10,7 +10,7 @@ from pqcli.ui.button import MenuButton
 from pqcli.ui.line_box import LineBox
 
 
-class StatsGroupBox(urwid.Pile):
+class StatsBox(urwid.Filler):
     def __init__(self, player: Player, stats_builder: StatsBuilder) -> None:
         self.player = player
         self.stats_builder = stats_builder
@@ -21,22 +21,41 @@ class StatsGroupBox(urwid.Pile):
         roll_button = MenuButton("Roll", on_press=self.on_roll_press)
         unroll_button = MenuButton("Unroll", on_press=self.on_unroll_press)
 
-        value_texts = list(self.stat_labels.values()) + [self.total_label]
-        label_texts = [
-            urwid.Text(f"{stat.value}: ") for stat in PRIME_STATS
-        ] + [urwid.Text("Total: ")]
+        value_texts = list(self.stat_labels.values())
+        label_texts = [urwid.Text(f"{stat.value}: ") for stat in PRIME_STATS]
 
         super().__init__(
-            [
-                urwid.Columns(
-                    [
-                        urwid.Filler(urwid.Pile(label_texts)),
-                        urwid.Filler(urwid.Pile(value_texts)),
-                    ]
-                ),
-                urwid.Filler(roll_button),
-                urwid.Filler(unroll_button),
-            ]
+            urwid.Pile(
+                [
+                    (
+                        13,
+                        LineBox(
+                            urwid.ListBox(
+                                [
+                                    urwid.Columns(
+                                        [
+                                            urwid.Pile(label_texts),
+                                            urwid.Pile(value_texts),
+                                        ]
+                                    ),
+                                    urwid.Divider(),
+                                    urwid.Columns(
+                                        [
+                                            urwid.Text("Total: "),
+                                            self.total_label,
+                                        ]
+                                    ),
+                                    urwid.Divider(),
+                                    roll_button,
+                                    unroll_button,
+                                ]
+                            ),
+                            title="Stats",
+                        ),
+                    )
+                ]
+            ),
+            valign="top",
         )
 
     def on_roll_press(self, _user_data: T.Any) -> None:
@@ -62,6 +81,30 @@ class StatsGroupBox(urwid.Pile):
         )
 
 
+class RaceBox(LineBox):
+    def __init__(self, player: Player) -> None:
+        race_checkboxes = []
+        for race in RACES:
+            urwid.RadioButton(
+                group=race_checkboxes,
+                label=race.name,
+                state=race.name == player.race.name,
+            )
+        super().__init__(urwid.ListBox(race_checkboxes), title="Race")
+
+
+class ClassBox(LineBox):
+    def __init__(self, player: Player) -> None:
+        class_checkboxes = []
+        for class_ in CLASSES:
+            urwid.RadioButton(
+                group=class_checkboxes,
+                label=class_.name,
+                state=class_.name == player.class_.name,
+            )
+        super().__init__(urwid.ListBox(class_checkboxes), title="Class")
+
+
 class NewGameView(urwid.Pile):
     def __init__(self, on_confirm: T.Callable, on_cancel: T.Callable) -> None:
         self.on_confirm = on_confirm
@@ -70,27 +113,15 @@ class NewGameView(urwid.Pile):
         stats_builder = StatsBuilder()
         self.player = create_player(stats_builder)
 
-        race_checkboxes = []
-        for race in RACES:
-            urwid.RadioButton(
-                group=race_checkboxes,
-                label=race.name,
-                state=race.name == self.player.race.name,
-            )
-
-        class_checkboxes = []
-        for class_ in CLASSES:
-            urwid.RadioButton(
-                group=class_checkboxes,
-                label=class_.name,
-                state=class_.name == self.player.class_.name,
-            )
+        race_box = RaceBox(self.player)
+        class_box = ClassBox(self.player)
+        stats_box = StatsBox(self.player, stats_builder)
 
         self.char_name_edit = urwid_readline.ReadlineEdit(
             "Name: ", self.player.name
         )
         generate_char_name_btn = MenuButton(
-            "Generate", on_press=self.on_generate_char_name_press
+            "Generate random name", on_press=self.on_generate_char_name_press
         )
 
         urwid.connect_signal(
@@ -99,25 +130,21 @@ class NewGameView(urwid.Pile):
 
         super().__init__(
             [
+                (1, urwid.Filler(self.char_name_edit)),
                 (
                     1,
-                    urwid.Columns(
-                        [
-                            urwid.Filler(self.char_name_edit),
-                            urwid.Filler(generate_char_name_btn),
-                        ]
+                    urwid.Filler(
+                        urwid.Padding(
+                            generate_char_name_btn,
+                            left=len(self.char_name_edit.caption),
+                        )
                     ),
                 ),
                 urwid.Columns(
                     [
-                        LineBox(urwid.ListBox(race_checkboxes), title="Race"),
-                        LineBox(
-                            urwid.ListBox(class_checkboxes), title="Class"
-                        ),
-                        LineBox(
-                            StatsGroupBox(self.player, stats_builder),
-                            title="Stats",
-                        ),
+                        ("weight", 2, race_box),
+                        ("weight", 2, class_box),
+                        stats_box,
                     ]
                 ),
             ]
