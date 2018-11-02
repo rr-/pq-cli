@@ -6,6 +6,7 @@ import urwid_readline
 
 from pqcli.game_state import Player, StatsBuilder, generate_name, create_player
 from pqcli.config import RACES, CLASSES, PRIME_STATS
+from pqcli.ui.button import MenuButton
 
 
 class StatsGroupBox(urwid.Pile):
@@ -16,8 +17,8 @@ class StatsGroupBox(urwid.Pile):
         self.total_label = urwid.Text("0")
         self.update_values()
 
-        roll_button = urwid.Button("Roll", on_press=self.on_roll_press)
-        unroll_button = urwid.Button("Unroll", on_press=self.on_unroll_press)
+        roll_button = MenuButton("Roll", on_press=self.on_roll_press)
+        unroll_button = MenuButton("Unroll", on_press=self.on_unroll_press)
 
         value_texts = list(self.stat_labels.values()) + [self.total_label]
         label_texts = [
@@ -87,8 +88,8 @@ class NewGameView(urwid.Pile):
         self.char_name_edit = urwid_readline.ReadlineEdit(
             "Name: ", self.player.name
         )
-        generate_char_name_btn = urwid.Button(
-            "?", on_press=self.on_generate_char_name_press
+        generate_char_name_btn = MenuButton(
+            "Generate", on_press=self.on_generate_char_name_press
         )
 
         urwid.connect_signal(

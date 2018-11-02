@@ -17,11 +17,18 @@ urwid.command_map["H"] = "cursor left"
 urwid.command_map["l"] = "cursor right"
 urwid.command_map["L"] = "cursor right"
 
+PALETTE: T.List[T.Tuple[str]] = [
+    ("button", "", ""),
+    ("button-focus", "black", "light red"),
+]
+
 
 class Ui:
     def __init__(self, roster: Roster) -> None:
         self.roster = roster
-        self.loop = urwid.MainLoop(None, unhandled_input=self.unhandled_input)
+        self.loop = urwid.MainLoop(
+            None, PALETTE, unhandled_input=self.unhandled_input
+        )
         self.old_view: T.Optional[urwid.Widget] = None
 
         self.switch_to_roster_view()

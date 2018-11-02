@@ -3,6 +3,7 @@ import typing as T
 import urwid
 
 from pqcli.game_state import Roster
+from pqcli.ui.button import MenuButton
 
 
 class ExitView(urwid.Overlay):
@@ -13,8 +14,8 @@ class ExitView(urwid.Overlay):
         self.on_cancel = on_cancel
 
         question = urwid.Text(("bold", "Really quit?"), "center")
-        yes_btn = urwid.Button("Yes", lambda _user_data: self.on_exit())
-        no_btn = urwid.Button("No", lambda _user_data: self.on_cancel())
+        yes_btn = MenuButton("Yes", lambda _user_data: self.on_exit())
+        no_btn = MenuButton("No", lambda _user_data: self.on_cancel())
 
         line_box = urwid.LineBox(
             urwid.ListBox(
