@@ -6,7 +6,7 @@ from pqcli.game_state import Roster
 from pqcli.ui.button import MenuButton
 
 
-class RosterView(urwid.ListBox):
+class RosterView(urwid.Filler):
     def __init__(
         self,
         roster: Roster,
@@ -41,11 +41,14 @@ class RosterView(urwid.ListBox):
         buttons.append(MenuButton(label="Exit", on_press=self.on_exit_press))
 
         super().__init__(
-            [
-                urwid.Padding(logo, width="clip"),
-                urwid.Divider(),
-                urwid.Pile(buttons),
-            ]
+            urwid.Padding(
+                urwid.Pile(
+                    [urwid.Padding(logo, width="clip"), urwid.Divider()]
+                    + buttons
+                ),
+                align="center",
+                width=logo.pack()[0],
+            )
         )
 
     def on_resume_game_press(self, user_data: T.Any) -> None:
