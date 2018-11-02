@@ -19,9 +19,9 @@ urwid.command_map["L"] = "cursor right"
 
 PALETTE: T.List[T.Tuple[str]] = [
     ("button", "", ""),
-    ("button-focus", "black", "light red"),
+    ("button-focus", "light red", "black"),
     ("linebox", "", ""),
-    ("linebox-focus", "black", "light red"),
+    ("linebox-focus", "light red", "black"),
     ("linebox-content", "", ""),
     ("linebox-content-focus", "", ""),
 ]
