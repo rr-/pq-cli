@@ -2,7 +2,6 @@ import typing as T
 
 import urwid
 
-from pqcli.mechanic import Roster
 from pqcli.ui.button import MenuButton
 
 

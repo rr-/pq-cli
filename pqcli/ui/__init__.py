@@ -8,17 +8,6 @@ from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
 
-for key, direction in {
-    "k": "up",
-    "j": "down",
-    "h": "left",
-    "l": "right",
-}.items():
-    for key_variant in {key, key.upper()}:
-        urwid.command_map[key_variant] = f"cursor {direction}"
-urwid.command_map["tab"] = f"cursor down"
-urwid.command_map["shift tab"] = f"cursor up"
-
 PALETTE: T.List[T.Tuple[str, str, str]] = [
     ("button", "", ""),
     ("button-focus", "light red", "black"),
@@ -29,8 +18,23 @@ PALETTE: T.List[T.Tuple[str, str, str]] = [
 ]
 
 
+def bind_commands() -> None:
+    for key, direction in {
+        "k": "up",
+        "j": "down",
+        "h": "left",
+        "l": "right",
+    }.items():
+        for key_variant in {key, key.upper()}:
+            urwid.command_map[key_variant] = f"cursor {direction}"
+    urwid.command_map["tab"] = f"cursor down"
+    urwid.command_map["shift tab"] = f"cursor up"
+
+
 class Ui:
     def __init__(self, roster: Roster) -> None:
+        bind_commands()
+
         self.roster = roster
         self.loop = urwid.MainLoop(
             None, PALETTE, unhandled_input=self.unhandled_input
@@ -57,7 +61,6 @@ class Ui:
     def switch_to_roster_view(self) -> None:
         self.loop.widget = RosterView(
             self.roster,
-            self.loop,
             on_exit=self.switch_to_exit_view,
             on_new_game=self.switch_to_new_game_view,
             on_resume_game=self.switch_to_game_view,
@@ -76,7 +79,7 @@ class Ui:
         )
 
     def switch_to_game_view(self, player_name: str) -> None:
-        ...
+        raise NotImplementedError("not implemented")
 
     def exit(self) -> None:
         raise urwid.ExitMainLoop()

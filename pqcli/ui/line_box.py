@@ -15,4 +15,4 @@ class LineBox(urwid.AttrWrap):
             ),
             "linebox",
             "linebox-focus",
-        ),
+        )

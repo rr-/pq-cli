@@ -2,8 +2,8 @@ import random
 import typing as T
 
 
-def seed(seed: T.Any) -> None:
-    random.seed(seed)
+def seed(source: T.Any) -> None:
+    random.seed(source)
 
 
 def choice(source: T.Iterable[T.Any]) -> T.Any:

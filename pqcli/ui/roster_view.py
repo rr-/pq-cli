@@ -10,7 +10,6 @@ class RosterView(urwid.Filler):
     def __init__(
         self,
         roster: Roster,
-        loop: urwid.MainLoop,
         on_new_game: T.Callable,
         on_resume_game: T.Callable,
         on_exit: T.Callable,
