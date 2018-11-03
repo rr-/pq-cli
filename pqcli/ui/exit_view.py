@@ -25,11 +25,11 @@ class ExitView(urwid.Overlay):
 
         super().__init__(line_box, parent, "center", 20, "middle", 5)
 
-    def keypress(self, size: T.Any, key: str) -> bool:
+    def keypress(self, size: T.Any, key: str) -> T.Optional[str]:
         if key in {"y", "Y"}:
             self.on_exit()
-            return True
+            return None
         if key in {"n", "N"}:
             self.on_cancel()
-            return True
-        return super().keypress(size, key)
+            return None
+        return key

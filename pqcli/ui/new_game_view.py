@@ -79,7 +79,7 @@ class StatsBox(urwid.Filler):
 
 class RaceBox(LineBox):
     def __init__(self) -> None:
-        race_checkboxes = []
+        race_checkboxes: T.List[urwid.RadioButton] = []
         self.race = random.choice(RACES)
         for race in RACES:
             urwid.RadioButton(
@@ -92,7 +92,7 @@ class RaceBox(LineBox):
 
 class ClassBox(LineBox):
     def __init__(self) -> None:
-        class_checkboxes = []
+        class_checkboxes: T.List[urwid.RadioButton] = []
         self.class_ = random.choice(CLASSES)
         for class_ in CLASSES:
             urwid.RadioButton(

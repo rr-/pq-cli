@@ -19,7 +19,7 @@ for key, direction in {
 urwid.command_map["tab"] = f"cursor down"
 urwid.command_map["shift tab"] = f"cursor up"
 
-PALETTE: T.List[T.Tuple[str]] = [
+PALETTE: T.List[T.Tuple[str, str, str]] = [
     ("button", "", ""),
     ("button-focus", "light red", "black"),
     ("linebox", "", ""),
