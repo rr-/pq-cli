@@ -4,6 +4,8 @@ import logging
 import typing as T
 from dataclasses import dataclass
 
+import urwid
+
 from pqcli import random
 from pqcli.config import *
 from pqcli.lingo import *
@@ -11,19 +13,37 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
+class SignalMixin:
+    def __init_subclass__(cls: T.Any, **kwargs: T.Any) -> None:
+        urwid.signals.register_signal(cls, cls.signals)
+        super().__init_subclass__(**kwargs)
+
+    def emit(self, signal_name: str, user_data: T.Any = None) -> None:
+        urwid.signals.emit_signal(self, signal_name, user_data)
+
+    def connect(self, signal_name: str, callback: T.Callable) -> None:
+        urwid.signals.connect_signal(
+            self, signal_name, lambda _sender, *args: callback(*args)
+        )
+
+
 def level_up_time(level: int) -> int:
     # seconds
     return 20 * level * 60
 
 
-class Bar:
+class Bar(SignalMixin):
+    signals = ["change"]
+
     def __init__(self, max_: int, position: float = 0.0) -> None:
         self.position = position
         self.max_ = max_
+        self.emit("change")
 
     def reset(self, new_max: int, position: float = 0.0) -> None:
         self.max_ = new_max
         self.position = position
+        self.emit("change")
 
     def increment(self, inc: float) -> None:
         self.reposition(self.position + inc)
@@ -34,9 +54,12 @@ class Bar:
 
     def reposition(self, new_pos: float) -> None:
         self.position = float(min(new_pos, self.max_))
+        self.emit("change")
 
 
-class Stats:
+class Stats(SignalMixin):
+    signals = ["change"]
+
     def __init__(self, values: T.Dict[StatType, int]) -> None:
         self.values = values
 
@@ -49,6 +72,7 @@ class Stats:
     def increment(self, stat: StatType, qty: int = 1) -> None:
         self.values[stat] += qty
         logger.info("Increased %s to %d", stat.value, self[stat])
+        self.emit("change")
 
 
 class QuestBook:
@@ -184,7 +208,9 @@ class PlotTask(RegularTask):
     pass
 
 
-class Player:
+class Player(SignalMixin):
+    signals = ["new_task", "level_up"]
+
     def __init__(
         self,
         name: str,
@@ -244,6 +270,7 @@ class Player:
         self.task = task
         self.task_bar.reset(task.duration)
         logger.info("%s...", task.description)
+        self.emit("new_task")
 
     def equip_price(self) -> int:
         return 5 * (self.level ** 2) + 10 * self.level + 20
@@ -263,6 +290,7 @@ class Player:
         self.win_stat()
         self.win_spell()
         self.exp_bar.reset(level_up_time(self.level))
+        self.emit("level_up")
 
     def win_stat(self) -> bool:
         chosen_stat: T.Optional[StatType] = None
@@ -346,12 +374,12 @@ class Simulation:
     def __init__(self, player: Player) -> None:
         self.player = player
         self.last_tick = datetime.datetime.now()
-        self.elapsed = 0
+        self.elapsed = 0.0
 
-    def tick(self) -> None:
+    def tick(self, elapsed: float = 100.0) -> None:
         if not self.player.task_bar.done:
-            self.elapsed = 100
-            self.player.task_bar.increment(100)
+            self.elapsed += elapsed
+            self.player.task_bar.increment(elapsed)
             return
 
         # gain XP / level up

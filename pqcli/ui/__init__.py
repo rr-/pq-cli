@@ -6,6 +6,7 @@ from pqcli import random
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.confirm_dialog import ConfirmDialog
+from pqcli.ui.game_view import GameView
 from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
@@ -17,6 +18,8 @@ PALETTE: T.List[T.Tuple[str, str, str]] = [
     ("linebox-focus", "light red", "black"),
     ("linebox-content", "", ""),
     ("linebox-content-focus", "", ""),
+    ("progressbar-done", "black", "light red"),
+    ("progressbar-incomplete", "", ""),
 ]
 
 
@@ -93,7 +96,9 @@ class Ui:
         self.switch_to_roster_view()
 
     def switch_to_game_view(self, player_idx: int) -> None:
-        raise NotImplementedError("not implemented")
+        player = self.roster.players[player_idx]
+        self.loop.widget = GameView(self.loop, player)
+        self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_delete_player_view(self, player_idx: int) -> None:
         adjective = random.choice(["faithful", "noble", "loyal", "brave"])

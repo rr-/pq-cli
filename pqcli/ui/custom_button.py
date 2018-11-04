@@ -3,7 +3,7 @@ import typing as T
 import urwid
 
 
-class MenuButton(urwid.Button):
+class CustomButton(urwid.Button):
     def __init__(
         self,
         label: str,

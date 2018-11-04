@@ -2,7 +2,7 @@ import typing as T
 
 import urwid
 
-from pqcli.ui.button import MenuButton
+from pqcli.ui.custom_button import CustomButton
 
 
 class ConfirmDialog(urwid.Overlay):
@@ -10,10 +10,10 @@ class ConfirmDialog(urwid.Overlay):
 
     def __init__(self, label: str, parent: urwid.Widget) -> None:
         question = urwid.Text(("bold", label), "center")
-        yes_btn = MenuButton(
+        yes_btn = CustomButton(
             "Yes", hint="Y", on_press=lambda _user_data: self.confirm()
         )
-        no_btn = MenuButton(
+        no_btn = CustomButton(
             "No", hint="N", on_press=lambda _user_data: self.cancel()
         )
 

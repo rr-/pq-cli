@@ -6,11 +6,11 @@ import urwid_readline
 
 from pqcli.config import CLASSES, PRIME_STATS, RACES
 from pqcli.mechanic import StatsBuilder, create_player, generate_name
-from pqcli.ui.button import MenuButton
-from pqcli.ui.line_box import LineBox
+from pqcli.ui.custom_button import CustomButton
+from pqcli.ui.custom_line_box import CustomLineBox
 
 
-class StatsBox(LineBox):
+class StatsBox(CustomLineBox):
     def __init__(self) -> None:
         self.stats_builder = StatsBuilder()
         self.stats = self.stats_builder.roll()
@@ -18,10 +18,10 @@ class StatsBox(LineBox):
         self.total_label = urwid.Text("0")
         self.update_values()
 
-        roll_button = MenuButton(
+        roll_button = CustomButton(
             "Roll", hint="F5", on_press=self.on_roll_press
         )
-        unroll_button = MenuButton(
+        unroll_button = CustomButton(
             "Unroll", hint="F6", on_press=self.on_unroll_press
         )
 
@@ -69,7 +69,7 @@ class StatsBox(LineBox):
         )
 
 
-class RaceBox(LineBox):
+class RaceBox(CustomLineBox):
     def __init__(self) -> None:
         self.race = random.choice(RACES)
 
@@ -92,7 +92,7 @@ class RaceBox(LineBox):
             self.race = user_data
 
 
-class ClassBox(LineBox):
+class ClassBox(CustomLineBox):
     def __init__(self) -> None:
         self.class_ = random.choice(CLASSES)
 
@@ -126,7 +126,7 @@ class NewGameView(urwid.Pile):
         self.char_name_edit = urwid_readline.ReadlineEdit(
             "Name: ", generate_name()
         )
-        generate_char_name_btn = MenuButton(
+        generate_char_name_btn = CustomButton(
             "Generate random name",
             hint="F7",
             on_press=self.on_generate_char_name_press,
@@ -136,10 +136,10 @@ class NewGameView(urwid.Pile):
             urwid.Padding(
                 urwid.Pile(
                     [
-                        MenuButton(
+                        CustomButton(
                             "Sold!", hint="F10", on_press=self.on_confirm_press
                         ),
-                        MenuButton(
+                        CustomButton(
                             "Cancel", hint="Esc", on_press=self.on_cancel_press
                         ),
                     ]

@@ -3,7 +3,7 @@ import typing as T
 import urwid
 
 from pqcli.roster import Roster
-from pqcli.ui.button import MenuButton
+from pqcli.ui.custom_button import CustomButton
 
 
 class RosterView(urwid.Filler):
@@ -19,14 +19,14 @@ class RosterView(urwid.Filler):
             buttons.append(
                 urwid.Columns(
                     [
-                        MenuButton(
+                        CustomButton(
                             label=player.name,
                             on_press=self.on_resume_game_press,
                             user_data=player_idx,
                         ),
                         (
                             10,
-                            MenuButton(
+                            CustomButton(
                                 label="Delete",
                                 on_press=self.on_delete_game_press,
                                 user_data=player_idx,
@@ -37,7 +37,7 @@ class RosterView(urwid.Filler):
             )
 
         buttons.append(
-            MenuButton(
+            CustomButton(
                 label="Create a new character",
                 hint="F1",
                 on_press=self.on_new_game_press,
@@ -45,7 +45,7 @@ class RosterView(urwid.Filler):
         )
 
         buttons.append(
-            MenuButton(label="Exit", hint="Esc", on_press=self.on_exit_press)
+            CustomButton(label="Exit", hint="Esc", on_press=self.on_exit_press)
         )
 
         super().__init__(

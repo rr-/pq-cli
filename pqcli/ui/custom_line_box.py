@@ -3,7 +3,7 @@ import typing as T
 import urwid
 
 
-class LineBox(urwid.AttrWrap):
+class CustomLineBox(urwid.AttrWrap):
     def __init__(
         self, widget: urwid.Widget, *args: T.Any, **kwargs: T.Any
     ) -> None:
