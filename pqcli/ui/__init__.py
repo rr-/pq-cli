@@ -59,24 +59,21 @@ class Ui:
         return False
 
     def switch_to_roster_view(self) -> None:
-        self.loop.widget = RosterView(
-            self.roster,
-            on_exit=self.switch_to_exit_view,
-            on_new_game=self.switch_to_new_game_view,
-            on_resume_game=self.switch_to_game_view,
-        )
+        self.loop.widget = RosterView(self.roster)
+        self._connect("load_game", self.switch_to_game_view)
+        self._connect("new_game", self.switch_to_new_game_view)
+        self._connect("exit", self.switch_to_exit_view)
 
     def switch_to_exit_view(self) -> None:
         self.old_view = self.loop.widget
-        self.loop.widget = ExitView(
-            self.old_view, on_exit=self.exit, on_cancel=self.cancel_exit
-        )
+        self.loop.widget = ExitView(self.old_view)
+        self._connect("exit", self.exit)
+        self._connect("cancel", self.cancel_exit)
 
     def switch_to_new_game_view(self) -> None:
-        self.loop.widget = NewGameView(
-            on_confirm=self.switch_to_game_view,
-            on_cancel=self.switch_to_roster_view,
-        )
+        self.loop.widget = NewGameView()
+        self._connect("confirm", self.switch_to_game_view)
+        self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_game_view(self, player_name: str) -> None:
         raise NotImplementedError("not implemented")
@@ -88,3 +85,10 @@ class Ui:
         assert self.old_view is not None
         self.loop.widget = self.old_view
         self.old_view = None
+
+    def _connect(self, signal_name: str, callback: T.Callable) -> None:
+        urwid.signals.connect_signal(
+            self.loop.widget,
+            signal_name,
+            lambda _sender, *args: callback(*args),
+        )

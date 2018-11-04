@@ -104,10 +104,9 @@ class ClassBox(LineBox):
 
 
 class NewGameView(urwid.Pile):
-    def __init__(self, on_confirm: T.Callable, on_cancel: T.Callable) -> None:
-        self.on_confirm = on_confirm
-        self.on_cancel = on_cancel
+    signals = ["confirm", "cancel"]
 
+    def __init__(self) -> None:
         race_box = RaceBox()
         class_box = ClassBox()
         stats_box = StatsBox()
@@ -150,7 +149,7 @@ class NewGameView(urwid.Pile):
 
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
-            self.on_cancel()
+            self._emit("cancel")
             return True
 
         return False
