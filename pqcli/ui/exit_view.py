@@ -31,4 +31,4 @@ class ExitView(urwid.Overlay):
         if key in {"n", "N"}:
             self.on_cancel()
             return None
-        return key
+        return super().keypress(size, key)
