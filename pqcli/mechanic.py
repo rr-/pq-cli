@@ -757,14 +757,6 @@ def monster_task(
     return KillTask(f"Executing {result}", duration, monster=monster)
 
 
-class Roster:
-    def __init__(self) -> None:
-        self.players: T.List[Player] = []
-
-    def add_player(self, player: Player) -> None:
-        self.players.append(player)
-
-
 class StatsBuilder:
     def __init__(self) -> None:
         self.history: T.List[Stats] = []

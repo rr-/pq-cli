@@ -2,7 +2,7 @@ import typing as T
 
 import urwid
 
-from pqcli.mechanic import Roster
+from pqcli.roster import Roster
 from pqcli.ui.exit_view import ExitView
 from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
