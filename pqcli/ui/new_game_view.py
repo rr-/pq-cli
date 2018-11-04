@@ -18,8 +18,12 @@ class StatsBox(LineBox):
         self.total_label = urwid.Text("0")
         self.update_values()
 
-        roll_button = MenuButton("Roll", on_press=self.on_roll_press)
-        unroll_button = MenuButton("Unroll", on_press=self.on_unroll_press)
+        roll_button = MenuButton(
+            "Roll", hint="F5", on_press=self.on_roll_press
+        )
+        unroll_button = MenuButton(
+            "Unroll", hint="F6", on_press=self.on_unroll_press
+        )
 
         value_texts = list(self.stat_labels.values())
         label_texts = [urwid.Text(f"{stat.value}: ") for stat in PRIME_STATS]
@@ -40,16 +44,22 @@ class StatsBox(LineBox):
             title="Stats",
         )
 
-    def on_roll_press(self, _user_data: T.Any) -> None:
+    def roll(self) -> None:
         self.stats = self.stats_builder.roll()
         self.update_values()
 
-    def on_unroll_press(self, _user_data: T.Any) -> None:
+    def unroll(self) -> None:
         try:
             self.stats = self.stats_builder.unroll()
         except IndexError:
             return
         self.update_values()
+
+    def on_roll_press(self, _user_data: T.Any) -> None:
+        self.roll()
+
+    def on_unroll_press(self, _user_data: T.Any) -> None:
+        self.unroll()
 
     def update_values(self) -> None:
         for stat, edit in self.stat_labels.items():
@@ -117,15 +127,21 @@ class NewGameView(urwid.Pile):
             "Name: ", generate_name()
         )
         generate_char_name_btn = MenuButton(
-            "Generate random name", on_press=self.on_generate_char_name_press
+            "Generate random name",
+            hint="F7",
+            on_press=self.on_generate_char_name_press,
         )
 
         buttons_box = urwid.Filler(
             urwid.Padding(
                 urwid.Pile(
                     [
-                        MenuButton("Sold!", self.on_confirm_press),
-                        MenuButton("Cancel", self.on_cancel_press),
+                        MenuButton(
+                            "Sold!", hint="F10", on_press=self.on_confirm_press
+                        ),
+                        MenuButton(
+                            "Cancel", hint="Esc", on_press=self.on_cancel_press
+                        ),
                     ]
                 ),
                 width=20,
@@ -159,10 +175,7 @@ class NewGameView(urwid.Pile):
         self.char_name_edit.edit_text = generate_name()
         self.char_name_edit.edit_pos = len(self.char_name_edit.edit_text)
 
-    def on_generate_char_name_press(self, _user_data: T.Any) -> None:
-        self.generate_random_char_name()
-
-    def on_confirm_press(self, _user_data: T.Any) -> None:
+    def confirm(self) -> None:
         player = create_player(
             name=self.char_name_edit.edit_text,
             race=self.race_box.race,
@@ -171,12 +184,37 @@ class NewGameView(urwid.Pile):
         )
         self._emit("confirm", player)
 
-    def on_cancel_press(self, _user_data: T.Any) -> None:
+    def cancel(self) -> None:
         self._emit("cancel")
+
+    def on_generate_char_name_press(self, _user_data: T.Any) -> None:
+        self.generate_random_char_name()
+
+    def on_confirm_press(self, _user_data: T.Any) -> None:
+        self.confirm()
+
+    def on_cancel_press(self, _user_data: T.Any) -> None:
+        self.cancel()
 
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
-            self._emit("cancel")
+            self.cancel()
+            return True
+
+        if key == "f7":
+            self.generate_random_char_name()
+            return True
+
+        if key == "f5":
+            self.stats_box.roll()
+            return True
+
+        if key == "f6":
+            self.stats_box.unroll()
+            return True
+
+        if key == "f10":
+            self.confirm()
             return True
 
         return False

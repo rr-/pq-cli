@@ -10,8 +10,12 @@ class ExitView(urwid.Overlay):
 
     def __init__(self, parent: urwid.Widget) -> None:
         question = urwid.Text(("bold", "Really quit?"), "center")
-        yes_btn = MenuButton("Yes", lambda _user_data: self.exit())
-        no_btn = MenuButton("No", lambda _user_data: self.cancel())
+        yes_btn = MenuButton(
+            "Yes", hint="Y", on_press=lambda _user_data: self.exit()
+        )
+        no_btn = MenuButton(
+            "No", hint="N", on_press=lambda _user_data: self.cancel()
+        )
 
         line_box = urwid.LineBox(
             urwid.ListBox(

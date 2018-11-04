@@ -26,11 +26,15 @@ class RosterView(urwid.Filler):
 
         buttons.append(
             MenuButton(
-                label="Create a new character", on_press=self.on_new_game_press
+                label="Create a new character",
+                hint="F1",
+                on_press=self.on_new_game_press,
             )
         )
 
-        buttons.append(MenuButton(label="Exit", on_press=self.on_exit_press))
+        buttons.append(
+            MenuButton(label="Exit", hint="Esc", on_press=self.on_exit_press)
+        )
 
         super().__init__(
             urwid.Padding(
@@ -60,6 +64,10 @@ class RosterView(urwid.Filler):
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
             self._emit("exit")
+            return True
+
+        if key == "f1":
+            self._emit("new_game")
             return True
 
         return False
