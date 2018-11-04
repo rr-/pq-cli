@@ -18,8 +18,9 @@ PALETTE: T.List[T.Tuple[str, str, str]] = [
     ("linebox-focus", "light red", "black"),
     ("linebox-content", "", ""),
     ("linebox-content-focus", "", ""),
+    ("progressbar-normal", "", "", "standout"),
     ("progressbar-done", "black", "light red"),
-    ("progressbar-incomplete", "", ""),
+    ("progressbar-smooth", "light red", ""),
 ]
 
 
