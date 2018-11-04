@@ -3,6 +3,7 @@ import typing as T
 import urwid
 
 from pqcli.ui.custom_button import CustomButton
+from pqcli.ui.custom_line_box import CustomLineBox
 
 
 class ConfirmDialog(urwid.Overlay):
@@ -17,7 +18,7 @@ class ConfirmDialog(urwid.Overlay):
             "No", hint="N", on_press=lambda _user_data: self.cancel()
         )
 
-        line_box = urwid.LineBox(
+        line_box = CustomLineBox(
             urwid.ListBox(
                 urwid.SimpleFocusListWalker([question, no_btn, yes_btn])
             )
