@@ -2,9 +2,10 @@ import typing as T
 
 import urwid
 
+from pqcli import random
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
-from pqcli.ui.exit_view import ExitView
+from pqcli.ui.confirm_dialog import ConfirmDialog
 from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
@@ -17,6 +18,11 @@ PALETTE: T.List[T.Tuple[str, str, str]] = [
     ("linebox-content", "", ""),
     ("linebox-content-focus", "", ""),
 ]
+
+
+class ConfirmExitDialog(ConfirmDialog):
+    def __init__(self, old_view: urwid.Widget) -> None:
+        super().__init__("Really quit?", old_view)
 
 
 def bind_commands() -> None:
@@ -40,7 +46,7 @@ class Ui:
         self.loop = urwid.MainLoop(
             None, PALETTE, unhandled_input=self.unhandled_input
         )
-        self.old_view: T.Optional[urwid.Widget] = None
+        self.old_views: T.List[urwid.Widget] = []
 
         self.switch_to_roster_view()
 
@@ -53,7 +59,6 @@ class Ui:
             return True
 
         if key == "ctrl q":
-            self.old_view = self.loop.widget
             self.switch_to_exit_view()
             return True
 
@@ -63,13 +68,16 @@ class Ui:
         self.loop.widget = RosterView(self.roster)
         self._connect("load_game", self.switch_to_game_view)
         self._connect("new_game", self.switch_to_new_game_view)
+        self._connect("delete_game", self.switch_to_delete_player_view)
         self._connect("exit", self.switch_to_exit_view)
 
     def switch_to_exit_view(self) -> None:
-        self.old_view = self.loop.widget
-        self.loop.widget = ExitView(self.old_view)
-        self._connect("exit", self.exit)
-        self._connect("cancel", self.cancel_exit)
+        if isinstance(self.loop.widget, ConfirmExitDialog):
+            return
+        self.old_views.append(self.loop.widget)
+        self.loop.widget = ConfirmExitDialog(self.old_views[-1])
+        self._connect("confirm", self.exit)
+        self._connect("cancel", self.cancel_dialog)
 
     def switch_to_new_game_view(self) -> None:
         self.loop.widget = NewGameView()
@@ -80,16 +88,30 @@ class Ui:
         self.roster.add_player(player)
         self.switch_to_roster_view()
 
-    def switch_to_game_view(self, player_name: str) -> None:
+    def delete_player(self, player_idx: int) -> None:
+        self.roster.delete_player_at(player_idx)
+        self.switch_to_roster_view()
+
+    def switch_to_game_view(self, player_idx: int) -> None:
         raise NotImplementedError("not implemented")
+
+    def switch_to_delete_player_view(self, player_idx: int) -> None:
+        adjective = random.choice(["faithful", "noble", "loyal", "brave"])
+        player_name = self.roster.players[player_idx].name
+
+        self.old_views.append(self.loop.widget)
+        self.loop.widget = ConfirmDialog(
+            f"Terminate {adjective} {player_name}?", self.old_views[-1]
+        )
+        self._connect("confirm", lambda: self.delete_player(player_idx))
+        self._connect("cancel", self.cancel_dialog)
 
     def exit(self) -> None:
         raise urwid.ExitMainLoop()
 
-    def cancel_exit(self) -> None:
-        assert self.old_view is not None
-        self.loop.widget = self.old_view
-        self.old_view = None
+    def cancel_dialog(self) -> None:
+        assert len(self.old_views)
+        self.loop.widget = self.old_views.pop()
 
     def _connect(self, signal_name: str, callback: T.Callable) -> None:
         urwid.signals.connect_signal(

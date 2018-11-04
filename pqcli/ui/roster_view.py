@@ -7,7 +7,7 @@ from pqcli.ui.button import MenuButton
 
 
 class RosterView(urwid.Filler):
-    signals = ["load_game", "new_game", "exit"]
+    signals = ["load_game", "new_game", "delete_game", "exit"]
 
     def __init__(self, roster: Roster) -> None:
         self.roster = roster
@@ -15,12 +15,24 @@ class RosterView(urwid.Filler):
         logo = urwid.BigText("ProgressQuest", urwid.HalfBlock5x4Font())
 
         buttons = []
-        for player in self.roster.players:
+        for player_idx, player in enumerate(self.roster.players):
             buttons.append(
-                MenuButton(
-                    label=player.name,
-                    on_press=self.on_resume_game_press,
-                    user_data=player.name,
+                urwid.Columns(
+                    [
+                        MenuButton(
+                            label=player.name,
+                            on_press=self.on_resume_game_press,
+                            user_data=player_idx,
+                        ),
+                        (
+                            10,
+                            MenuButton(
+                                label="Delete",
+                                on_press=self.on_delete_game_press,
+                                user_data=player_idx,
+                            ),
+                        ),
+                    ]
                 )
             )
 
@@ -51,9 +63,17 @@ class RosterView(urwid.Filler):
             )
         )
 
-    def on_resume_game_press(self, user_data: T.Any) -> None:
-        player_name = T.cast(str, user_data)
-        self._emit("load_game", player_data)
+    def on_resume_game_press(
+        self, _widget: urwid.Widget, user_data: T.Any
+    ) -> None:
+        player_idx = T.cast(int, user_data)
+        self._emit("load_game", player_idx)
+
+    def on_delete_game_press(
+        self, _widget: urwid.Widget, user_data: T.Any
+    ) -> None:
+        player_idx = T.cast(int, user_data)
+        self._emit("delete_game", player_idx)
 
     def on_new_game_press(self, _user_data: T.Any) -> None:
         self._emit("new_game")

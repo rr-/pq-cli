@@ -5,13 +5,13 @@ import urwid
 from pqcli.ui.button import MenuButton
 
 
-class ExitView(urwid.Overlay):
-    signals = ["exit", "cancel"]
+class ConfirmDialog(urwid.Overlay):
+    signals = ["confirm", "cancel"]
 
-    def __init__(self, parent: urwid.Widget) -> None:
-        question = urwid.Text(("bold", "Really quit?"), "center")
+    def __init__(self, label: str, parent: urwid.Widget) -> None:
+        question = urwid.Text(("bold", label), "center")
         yes_btn = MenuButton(
-            "Yes", hint="Y", on_press=lambda _user_data: self.exit()
+            "Yes", hint="Y", on_press=lambda _user_data: self.confirm()
         )
         no_btn = MenuButton(
             "No", hint="N", on_press=lambda _user_data: self.cancel()
@@ -23,19 +23,21 @@ class ExitView(urwid.Overlay):
             )
         )
 
-        super().__init__(line_box, parent, "center", 20, "middle", 5)
+        super().__init__(
+            line_box, parent, "center", len(label) + 6, "middle", 5
+        )
 
     def keypress(self, size: T.Any, key: str) -> T.Optional[str]:
         if key in {"y", "Y"}:
-            self.exit()
+            self.confirm()
             return None
         if key in {"n", "N"}:
             self.cancel()
             return None
         return T.cast(T.Optional[str], super().keypress(size, key))
 
-    def exit(self) -> None:
-        self._emit("exit")
+    def confirm(self) -> None:
+        self._emit("confirm")
 
     def cancel(self) -> None:
         self._emit("cancel")

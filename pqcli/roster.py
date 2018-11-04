@@ -12,6 +12,9 @@ class Roster:
     def add_player(self, player: Player) -> None:
         self.players.append(player)
 
+    def delete_player_at(self, player_idx: int) -> None:
+        del self.players[player_idx]
+
     @staticmethod
     def load(path: Path) -> "Roster":
         if path.exists():
