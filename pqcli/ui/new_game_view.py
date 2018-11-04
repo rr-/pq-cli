@@ -5,7 +5,7 @@ import urwid
 import urwid_readline
 
 from pqcli.config import CLASSES, PRIME_STATS, RACES
-from pqcli.mechanic import StatsBuilder, generate_name, create_player
+from pqcli.mechanic import StatsBuilder, create_player, generate_name
 from pqcli.ui.button import MenuButton
 from pqcli.ui.line_box import LineBox
 

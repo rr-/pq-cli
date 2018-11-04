@@ -99,7 +99,7 @@ class Inventory:
         )
         self._gold += quantity
 
-    def at(self, index: int) -> Item:
+    def item_at(self, index: int) -> Item:
         return self._items[index]
 
     def pop(self, index: int) -> None:
@@ -411,7 +411,7 @@ class Simulation:
 
             elif isinstance(self.player.task, (HeadingToMarketTask, SellTask)):
                 if isinstance(self.player.task, SellTask):
-                    item = self.player.inventory.at(0)
+                    item = self.player.inventory.item_at(0)
                     amount = item.quantity * self.player.level
                     if " of " in item.name:
                         amount *= (1 + random.below_low(10)) * (
@@ -420,7 +420,7 @@ class Simulation:
                     self.player.inventory.pop(0)
                     self.player.inventory.add_gold(amount)
                 if len(self.player.inventory):
-                    item = self.player.inventory.at(0)
+                    item = self.player.inventory.item_at(0)
                     self.player.set_task(
                         SellTask(
                             "Selling " + indefinite(item.name, item.quantity),
@@ -691,7 +691,7 @@ def monster_task(
     if level < 1:
         level = 1
 
-    definite = False
+    is_definite = False
     monster: T.Optional[Monster] = None
     if random.odds(1, 25):
         # use an NPC every once in a while
@@ -706,7 +706,7 @@ def monster_task(
                 + " the "
                 + race.name
             )
-            definite = True
+            is_definite = True
         lev = level
     elif quest_monster and random.odds(1, 4):
         # use the quest monster
@@ -750,7 +750,7 @@ def monster_task(
 
     lev = level
     level = lev * qty
-    if not definite:
+    if not is_definite:
         result = indefinite(result, qty)
 
     duration = (2 * 3 * level * 1000) // player_level
