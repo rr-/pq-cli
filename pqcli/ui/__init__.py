@@ -2,6 +2,7 @@ import typing as T
 
 import urwid
 
+from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.exit_view import ExitView
 from pqcli.ui.new_game_view import NewGameView
@@ -72,8 +73,12 @@ class Ui:
 
     def switch_to_new_game_view(self) -> None:
         self.loop.widget = NewGameView()
-        self._connect("confirm", self.switch_to_game_view)
+        self._connect("confirm", self.create_player)
         self._connect("cancel", self.switch_to_roster_view)
+
+    def create_player(self, player: Player) -> None:
+        self.roster.add_player(player)
+        self.switch_to_roster_view()
 
     def switch_to_game_view(self, player_name: str) -> None:
         raise NotImplementedError("not implemented")

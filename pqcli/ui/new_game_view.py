@@ -5,12 +5,12 @@ import urwid
 import urwid_readline
 
 from pqcli.config import CLASSES, PRIME_STATS, RACES
-from pqcli.mechanic import StatsBuilder, generate_name
+from pqcli.mechanic import StatsBuilder, generate_name, create_player
 from pqcli.ui.button import MenuButton
 from pqcli.ui.line_box import LineBox
 
 
-class StatsBox(urwid.Filler):
+class StatsBox(LineBox):
     def __init__(self) -> None:
         self.stats_builder = StatsBuilder()
         self.stats = self.stats_builder.roll()
@@ -25,37 +25,19 @@ class StatsBox(urwid.Filler):
         label_texts = [urwid.Text(f"{stat.value}: ") for stat in PRIME_STATS]
 
         super().__init__(
-            urwid.Pile(
+            urwid.ListBox(
                 [
-                    (
-                        13,
-                        LineBox(
-                            urwid.ListBox(
-                                [
-                                    urwid.Columns(
-                                        [
-                                            urwid.Pile(label_texts),
-                                            urwid.Pile(value_texts),
-                                        ]
-                                    ),
-                                    urwid.Divider(),
-                                    urwid.Columns(
-                                        [
-                                            urwid.Text("Total: "),
-                                            self.total_label,
-                                        ]
-                                    ),
-                                    urwid.Divider(),
-                                    roll_button,
-                                    unroll_button,
-                                ]
-                            ),
-                            title="Stats",
-                        ),
-                    )
+                    urwid.Columns(
+                        [urwid.Pile(label_texts), urwid.Pile(value_texts)]
+                    ),
+                    urwid.Divider(),
+                    urwid.Columns([urwid.Text("Total: "), self.total_label]),
+                    urwid.Divider(),
+                    roll_button,
+                    unroll_button,
                 ]
             ),
-            valign="top",
+            title="Stats",
         )
 
     def on_roll_press(self, _user_data: T.Any) -> None:
@@ -79,43 +61,76 @@ class StatsBox(urwid.Filler):
 
 class RaceBox(LineBox):
     def __init__(self) -> None:
-        race_checkboxes: T.List[urwid.RadioButton] = []
         self.race = random.choice(RACES)
+
+        radio_buttons: T.List[urwid.RadioButton] = []
         for race in RACES:
             urwid.RadioButton(
-                group=race_checkboxes,
+                group=radio_buttons,
                 label=race.name,
                 state=race.name == self.race.name,
+                on_state_change=self.on_state_change,
+                user_data=race,
             )
-        super().__init__(urwid.ListBox(race_checkboxes), title="Race")
+
+        super().__init__(urwid.ListBox(radio_buttons), title="Race")
+
+    def on_state_change(
+        self, _widget: urwid.RadioButton, new_state: bool, user_data: T.Any
+    ) -> None:
+        if new_state:
+            self.race = user_data
 
 
 class ClassBox(LineBox):
     def __init__(self) -> None:
-        class_checkboxes: T.List[urwid.RadioButton] = []
         self.class_ = random.choice(CLASSES)
+
+        radio_buttons: T.List[urwid.RadioButton] = []
         for class_ in CLASSES:
             urwid.RadioButton(
-                group=class_checkboxes,
+                group=radio_buttons,
                 label=class_.name,
                 state=class_.name == self.class_.name,
+                on_state_change=self.on_state_change,
+                user_data=class_,
             )
-        super().__init__(urwid.ListBox(class_checkboxes), title="Class")
+
+        super().__init__(urwid.ListBox(radio_buttons), title="Class")
+
+    def on_state_change(
+        self, _widget: urwid.RadioButton, new_state: bool, user_data: T.Any
+    ) -> None:
+        if new_state:
+            self.class_ = user_data
 
 
 class NewGameView(urwid.Pile):
     signals = ["confirm", "cancel"]
 
     def __init__(self) -> None:
-        race_box = RaceBox()
-        class_box = ClassBox()
-        stats_box = StatsBox()
+        self.race_box = RaceBox()
+        self.class_box = ClassBox()
+        self.stats_box = StatsBox()
 
         self.char_name_edit = urwid_readline.ReadlineEdit(
             "Name: ", generate_name()
         )
         generate_char_name_btn = MenuButton(
             "Generate random name", on_press=self.on_generate_char_name_press
+        )
+
+        buttons_box = urwid.Filler(
+            urwid.Padding(
+                urwid.Pile(
+                    [
+                        MenuButton("Sold!", self.on_confirm_press),
+                        MenuButton("Cancel", self.on_cancel_press),
+                    ]
+                ),
+                width=20,
+                align="center",
+            )
         )
 
         super().__init__(
@@ -132,9 +147,9 @@ class NewGameView(urwid.Pile):
                 ),
                 urwid.Columns(
                     [
-                        ("weight", 2, race_box),
-                        ("weight", 2, class_box),
-                        stats_box,
+                        ("weight", 2, self.race_box),
+                        ("weight", 2, self.class_box),
+                        urwid.Pile([(13, self.stats_box), buttons_box]),
                     ]
                 ),
             ]
@@ -146,6 +161,18 @@ class NewGameView(urwid.Pile):
 
     def on_generate_char_name_press(self, _user_data: T.Any) -> None:
         self.generate_random_char_name()
+
+    def on_confirm_press(self, _user_data: T.Any) -> None:
+        player = create_player(
+            name=self.char_name_edit.edit_text,
+            race=self.race_box.race,
+            class_=self.class_box.class_,
+            stats=self.stats_box.stats,
+        )
+        self._emit("confirm", player)
+
+    def on_cancel_press(self, _user_data: T.Any) -> None:
+        self._emit("cancel")
 
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
