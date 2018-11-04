@@ -37,6 +37,10 @@ class RosterView(urwid.Filler):
                 urwid.Pile(
                     [urwid.Padding(logo, width="clip"), urwid.Divider()]
                     + buttons
+                    + [
+                        urwid.Divider(),
+                        urwid.Text("Use arrow keys to move around."),
+                    ]
                 ),
                 align="center",
                 width=logo.pack()[0],
