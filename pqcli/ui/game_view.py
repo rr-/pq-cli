@@ -1,3 +1,4 @@
+import datetime
 import typing as T
 
 import urwid
@@ -82,6 +83,7 @@ class GameView(urwid.Pile):
         self.loop = loop
         self.player = player
         self.simulation = Simulation(player)
+        self.last_tick = datetime.datetime.now()
 
         self.character_sheet_view = CharacterSheetView(player)
         self.task_view = TaskView(player)
@@ -103,9 +105,11 @@ class GameView(urwid.Pile):
         self._emit("cancel")
 
     def tick(self) -> None:
-        elapsed = 100  # TODO
-        self.simulation.tick(elapsed)
+        now = datetime.datetime.now()
+        elapsed = (now - self.last_tick).total_seconds()
+        self.simulation.tick(elapsed * 1000)
         self.loop.set_alarm_in(0.1, lambda _loop, _user_data: self.tick())
+        self.last_tick = datetime.datetime.now()
 
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
