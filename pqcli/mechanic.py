@@ -13,17 +13,22 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
+SENTINEL = object()
+
+
 class SignalMixin:
     def __init_subclass__(cls: T.Any, **kwargs: T.Any) -> None:
         urwid.signals.register_signal(cls, cls.signals)
         super().__init_subclass__(**kwargs)
 
-    def emit(self, signal_name: str, user_data: T.Any = None) -> None:
+    def emit(self, signal_name: str, user_data: T.Any = SENTINEL) -> None:
         urwid.signals.emit_signal(self, signal_name, user_data)
 
     def connect(self, signal_name: str, callback: T.Callable) -> None:
         urwid.signals.connect_signal(
-            self, signal_name, lambda _sender, *args: callback(*args)
+            self,
+            signal_name,
+            lambda arg: callback() if arg is SENTINEL else callback(arg),
         )
 
 
@@ -155,7 +160,9 @@ class Spell:
     level: int
 
 
-class SpellBook:
+class SpellBook(SignalMixin):
+    signals = ["add", "change"]
+
     def __init__(self) -> None:
         self.spells: T.List[Spell] = []
 
@@ -167,10 +174,13 @@ class SpellBook:
             if spell.name == spell_name:
                 spell.level += level
                 logger.info("Learned %s at level %d", spell_name, spell.level)
+                self.emit("change", spell)
                 break
         else:
-            self.spells.append(Spell(name=spell_name, level=level))
-            logger.info("Learned %s at level %d", spell_name, level)
+            spell = Spell(name=spell_name, level=level)
+            self.spells.append(spell)
+            logger.info("Learned %s at level %d", spell.name, spell.level)
+            self.emit("add", spell)
 
 
 @dataclass

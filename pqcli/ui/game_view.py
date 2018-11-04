@@ -4,7 +4,8 @@ import typing as T
 import urwid
 
 from pqcli.config import StatType
-from pqcli.mechanic import Player, Simulation
+from pqcli.lingo import to_roman
+from pqcli.mechanic import Player, Simulation, Spell
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 
@@ -49,6 +50,36 @@ class CharacterSheetView(CustomLineBox):
             self.stat_texts[stat].set_text(str(self.player.stats[stat]))
 
 
+class SpellBookView(CustomLineBox):
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.list_box = urwid.ListBox([])
+
+        self.player.spell_book.connect("add", self.sync_spell_add)
+        self.player.spell_book.connect("change", self.sync_spell_change)
+        self.sync_spells()
+
+        super().__init__(self.list_box, title="Spell Book")
+
+    def sync_spells(self) -> None:
+        del self.list_box.body[:]
+        for spell in self.player.spell_book:
+            self.sync_spell_add(spell)
+
+    def sync_spell_add(self, spell: Spell) -> None:
+        self.list_box.body.append(
+            urwid.Columns(
+                [urwid.Text(spell.name), urwid.Text(to_roman(spell.level))]
+            )
+        )
+
+    def sync_spell_change(self, spell: Spell) -> None:
+        for widget in self.list_box.body:
+            if widget.contents[0][0].text == spell.name:
+                widget.contents[1][0].set_text(to_roman(spell.level))
+
+
 class TaskView(urwid.Pile):
     def __init__(self, player: Player) -> None:
         self.player = player
@@ -86,13 +117,16 @@ class GameView(urwid.Pile):
         self.last_tick = datetime.datetime.now()
 
         self.character_sheet_view = CharacterSheetView(player)
+        self.spell_book_view = SpellBookView(player)
         self.task_view = TaskView(player)
 
         super().__init__(
             [
                 urwid.Columns(
                     [
-                        urwid.Pile([self.character_sheet_view]),
+                        urwid.Pile(
+                            [self.character_sheet_view, self.spell_book_view]
+                        )
                     ]
                 ),
                 ("pack", self.task_view),
