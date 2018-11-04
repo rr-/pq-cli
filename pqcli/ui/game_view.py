@@ -50,6 +50,25 @@ class CharacterSheetView(CustomLineBox):
             self.stat_texts[stat].set_text(str(self.player.stats[stat]))
 
 
+class ExperienceView(urwid.Pile):
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.exp_bar = CustomProgressBar()
+
+        self.player.exp_bar.connect("change", self.sync_position)
+        self.sync_position()
+
+        super().__init__([urwid.Text("Experience"), self.exp_bar])
+
+    def sync_position(self) -> None:
+        self.exp_bar.set_completion(self.player.exp_bar.position)
+        self.exp_bar.set_max(self.player.exp_bar.max_)
+
+    def pack(self, size: T.Tuple[int, int]) -> T.Tuple[int, int]:
+        return (size[0], 2)
+
+
 class SpellBookView(CustomLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
@@ -117,6 +136,7 @@ class GameView(urwid.Pile):
         self.last_tick = datetime.datetime.now()
 
         self.character_sheet_view = CharacterSheetView(player)
+        self.experience_view = ExperienceView(player)
         self.spell_book_view = SpellBookView(player)
         self.task_view = TaskView(player)
 
@@ -125,7 +145,11 @@ class GameView(urwid.Pile):
                 urwid.Columns(
                     [
                         urwid.Pile(
-                            [self.character_sheet_view, self.spell_book_view]
+                            [
+                                self.character_sheet_view,
+                                ("pack", self.experience_view),
+                                self.spell_book_view,
+                            ]
                         )
                     ]
                 ),
