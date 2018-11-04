@@ -158,6 +158,7 @@ class NewGameView(urwid.Pile):
                         urwid.Padding(
                             generate_char_name_btn,
                             left=len(self.char_name_edit.caption),
+                            width=25,
                         )
                     ),
                 ),

@@ -9,14 +9,19 @@ class MenuButton(urwid.Button):
         label: str,
         *args: T.Any,
         hint: T.Optional[str] = None,
-        **kwargs: T.Any
+        **kwargs: T.Any,
     ) -> None:
         super().__init__("", *args, **kwargs)
         self._w = urwid.AttrMap(
             urwid.Columns(
                 [
-                    urwid.SelectableIcon(["\N{BULLET} ", label], 2),
-                    ("pack", urwid.Text(hint or "", align="right")),
+                    ("pack", urwid.Text("< ")),
+                    urwid.SelectableIcon([label], 0),
+                    (
+                        "pack",
+                        urwid.Text(f"[{hint}]" if hint else "", align="right"),
+                    ),
+                    ("pack", urwid.Text(" >")),
                 ]
             ),
             "button",
