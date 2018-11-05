@@ -239,7 +239,7 @@ class PlotTask(RegularTask):
 
 
 class Player(SignalMixin):
-    signals = ["new_task", "level_up"]
+    signals = ["new_task", "level_up", "complete_act"]
 
     def __init__(
         self,
@@ -521,6 +521,7 @@ class Simulation:
         if self.player.act > 1:
             self.player.win_item()
             self.player.win_equipment()
+        self.player.emit("complete_act")
 
     def complete_quest(self) -> None:
         self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))

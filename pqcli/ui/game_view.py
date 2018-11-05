@@ -4,10 +4,11 @@ import typing as T
 import urwid
 
 from pqcli.config import EquipmentType, StatType
-from pqcli.lingo import to_roman
+from pqcli.lingo import act_name, to_roman
 from pqcli.mechanic import InventoryItem, Player, Simulation, Spell
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
+from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
 
 
 class CharacterSheetView(CustomLineBox):
@@ -202,6 +203,53 @@ class InventoryView(urwid.Pile):
         return None
 
 
+class PlotView(urwid.Pile):
+    cutoff = 100
+
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.list_box = urwid.ListBox([])
+        self.plot_bar = CustomProgressBar()
+
+        self.player.connect("complete_act", self.sync_act_add)
+        self.player.plot_bar.connect("change", self.sync_position)
+        self.sync_acts()
+        self.sync_position()
+
+        super().__init__(
+            [
+                CustomLineBox(self.list_box, title="Plot Development"),
+                (1, urwid.Filler(self.plot_bar)),
+            ]
+        )
+
+    def sync_acts(self) -> None:
+        del self.list_box.body[:]
+        for act_number in range(
+            max(0, self.player.act - self.cutoff), self.player.act
+        ):
+            self.list_box.body.append(
+                ReadOnlyCheckBox(act_name(act_number), state=True)
+            )
+        self.list_box.body.append(
+            ReadOnlyCheckBox(act_name(self.player.act), state=False)
+        )
+
+    def sync_act_add(self):
+        del self.list_box.body[: -self.cutoff]
+        if self.list_box.body:
+            self.list_box.body[-1].set_state(True)
+        self.list_box.body.append(
+            ReadOnlyCheckBox(act_name(self.player.act), state=False)
+        )
+        self.list_box.set_focus(len(self.list_box.body) - 1)
+
+    def sync_position(self) -> None:
+        self.plot_bar.set_completion(self.player.plot_bar.position)
+        self.plot_bar.set_max(self.player.plot_bar.max_)
+
+
 class TaskView(urwid.Pile):
     def __init__(self, player: Player) -> None:
         self.player = player
@@ -243,6 +291,7 @@ class GameView(urwid.Pile):
         self.spell_book_view = SpellBookView(player)
         self.equipment_view = EquipmentView(player)
         self.inventory_view = InventoryView(player)
+        self.plot_view = PlotView(player)
         self.task_view = TaskView(player)
 
         super().__init__(
@@ -267,6 +316,7 @@ class GameView(urwid.Pile):
                                 [self.equipment_view, self.inventory_view]
                             ),
                         ),
+                        ("weight", 2, urwid.Pile([self.plot_view])),
                     ]
                 ),
                 ("pack", self.task_view),
