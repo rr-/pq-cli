@@ -82,6 +82,10 @@ class Stats(SignalMixin):
     def __getitem__(self, stat: StatType) -> int:
         return self._values[stat]
 
+    @property
+    def best(self) -> StatType:
+        return max(self, key=lambda kv: kv[1])[0]
+
     def increment(self, stat: StatType, qty: int = 1) -> None:
         self._values[stat] += qty
         logger.info("Increased %s to %d", stat.value, self[stat])
@@ -193,6 +197,7 @@ class Equipment(SignalMixin):
             EquipmentType.weapon: "Sharp Rock",
             EquipmentType.hauberk: "-3 Burlap",
         }
+        self.best = self[EquipmentType.weapon]
 
     def __iter__(self) -> T.Iterator[T.Tuple[EquipmentType, str]]:
         return iter(self._items.items())
@@ -203,6 +208,12 @@ class Equipment(SignalMixin):
     def put(self, equipment_type: EquipmentType, item_name: str) -> None:
         self._items[equipment_type] = item_name
         self.emit("change", equipment_type, item_name)
+        self.best = item_name + (
+            " " + equipment_type.value
+            if equipment_type
+            not in {EquipmentType.weapon, EquipmentType.shield}
+            else ""
+        )
 
 
 @dataclass
@@ -232,6 +243,12 @@ class SpellBook(SignalMixin):
             self._spells.append(spell)
             logger.info("Learned %s at level %d", spell.name, spell.level)
             self.emit("add", spell)
+
+    @property
+    def best(self) -> T.Optional[Spell]:
+        if not self._spells:
+            return None
+        return max(self._spells, key=lambda spell: spell.level)
 
 
 @dataclass

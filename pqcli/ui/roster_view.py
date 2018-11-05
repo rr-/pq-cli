@@ -2,6 +2,7 @@ import typing as T
 
 import urwid
 
+from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
 from pqcli.ui.custom_button import CustomButton
 
@@ -16,11 +17,32 @@ class RosterView(urwid.Filler):
 
         buttons = []
         for player_idx, player in enumerate(self.roster.players):
+            best_equip = player.equipment.best
+
+            best_spell = player.spell_book.best
+            if best_spell:
+                best_spell_name = (
+                    best_spell.name + " " + to_roman(best_spell.level)
+                )
+            else:
+                best_spell_name = "-"
+
+            best_stat_name = (
+                f"{player.stats.best.value} {player.stats[player.stats.best]}"
+            )
+
+            label = (
+                f"{player.name} the {player.race.name} "
+                f"({act_name(player.quest_book.act)})\n"
+                f"Level {player.level} {player.class_.name}\n"
+                f"{best_equip} / {best_spell_name} / {best_stat_name}"
+            )
+
             buttons.append(
                 urwid.Columns(
                     [
                         CustomButton(
-                            label=player.name,
+                            label=label,
                             on_press=self.on_resume_game_press,
                             user_data=player_idx,
                         ),
@@ -35,6 +57,7 @@ class RosterView(urwid.Filler):
                     ]
                 )
             )
+            buttons.append(urwid.Divider())
 
         buttons.append(
             CustomButton(
