@@ -5,7 +5,7 @@ setup(
     author="rr-",
     author_email="rr-@sakuya.pl",
     name="pqcli",
-    long_description="ProgressQuest: the CLI edition",
+    long_description="Progress Quest: the CLI edition",
     version="0.2",
     url="https://github.com/rr-/pq-cli.git",
     packages=find_packages(),

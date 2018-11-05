@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="ProgressQuest" src="http://progressquest.com/pq.png">
+  <img alt="Progress Quest" src="http://progressquest.com/pq.png">
 </p>
 
 Relive the great adventure… this time in the terminal realm!

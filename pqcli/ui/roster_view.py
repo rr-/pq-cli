@@ -13,7 +13,7 @@ class RosterView(urwid.Filler):
     def __init__(self, roster: Roster) -> None:
         self.roster = roster
 
-        logo = urwid.BigText("ProgressQuest", urwid.HalfBlock5x4Font())
+        logo = urwid.BigText("Progress Quest", urwid.HalfBlock5x4Font())
 
         buttons = []
         for player_idx, player in enumerate(self.roster.players):
