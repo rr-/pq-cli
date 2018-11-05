@@ -38,10 +38,13 @@ class CharacterSheetView(CustomLineBox):
 
         self.player.connect("level_up", self.sync_level)
         self.player.stats.connect("change", self.sync_stats)
-        self.sync_level()
-        self.sync_stats()
+        self.sync()
 
         super().__init__(self.list_box, title="Character Sheet")
+
+    def sync(self) -> None:
+        self.sync_level()
+        self.sync_stats()
 
     def sync_level(self) -> None:
         self.level_text.set_text(str(self.player.level))
@@ -57,12 +60,12 @@ class ExperienceView(urwid.Pile):
 
         self.exp_bar = CustomProgressBar()
 
-        self.player.exp_bar.connect("change", self.sync_position)
-        self.sync_position()
+        self.player.exp_bar.connect("change", self.sync)
+        self.sync()
 
         super().__init__([urwid.Text("Experience"), self.exp_bar])
 
-    def sync_position(self) -> None:
+    def sync(self) -> None:
         self.exp_bar.set_completion(self.player.exp_bar.position)
         self.exp_bar.set_max(self.player.exp_bar.max_)
 
@@ -78,11 +81,11 @@ class SpellBookView(CustomLineBox):
 
         self.player.spell_book.connect("add", self.sync_spell_add)
         self.player.spell_book.connect("change", self.sync_spell_change)
-        self.sync_spells()
+        self.sync()
 
         super().__init__(self.list_box, title="Spell Book")
 
-    def sync_spells(self) -> None:
+    def sync(self) -> None:
         del self.list_box.body[:]
         for spell in self.player.spell_book:
             self.sync_spell_add(spell)
@@ -120,11 +123,11 @@ class EquipmentView(CustomLineBox):
         )
 
         self.player.equipment.connect("change", self.sync_equipment_change)
-        self.sync_equipment()
+        self.sync()
 
         super().__init__(self.list_box, title="Equipment")
 
-    def sync_equipment(self) -> None:
+    def sync(self) -> None:
         for equipment_type in EquipmentType:
             self.sync_equipment_change(
                 equipment_type, self.player.equipment[equipment_type]
@@ -153,9 +156,7 @@ class InventoryView(urwid.Pile):
         self.player.inventory.encum_bar.connect(
             "change", self.sync_encumbrance_position
         )
-        self.sync_gold()
-        self.sync_items()
-        self.sync_encumbrance_position()
+        self.sync()
 
         super().__init__(
             [
@@ -164,6 +165,11 @@ class InventoryView(urwid.Pile):
                 (1, urwid.Filler(self.encumbrance_bar)),
             ]
         )
+
+    def sync(self) -> None:
+        self.sync_gold()
+        self.sync_items()
+        self.sync_encumbrance_position()
 
     def sync_gold(self) -> None:
         self.gold_text.set_text(str(self.player.inventory.gold))
@@ -214,8 +220,7 @@ class PlotView(urwid.Pile):
 
         self.player.connect("complete_act", self.sync_act_add)
         self.player.plot_bar.connect("change", self.sync_position)
-        self.sync_acts()
-        self.sync_position()
+        self.sync()
 
         super().__init__(
             [
@@ -223,6 +228,10 @@ class PlotView(urwid.Pile):
                 (1, urwid.Filler(self.plot_bar)),
             ]
         )
+
+    def sync(self) -> None:
+        self.sync_acts()
+        self.sync_position()
 
     def sync_acts(self) -> None:
         del self.list_box.body[:]
@@ -257,21 +266,24 @@ class TaskView(urwid.Pile):
         self.current_task_text = urwid.Text("...")
         self.current_task_bar = CustomProgressBar()
 
-        self.player.task_bar.connect("change", self.sync_position)
         self.player.connect("new_task", self.sync_task_name)
-        self.sync_position()
-        self.sync_task_name()
+        self.player.task_bar.connect("change", self.sync_position)
+        self.sync()
 
         super().__init__([self.current_task_text, self.current_task_bar])
 
-    def sync_position(self) -> None:
-        self.current_task_bar.set_completion(self.player.task_bar.position)
-        self.current_task_bar.set_max(self.player.task_bar.max_)
+    def sync(self) -> None:
+        self.sync_task_name()
+        self.sync_position()
 
     def sync_task_name(self) -> None:
         self.current_task_text.set_text(
             f"{self.player.task.description}..." if self.player.task else "?"
         )
+
+    def sync_position(self) -> None:
+        self.current_task_bar.set_completion(self.player.task_bar.position)
+        self.current_task_bar.set_max(self.player.task_bar.max_)
 
     def pack(self, size: T.Tuple[int, int]) -> T.Tuple[int, int]:
         return (size[0], 2)
