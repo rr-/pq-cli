@@ -311,7 +311,7 @@ class Player(SignalMixin):
         self.equipment = Equipment()
         self.spell_book = SpellBook()
 
-        self.task_bar = Bar(max_=0)
+        self.task_bar = Bar(max_=1)
         self.task: T.Optional[BaseTask] = None
         self.queue: T.List[BaseTask] = []
 
