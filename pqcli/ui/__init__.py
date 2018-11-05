@@ -91,11 +91,11 @@ class Ui:
         self._connect("cancel", self.switch_to_roster_view)
 
     def create_player(self, player: Player) -> None:
-        self.roster.add_player(player)
+        self.roster.players.append(player)
         self.switch_to_roster_view()
 
     def delete_player(self, player_idx: int) -> None:
-        self.roster.delete_player_at(player_idx)
+        del self.roster.players[player_idx]
         self.switch_to_roster_view()
 
     def switch_to_game_view(self, player_idx: int) -> None:

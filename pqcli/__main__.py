@@ -22,7 +22,7 @@ def main() -> None:
     try:
         Ui(roster, args).run()
     finally:
-        roster.save(SAVE_PATH)
+        roster.save()
 
 
 if __name__ == "__main__":

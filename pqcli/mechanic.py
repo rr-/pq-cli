@@ -24,6 +24,13 @@ class SignalMixin:
     def connect(self, signal_name: str, callback: T.Callable) -> None:
         urwid.signals.connect_signal(self, signal_name, callback)
 
+    def __getstate__(self) -> T.Any:
+        return {
+            key: value
+            for key, value in self.__dict__.items()
+            if "signal" not in key
+        }
+
 
 def level_up_time(level: int) -> int:
     # seconds
@@ -34,24 +41,32 @@ class Bar(SignalMixin):
     signals = ["change"]
 
     def __init__(self, max_: int, position: float = 0.0) -> None:
-        self.position = position
-        self.max_ = max_
+        self._position = position
+        self._max = max_
         self.emit("change")
 
     def reset(self, new_max: int, position: float = 0.0) -> None:
-        self.max_ = new_max
-        self.position = position
+        self._max = new_max
+        self._position = position
         self.emit("change")
 
     def increment(self, inc: float) -> None:
-        self.reposition(self.position + inc)
+        self.reposition(self._position + inc)
+
+    @property
+    def max_(self) -> int:
+        return self._max
+
+    @property
+    def position(self) -> float:
+        return self._position
 
     @property
     def done(self) -> bool:
-        return self.position >= self.max_
+        return self._position >= self.max_
 
     def reposition(self, new_pos: float) -> None:
-        self.position = float(min(new_pos, self.max_))
+        self._position = float(min(new_pos, self._max))
         self.emit("change")
 
 
@@ -59,16 +74,16 @@ class Stats(SignalMixin):
     signals = ["change"]
 
     def __init__(self, values: T.Dict[StatType, int]) -> None:
-        self.values = values
+        self._values = values
 
     def __iter__(self) -> T.Iterator[T.Tuple[StatType, int]]:
-        return iter(self.values.items())
+        return iter(self._values.items())
 
     def __getitem__(self, stat: StatType) -> int:
-        return self.values[stat]
+        return self._values[stat]
 
     def increment(self, stat: StatType, qty: int = 1) -> None:
-        self.values[stat] += qty
+        self._values[stat] += qty
         logger.info("Increased %s to %d", stat.value, self[stat])
         self.emit("change")
 
@@ -78,10 +93,14 @@ class QuestBook(SignalMixin):
 
     def __init__(self) -> None:
         self._quests: T.List[str] = []
-        self.act = 0
-        self.plot_bar = Bar(max_=26)
+        self._act = 0
+        self.plot_bar = Bar(max_=1)
         self.quest_bar = Bar(max_=1)
         self.monster: T.Optional[Monster] = None
+
+    @property
+    def act(self) -> int:
+        return self._act
 
     @property
     def quests(self) -> T.List[str]:
@@ -92,6 +111,10 @@ class QuestBook(SignalMixin):
         if self._quests:
             return self._quests[-1]
         return None
+
+    def increment_act(self) -> None:
+        self._act += 1
+        self.emit("complete_act")
 
     def add_quest(self, name: str) -> None:
         logger.info("Commencing quest: %s", name)
@@ -192,13 +215,13 @@ class SpellBook(SignalMixin):
     signals = ["add", "change"]
 
     def __init__(self) -> None:
-        self.spells: T.List[Spell] = []
+        self._spells: T.List[Spell] = []
 
     def __iter__(self) -> T.Iterator[Spell]:
-        return iter(self.spells)
+        return iter(self._spells)
 
     def add(self, spell_name: str, level: int) -> None:
-        for spell in self.spells:
+        for spell in self._spells:
             if spell.name == spell_name:
                 spell.level += level
                 logger.info("Learned %s at level %d", spell_name, spell.level)
@@ -206,7 +229,7 @@ class SpellBook(SignalMixin):
                 break
         else:
             spell = Spell(name=spell_name, level=level)
-            self.spells.append(spell)
+            self._spells.append(spell)
             logger.info("Learned %s at level %d", spell.name, spell.level)
             self.emit("add", spell)
 
@@ -273,29 +296,7 @@ class Player(SignalMixin):
 
         self.task_bar = Bar(max_=0)
         self.task: T.Optional[BaseTask] = None
-        self.queue: T.List[BaseTask] = [
-            RegularTask(
-                "Experiencing an enigmatic and foreboding night vision", 10_000
-            ),
-            RegularTask(
-                "Much is revealed about that wise old bastard "
-                "you'd underestimated",
-                6_000,
-            ),
-            RegularTask(
-                "A shocking series of events leaves you "
-                "alone and bewildered, but resolute",
-                6_000,
-            ),
-            RegularTask(
-                "Drawing upon an unrealized reserve of determination, "
-                "you set out on a long and dangerous journey",
-                4_000,
-            ),
-            PlotTask(f"Loading {act_name(self.quest_book.act + 1)}", 2_000),
-        ]
-
-        self.set_task(RegularTask("Loading", 2_000))
+        self.queue: T.List[BaseTask] = []
 
     def set_task(self, task: BaseTask) -> None:
         self.task = task
@@ -408,6 +409,33 @@ class Simulation:
         self.elapsed = 0.0
 
     def tick(self, elapsed: float = 100.0) -> None:
+        if self.player.task is None:
+            self.player.set_task(RegularTask("Loading", 2_000))
+            self.player.queue += [
+                RegularTask(
+                    "Experiencing an enigmatic and foreboding night vision",
+                    10_000,
+                ),
+                RegularTask(
+                    "Much is revealed about that wise old bastard "
+                    "you'd underestimated",
+                    6_000,
+                ),
+                RegularTask(
+                    "A shocking series of events leaves you "
+                    "alone and bewildered, but resolute",
+                    6_000,
+                ),
+                RegularTask(
+                    "Drawing upon an unrealized reserve of determination, "
+                    "you set out on a long and dangerous journey",
+                    4_000,
+                ),
+                PlotTask(f"Loading {act_name(1)}", 2_000),
+            ]
+            self.player.quest_book.plot_bar.reset(28)
+            return
+
         if not self.player.task_bar.done:
             self.elapsed += elapsed
             self.player.task_bar.increment(elapsed)
@@ -521,14 +549,13 @@ class Simulation:
                 )
 
     def complete_act(self) -> None:
-        self.player.quest_book.act += 1
+        self.player.quest_book.increment_act()
         self.player.quest_book.plot_bar.reset(
             60 * 60 * (1 + 5 * self.player.quest_book.act)
         )
         if self.player.quest_book.act > 1:
             self.player.win_item()
             self.player.win_equipment()
-        self.player.quest_book.emit("complete_act")
 
     def complete_quest(self) -> None:
         self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))
@@ -857,6 +884,7 @@ def create_player(
 ) -> Player:
     now = datetime.datetime.now()
     random.seed(now)
-    return Player(
+    player = Player(
         birthday=now, name=name, race=race, class_=class_, stats=stats
     )
+    return player

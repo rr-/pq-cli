@@ -6,21 +6,19 @@ from pqcli.mechanic import Player
 
 
 class Roster:
-    def __init__(self) -> None:
-        self.players: T.List[Player] = []
-
-    def add_player(self, player: Player) -> None:
-        self.players.append(player)
-
-    def delete_player_at(self, player_idx: int) -> None:
-        del self.players[player_idx]
+    def __init__(self, path: Path, players: T.List[Player]) -> None:
+        self.path = path
+        self.players = players
 
     @staticmethod
-    def load(path: Path) -> "Roster":
-        if path.exists():
-            return pickle.loads(path.read_bytes())
-        return Roster()
+    def load(path: T.Union[str, Path]) -> "Roster":
+        real_path = Path(path)
+        if real_path.exists():
+            return Roster(
+                real_path, players=pickle.loads(real_path.read_bytes())
+            )
+        return Roster(real_path, players=[])
 
-    def save(self, path: Path) -> None:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(pickle.dumps(self))
+    def save(self) -> None:
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.path.write_bytes(pickle.dumps(self.players))
