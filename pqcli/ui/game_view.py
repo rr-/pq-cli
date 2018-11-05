@@ -50,7 +50,6 @@ class CharacterSheetView(DoubleLineBox):
         self.player.connect("level_up", self.sync_level)
         self.player.stats.connect("change", self.sync_stats)
         self.player.exp_bar.connect("change", self.sync_exp)
-        self.sync()
 
         super().__init__(
             top_widget=self.list_box,
@@ -58,6 +57,7 @@ class CharacterSheetView(DoubleLineBox):
             top_title="Character Sheet",
             bottom_title="Experience",
         )
+        self.sync()
 
     def sync(self) -> None:
         self.sync_level()
@@ -72,8 +72,11 @@ class CharacterSheetView(DoubleLineBox):
             self.stat_texts[stat].set_text(str(self.player.stats[stat]))
 
     def sync_exp(self) -> None:
-        self.exp_bar.set_completion(self.player.exp_bar.position)
-        self.exp_bar.set_max(self.player.exp_bar.max_)
+        cur = self.player.exp_bar.position
+        max_ = self.player.exp_bar.max_
+        self.exp_bar.set_completion(cur)
+        self.exp_bar.set_max(max_)
+        self.set_bottom_title(f"Experience ({max_-cur:.0f} XP to go)")
 
 
 class SpellBookView(CustomLineBox):
@@ -84,9 +87,9 @@ class SpellBookView(CustomLineBox):
 
         self.player.spell_book.connect("add", self.sync_spell_add)
         self.player.spell_book.connect("change", self.sync_spell_change)
-        self.sync()
 
         super().__init__(self.list_box, title="Spell Book")
+        self.sync()
 
     def sync(self) -> None:
         del self.list_box.body[:]
@@ -129,9 +132,9 @@ class EquipmentView(CustomLineBox):
         )
 
         self.player.equipment.connect("change", self.sync_equipment_change)
-        self.sync()
 
         super().__init__(self.list_box, title="Equipment")
+        self.sync()
 
     def sync(self) -> None:
         for equipment_type in EquipmentType:
@@ -167,7 +170,6 @@ class InventoryView(DoubleLineBox):
         self.player.inventory.encum_bar.connect(
             "change", self.sync_encumbrance_position
         )
-        self.sync()
 
         super().__init__(
             top_widget=self.list_box,
@@ -175,6 +177,7 @@ class InventoryView(DoubleLineBox):
             bottom_widget=self.encumbrance_bar,
             bottom_title="Encumbrance",
         )
+        self.sync()
 
     def sync(self) -> None:
         self.sync_gold()
@@ -190,10 +193,11 @@ class InventoryView(DoubleLineBox):
             self.sync_item_add(item)
 
     def sync_encumbrance_position(self) -> None:
-        self.encumbrance_bar.set_completion(
-            self.player.inventory.encum_bar.position
-        )
-        self.encumbrance_bar.set_max(self.player.inventory.encum_bar.max_)
+        cur = self.player.inventory.encum_bar.position
+        max_ = self.player.inventory.encum_bar.max_
+        self.encumbrance_bar.set_completion(cur)
+        self.encumbrance_bar.set_max(max_)
+        self.set_bottom_title(f"Encumbrance ({cur:.0f}/{max_} cubits)")
 
     def sync_item_add(self, item: InventoryItem) -> None:
         self.list_box.body.append(
@@ -238,13 +242,13 @@ class PlotView(DoubleLineBox):
 
         self.player.quest_book.connect("complete_act", self.sync_act_add)
         self.player.quest_book.plot_bar.connect("change", self.sync_position)
-        self.sync()
 
         super().__init__(
             top_widget=self.list_box,
             top_title="Plot Development",
             bottom_widget=self.plot_bar,
         )
+        self.sync()
 
     def sync(self) -> None:
         self.sync_acts()
@@ -287,13 +291,13 @@ class QuestBookView(DoubleLineBox):
 
         self.player.quest_book.connect("complete_quest", self.sync_quest_add)
         self.player.quest_book.quest_bar.connect("change", self.sync_position)
-        self.sync()
 
         super().__init__(
             top_widget=self.list_box,
             top_title="Quests",
             bottom_widget=self.quest_bar,
         )
+        self.sync()
 
     def sync(self) -> None:
         self.sync_quests()
@@ -330,9 +334,9 @@ class TaskView(urwid.Pile):
 
         self.player.connect("new_task", self.sync_task_name)
         self.player.task_bar.connect("change", self.sync_position)
-        self.sync()
 
         super().__init__([self.current_task_text, self.current_task_bar])
+        self.sync()
 
     def sync(self) -> None:
         self.sync_task_name()
