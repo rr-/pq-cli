@@ -1,4 +1,5 @@
 import argparse
+import contextlib
 import datetime
 import typing as T
 
@@ -414,23 +415,31 @@ class GameView(urwid.Pile):
 
             fast_forward = {"t": 1, "T": 100, "ctrl t": 10000}
             if key in fast_forward:
-                # hack to suppress UI updates
-                old = SignalMixin.emit
-                SignalMixin.emit = lambda *_: None
-
                 iterations = fast_forward[key]
-                for i in range(iterations):
-                    self.simulation.tick()
+                ctx_mgr = (
+                    self.suppress_updates()
+                    if iterations >= 1000
+                    else contextlib.suppress()
+                )
 
-                self.character_sheet_view.sync()
-                self.spell_book_view.sync()
-                self.equipment_view.sync()
-                self.inventory_view.sync()
-                self.plot_view.sync()
-                self.quest_view.sync()
-                self.task_view.sync()
+                with ctx_mgr:
+                    for _ in range(iterations):
+                        self.simulation.tick()
 
-                SignalMixin.emit = old
                 return True
 
         return False
+
+    @contextlib.contextmanager
+    def suppress_updates(self) -> T.Generator:
+        old = SignalMixin.emit
+        SignalMixin.emit = lambda *_: None
+        yield
+        self.character_sheet_view.sync()
+        self.spell_book_view.sync()
+        self.equipment_view.sync()
+        self.inventory_view.sync()
+        self.plot_view.sync()
+        self.quest_book_view.sync()
+        self.task_view.sync()
+        SignalMixin.emit = old
