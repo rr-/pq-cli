@@ -13,23 +13,16 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
-SENTINEL = object()
-
-
 class SignalMixin:
     def __init_subclass__(cls: T.Any, **kwargs: T.Any) -> None:
         urwid.signals.register_signal(cls, cls.signals)
         super().__init_subclass__(**kwargs)
 
-    def emit(self, signal_name: str, user_data: T.Any = SENTINEL) -> None:
-        urwid.signals.emit_signal(self, signal_name, user_data)
+    def emit(self, signal_name: str, *user_data: T.Any) -> None:
+        urwid.signals.emit_signal(self, signal_name, *user_data)
 
     def connect(self, signal_name: str, callback: T.Callable) -> None:
-        urwid.signals.connect_signal(
-            self,
-            signal_name,
-            lambda arg: callback() if arg is SENTINEL else callback(arg),
-        )
+        urwid.signals.connect_signal(self, signal_name, callback)
 
 
 def level_up_time(level: int) -> int:
@@ -161,6 +154,26 @@ class Inventory(SignalMixin):
         self.encum_bar.reset(capacity, self.encum_bar.position)
 
 
+class Equipment(SignalMixin):
+    signals = ["change"]
+
+    def __init__(self) -> None:
+        self._items: T.Dict[EquipmentType, str] = {
+            EquipmentType.weapon: "Sharp Rock",
+            EquipmentType.hauberk: "-3 Burlap",
+        }
+
+    def __iter__(self) -> T.Iterator[T.Tuple[EquipmentType, str]]:
+        return iter(self._items.items())
+
+    def __getitem__(self, equipment_type: EquipmentType) -> T.Optional[str]:
+        return self._items.get(equipment_type, None)
+
+    def put(self, equipment_type: EquipmentType, item_name: str) -> None:
+        self._items[equipment_type] = item_name
+        self.emit("change", equipment_type, item_name)
+
+
 @dataclass
 class Spell:
     name: str
@@ -274,11 +287,7 @@ class Player(SignalMixin):
         self.quest_book = QuestBook()
 
         self.inventory = Inventory(capacity=10 + self.stats[StatType.strength])
-        self.equipment: T.Dict[EquipmentType, str] = {
-            EquipmentType.weapon: "Sharp Rock",
-            EquipmentType.hauberk: "-3 Burlap",
-        }
-
+        self.equipment = Equipment()
         self.spell_book = SpellBook()
 
         self.set_task(RegularTask("Loading", 2_000))
@@ -344,7 +353,7 @@ class Player(SignalMixin):
     def win_equipment(self) -> None:
         choice = random.choice(list(EquipmentType))
 
-        stuff: T.List[Equipment]
+        stuff: T.List[EquipmentPreset]
         better: T.List[Modifier]
         worse: T.List[Modifier]
 
@@ -381,7 +390,7 @@ class Player(SignalMixin):
             name = f"+{plus} {name}"
 
         logger.info("Gained %s %s", name, choice.value)
-        self.equipment[choice] = name
+        self.equipment.put(choice, name)
 
     def win_item(self) -> None:
         self.inventory.add(special_item(), 1)
@@ -717,10 +726,12 @@ def named_monster(level: int) -> str:
     return generate_name() + " the " + monster.name
 
 
-def pick_equipment(source: T.List[Equipment], goal: int) -> Equipment:
-    result = T.cast(Equipment, random.choice(source))
+def pick_equipment(
+    source: T.List[EquipmentPreset], goal: int
+) -> EquipmentPreset:
+    result = T.cast(EquipmentPreset, random.choice(source))
     for _ in range(5):
-        alternative = T.cast(Equipment, random.choice(source))
+        alternative = T.cast(EquipmentPreset, random.choice(source))
         if abs(goal - alternative.quality) < abs(goal - result.quality):
             result = alternative
     return result

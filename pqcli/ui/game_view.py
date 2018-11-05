@@ -3,7 +3,7 @@ import typing as T
 
 import urwid
 
-from pqcli.config import StatType
+from pqcli.config import EquipmentType, StatType
 from pqcli.lingo import to_roman
 from pqcli.mechanic import InventoryItem, Player, Simulation, Spell
 from pqcli.ui.custom_line_box import CustomLineBox
@@ -97,6 +97,42 @@ class SpellBookView(CustomLineBox):
         for widget in self.list_box.body:
             if widget.contents[0][0].text == spell.name:
                 widget.contents[1][0].set_text(to_roman(spell.level))
+
+
+class EquipmentView(CustomLineBox):
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.value_texts = {
+            equipment_type: urwid.Text("") for equipment_type in EquipmentType
+        }
+        self.list_box = urwid.ListBox(
+            [
+                urwid.Columns(
+                    [
+                        urwid.Text(equipment_type.value),
+                        self.value_texts[equipment_type],
+                    ]
+                )
+                for equipment_type in EquipmentType
+            ]
+        )
+
+        self.player.equipment.connect("change", self.sync_equipment_change)
+        self.sync_equipment()
+
+        super().__init__(self.list_box, title="Equipment")
+
+    def sync_equipment(self) -> None:
+        for equipment_type in EquipmentType:
+            self.sync_equipment_change(
+                equipment_type, self.player.equipment[equipment_type]
+            )
+
+    def sync_equipment_change(
+        self, equipment_type: EquipmentType, item_name: str
+    ) -> None:
+        self.value_texts[equipment_type].set_text(item_name or "")
 
 
 class InventoryView(urwid.Pile):
@@ -205,6 +241,7 @@ class GameView(urwid.Pile):
         self.character_sheet_view = CharacterSheetView(player)
         self.experience_view = ExperienceView(player)
         self.spell_book_view = SpellBookView(player)
+        self.equipment_view = EquipmentView(player)
         self.inventory_view = InventoryView(player)
         self.task_view = TaskView(player)
 
@@ -223,7 +260,13 @@ class GameView(urwid.Pile):
                                 ]
                             ),
                         ),
-                        ("weight", 2, urwid.Pile([self.inventory_view])),
+                        (
+                            "weight",
+                            2,
+                            urwid.Pile(
+                                [self.equipment_view, self.inventory_view]
+                            ),
+                        ),
                     ]
                 ),
                 ("pack", self.task_view),
