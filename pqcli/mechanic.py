@@ -84,6 +84,10 @@ class QuestBook(SignalMixin):
         self.monster: T.Optional[Monster] = None
 
     @property
+    def quests(self) -> T.List[str]:
+        return self._quests
+
+    @property
     def current_quest(self) -> T.Optional[str]:
         if self._quests:
             return self._quests[-1]

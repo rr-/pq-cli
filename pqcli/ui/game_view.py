@@ -261,6 +261,53 @@ class PlotView(urwid.Pile):
         self.plot_bar.set_max(self.player.quest_book.plot_bar.max_)
 
 
+class QuestBookView(urwid.Pile):
+    cutoff = 100
+
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.list_box = urwid.ListBox([])
+        self.quest_bar = CustomProgressBar()
+
+        self.player.quest_book.connect("complete_quest", self.sync_quest_add)
+        self.player.quest_book.quest_bar.connect("change", self.sync_position)
+        self.sync()
+
+        super().__init__(
+            [
+                CustomLineBox(self.list_box, title="Quests"),
+                (1, urwid.Filler(self.quest_bar)),
+            ]
+        )
+
+    def sync(self) -> None:
+        self.sync_quests()
+        self.sync_position()
+
+    def sync_quests(self) -> None:
+        del self.list_box.body[:]
+        for quest_name in self.player.quest_book.quests[-self.cutoff :]:
+            self.list_box.body.append(ReadOnlyCheckBox(quest_name, state=True))
+        if self.list_box.body:
+            self.list_box.body[-1].set_state(False)
+
+    def sync_quest_add(self):
+        del self.list_box.body[: -self.cutoff]
+        if self.list_box.body:
+            self.list_box.body[-1].set_state(True)
+        self.list_box.body.append(
+            ReadOnlyCheckBox(self.player.quest_book.quests[-1], state=False)
+        )
+        self.list_box.set_focus(len(self.list_box.body) - 1)
+
+    def sync_position(self) -> None:
+        self.quest_bar.set_completion(
+            self.player.quest_book.quest_bar.position
+        )
+        self.quest_bar.set_max(self.player.quest_book.quest_bar.max_)
+
+
 class TaskView(urwid.Pile):
     def __init__(self, player: Player) -> None:
         self.player = player
@@ -308,6 +355,7 @@ class GameView(urwid.Pile):
         self.equipment_view = EquipmentView(player)
         self.inventory_view = InventoryView(player)
         self.plot_view = PlotView(player)
+        self.quest_book_view = QuestBookView(player)
         self.task_view = TaskView(player)
 
         super().__init__(
@@ -331,7 +379,11 @@ class GameView(urwid.Pile):
                                 [self.equipment_view, self.inventory_view]
                             ),
                         ),
-                        ("weight", 2, urwid.Pile([self.plot_view])),
+                        (
+                            "weight",
+                            2,
+                            urwid.Pile([self.plot_view, self.quest_book_view]),
+                        ),
                     ]
                 ),
                 ("pack", self.task_view),
@@ -375,6 +427,7 @@ class GameView(urwid.Pile):
                 self.equipment_view.sync()
                 self.inventory_view.sync()
                 self.plot_view.sync()
+                self.quest_view.sync()
                 self.task_view.sync()
 
                 SignalMixin.emit = old
