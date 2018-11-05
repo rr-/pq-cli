@@ -20,5 +20,10 @@ class Roster:
         return Roster(real_path, players=[])
 
     def save(self) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_bytes(pickle.dumps(self.players))
+        old_path = self.path.with_name(self.path.name + ".old")
+        tmp_path = self.path.with_name(self.path.name + ".new")
+        tmp_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp_path.write_bytes(pickle.dumps(self.players))
+        if self.path.exists():
+            self.path.rename(old_path)
+        tmp_path.rename(self.path)
