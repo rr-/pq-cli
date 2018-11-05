@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import typing as T
 
@@ -5,7 +6,13 @@ import urwid
 
 from pqcli.config import EquipmentType, StatType
 from pqcli.lingo import act_name, to_roman
-from pqcli.mechanic import InventoryItem, Player, Simulation, Spell
+from pqcli.mechanic import (
+    InventoryItem,
+    Player,
+    SignalMixin,
+    Simulation,
+    Spell,
+)
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
@@ -292,9 +299,12 @@ class TaskView(urwid.Pile):
 class GameView(urwid.Pile):
     signals = ["cancel"]
 
-    def __init__(self, loop: urwid.MainLoop, player: Player) -> None:
+    def __init__(
+        self, loop: urwid.MainLoop, player: Player, args: argparse.Namespace
+    ) -> None:
         self.loop = loop
         self.player = player
+        self.args = args
         self.simulation = Simulation(player)
         self.last_tick = datetime.datetime.now()
 
@@ -351,5 +361,31 @@ class GameView(urwid.Pile):
         if key == "esc":
             self.cancel()
             return True
+
+        if self.args.cheats:
+            if key == "e":
+                self.simulation.player.exp_bar.increment(1)
+                return True
+
+            fast_forward = {"t": 1, "T": 100, "ctrl t": 10000}
+            if key in fast_forward:
+                # hack to suppress UI updates
+                old = SignalMixin.emit
+                SignalMixin.emit = lambda *_: None
+
+                iterations = fast_forward[key]
+                for i in range(iterations):
+                    self.simulation.tick()
+
+                self.character_sheet_view.sync()
+                self.experience_view.sync()
+                self.spell_book_view.sync()
+                self.equipment_view.sync()
+                self.inventory_view.sync()
+                self.plot_view.sync()
+                self.task_view.sync()
+
+                SignalMixin.emit = old
+                return True
 
         return False

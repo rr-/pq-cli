@@ -1,3 +1,4 @@
+import argparse
 import typing as T
 
 import urwid
@@ -43,10 +44,11 @@ def bind_commands() -> None:
 
 
 class Ui:
-    def __init__(self, roster: Roster) -> None:
+    def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
         bind_commands()
 
         self.roster = roster
+        self.args = args
         self.loop = urwid.MainLoop(
             None, PALETTE, unhandled_input=self.unhandled_input
         )
@@ -98,7 +100,7 @@ class Ui:
 
     def switch_to_game_view(self, player_idx: int) -> None:
         player = self.roster.players[player_idx]
-        self.loop.widget = GameView(self.loop, player)
+        self.loop.widget = GameView(self.loop, player, self.args)
         self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_delete_player_view(self, player_idx: int) -> None:
