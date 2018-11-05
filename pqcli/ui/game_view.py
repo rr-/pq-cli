@@ -5,7 +5,7 @@ import urwid
 
 from pqcli.config import StatType
 from pqcli.lingo import to_roman
-from pqcli.mechanic import Player, Simulation, Spell
+from pqcli.mechanic import InventoryItem, Player, Simulation, Spell
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 
@@ -99,6 +99,73 @@ class SpellBookView(CustomLineBox):
                 widget.contents[1][0].set_text(to_roman(spell.level))
 
 
+class InventoryView(urwid.Pile):
+    def __init__(self, player: Player) -> None:
+        self.player = player
+
+        self.gold_text = urwid.Text("")
+        self.list_box = urwid.ListBox(
+            [urwid.Columns([urwid.Text("Gold"), self.gold_text])]
+        )
+        self.encumbrance_bar = CustomProgressBar()
+
+        self.player.inventory.connect("gold_change", self.sync_gold)
+        self.player.inventory.connect("item_add", self.sync_item_add)
+        self.player.inventory.connect("item_del", self.sync_item_del)
+        self.player.inventory.connect("item_change", self.sync_item_change)
+        self.player.inventory.encum_bar.connect(
+            "change", self.sync_encumbrance_position
+        )
+        self.sync_gold()
+        self.sync_items()
+        self.sync_encumbrance_position()
+
+        super().__init__(
+            [
+                CustomLineBox(self.list_box, title="Inventory"),
+                (1, urwid.Filler(urwid.Text("Encumbrance"))),
+                (1, urwid.Filler(self.encumbrance_bar)),
+            ]
+        )
+
+    def sync_gold(self) -> None:
+        self.gold_text.set_text(str(self.player.inventory.gold))
+
+    def sync_items(self) -> None:
+        del self.list_box.body[1:]
+        for item in self.player.inventory:
+            self.sync_item_add(item)
+
+    def sync_encumbrance_position(self) -> None:
+        self.encumbrance_bar.set_completion(
+            self.player.inventory.encum_bar.position
+        )
+        self.encumbrance_bar.set_max(self.player.inventory.encum_bar.max_)
+
+    def sync_item_add(self, item: InventoryItem) -> None:
+        self.list_box.body.append(
+            urwid.Columns(
+                [urwid.Text(item.name), urwid.Text(str(item.quantity))]
+            )
+        )
+
+    def sync_item_del(self, item: InventoryItem) -> None:
+        idx = self.get_item_idx_by_name(item.name)
+        if idx is not None:
+            del self.list_box.body[idx]
+
+    def sync_item_change(self, item: InventoryItem) -> None:
+        idx = self.get_item_idx_by_name(item.name)
+        if idx is not None:
+            self.list_box.body[idx].contents[1][0].set_text(str(item.quantity))
+
+    def get_item_idx_by_name(self, name: str) -> T.Optional[int]:
+        for i, column_widget in enumerate(self.list_box.body):
+            if column_widget.contents[0][0].text == name:
+                return i
+        return None
+
+
 class TaskView(urwid.Pile):
     def __init__(self, player: Player) -> None:
         self.player = player
@@ -138,19 +205,25 @@ class GameView(urwid.Pile):
         self.character_sheet_view = CharacterSheetView(player)
         self.experience_view = ExperienceView(player)
         self.spell_book_view = SpellBookView(player)
+        self.inventory_view = InventoryView(player)
         self.task_view = TaskView(player)
 
         super().__init__(
             [
                 urwid.Columns(
                     [
-                        urwid.Pile(
-                            [
-                                self.character_sheet_view,
-                                ("pack", self.experience_view),
-                                self.spell_book_view,
-                            ]
-                        )
+                        (
+                            "weight",
+                            1,
+                            urwid.Pile(
+                                [
+                                    self.character_sheet_view,
+                                    ("pack", self.experience_view),
+                                    self.spell_book_view,
+                                ]
+                            ),
+                        ),
+                        ("weight", 2, urwid.Pile([self.inventory_view])),
                     ]
                 ),
                 ("pack", self.task_view),

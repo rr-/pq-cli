@@ -99,15 +99,17 @@ class QuestBook:
 
 
 @dataclass
-class Item:
+class InventoryItem:
     name: str
     quantity: int
 
 
-class Inventory:
+class Inventory(SignalMixin):
+    signals = ["gold_change", "item_add", "item_change", "item_del"]
+
     def __init__(self, capacity: int = 0) -> None:
         self._gold = 0
-        self._items: T.List[Item] = []
+        self._items: T.List[InventoryItem] = []
         self.encum_bar = Bar(max_=capacity)
 
     @property
@@ -117,8 +119,11 @@ class Inventory:
     def __len__(self) -> int:
         return len(self._items)
 
-    def __iter__(self) -> T.Iterator[Item]:
+    def __iter__(self) -> T.Iterator[InventoryItem]:
         return iter(self._items)
+
+    def __getitem__(self, idx: int) -> InventoryItem:
+        return self._items[idx]
 
     def add_gold(self, quantity: int) -> None:
         logger.info(
@@ -127,24 +132,26 @@ class Inventory:
             indefinite("gold piece", abs(quantity)),
         )
         self._gold += quantity
-
-    def item_at(self, index: int) -> Item:
-        return self._items[index]
+        self.emit("gold_change")
 
     def pop(self, index: int) -> None:
         item = self._items[index]
         logger.info("Lost %s (qty=%d)", item.name, item.quantity)
         self._items.pop(index)
         self.sync_encumbrance()
+        self.emit("item_del", item)
 
     def add(self, item_name: str, quantity: int) -> None:
         logger.info("Gained %s", indefinite(item_name, quantity))
         for item in self._items:
             if item.name == item_name:
                 item.quantity += quantity
+                self.emit("item_change", item)
                 break
         else:
-            self._items.append(Item(name=item_name, quantity=quantity))
+            item = InventoryItem(name=item_name, quantity=quantity)
+            self._items.append(item)
+            self.emit("item_add", item)
         self.sync_encumbrance()
 
     def sync_encumbrance(self) -> None:
@@ -449,7 +456,7 @@ class Simulation:
 
             elif isinstance(self.player.task, (HeadingToMarketTask, SellTask)):
                 if isinstance(self.player.task, SellTask):
-                    item = self.player.inventory.item_at(0)
+                    item = self.player.inventory[0]
                     amount = item.quantity * self.player.level
                     if " of " in item.name:
                         amount *= (1 + random.below_low(10)) * (
@@ -458,7 +465,7 @@ class Simulation:
                     self.player.inventory.pop(0)
                     self.player.inventory.add_gold(amount)
                 if len(self.player.inventory):
-                    item = self.player.inventory.item_at(0)
+                    item = self.player.inventory[0]
                     self.player.set_task(
                         SellTask(
                             "Selling " + indefinite(item.name, item.quantity),
