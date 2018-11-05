@@ -16,10 +16,11 @@ from pqcli.mechanic import (
 )
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
+from pqcli.ui.double_line_box import DoubleLineBox
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
 
 
-class CharacterSheetView(urwid.Pile):
+class CharacterSheetView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
@@ -51,11 +52,10 @@ class CharacterSheetView(urwid.Pile):
         self.sync()
 
         super().__init__(
-            [
-                CustomLineBox(self.list_box, title="Character Sheet"),
-                (1, urwid.Filler(urwid.Text("Experience"))),
-                (1, urwid.Filler(self.exp_bar)),
-            ]
+            top_widget=self.list_box,
+            bottom_widget=self.exp_bar,
+            top_title="Character Sheet",
+            bottom_title="Experience",
         )
 
     def sync(self) -> None:
@@ -141,7 +141,7 @@ class EquipmentView(CustomLineBox):
         self.value_texts[equipment_type].set_text(item_name or "")
 
 
-class InventoryView(urwid.Pile):
+class InventoryView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
@@ -161,11 +161,10 @@ class InventoryView(urwid.Pile):
         self.sync()
 
         super().__init__(
-            [
-                CustomLineBox(self.list_box, title="Inventory"),
-                (1, urwid.Filler(urwid.Text("Encumbrance"))),
-                (1, urwid.Filler(self.encumbrance_bar)),
-            ]
+            top_widget=self.list_box,
+            top_title="Inventory",
+            bottom_widget=self.encumbrance_bar,
+            bottom_title="Encumbrance",
         )
 
     def sync(self) -> None:
@@ -211,7 +210,7 @@ class InventoryView(urwid.Pile):
         return None
 
 
-class PlotView(urwid.Pile):
+class PlotView(DoubleLineBox):
     cutoff = 100
 
     def __init__(self, player: Player) -> None:
@@ -225,10 +224,9 @@ class PlotView(urwid.Pile):
         self.sync()
 
         super().__init__(
-            [
-                CustomLineBox(self.list_box, title="Plot Development"),
-                (1, urwid.Filler(self.plot_bar)),
-            ]
+            top_widget=self.list_box,
+            top_title="Plot Development",
+            bottom_widget=self.plot_bar,
         )
 
     def sync(self) -> None:
@@ -262,7 +260,7 @@ class PlotView(urwid.Pile):
         self.plot_bar.set_max(self.player.quest_book.plot_bar.max_)
 
 
-class QuestBookView(urwid.Pile):
+class QuestBookView(DoubleLineBox):
     cutoff = 100
 
     def __init__(self, player: Player) -> None:
@@ -276,10 +274,9 @@ class QuestBookView(urwid.Pile):
         self.sync()
 
         super().__init__(
-            [
-                CustomLineBox(self.list_box, title="Quests"),
-                (1, urwid.Filler(self.quest_bar)),
-            ]
+            top_widget=self.list_box,
+            top_title="Quests",
+            bottom_widget=self.quest_bar,
         )
 
     def sync(self) -> None:
