@@ -96,7 +96,10 @@ class SpellBookView(CustomLineBox):
     def sync_spell_add(self, spell: Spell) -> None:
         self.list_box.body.append(
             urwid.Columns(
-                [urwid.Text(spell.name), urwid.Text(to_roman(spell.level))]
+                [
+                    ("weight", 3, urwid.Text(spell.name)),
+                    urwid.Text(to_roman(spell.level)),
+                ]
             )
         )
 
@@ -118,7 +121,7 @@ class EquipmentView(CustomLineBox):
                 urwid.Columns(
                     [
                         urwid.Text(equipment_type.value),
-                        self.value_texts[equipment_type],
+                        ("weight", 3, self.value_texts[equipment_type]),
                     ]
                 )
                 for equipment_type in EquipmentType
@@ -148,7 +151,11 @@ class InventoryView(DoubleLineBox):
 
         self.gold_text = urwid.Text("")
         self.list_box = CustomListBox(
-            [urwid.Columns([urwid.Text("Gold"), self.gold_text])]
+            [
+                urwid.Columns(
+                    [("weight", 3, urwid.Text("Gold")), self.gold_text]
+                )
+            ]
         )
         self.encumbrance_bar = CustomProgressBar()
 
@@ -191,7 +198,10 @@ class InventoryView(DoubleLineBox):
     def sync_item_add(self, item: InventoryItem) -> None:
         self.list_box.body.append(
             urwid.Columns(
-                [urwid.Text(item.name), urwid.Text(str(item.quantity))]
+                [
+                    ("weight", 3, urwid.Text(item.name)),
+                    urwid.Text(str(item.quantity)),
+                ]
             )
         )
 
@@ -370,7 +380,7 @@ class GameView(urwid.Pile):
                             1,
                             urwid.Pile(
                                 [
-                                    self.character_sheet_view,
+                                    (19, self.character_sheet_view),
                                     self.spell_book_view,
                                 ]
                             ),
@@ -379,13 +389,18 @@ class GameView(urwid.Pile):
                             "weight",
                             2,
                             urwid.Pile(
-                                [self.equipment_view, self.inventory_view]
+                                [
+                                    (15, self.equipment_view),
+                                    self.inventory_view,
+                                ]
                             ),
                         ),
                         (
                             "weight",
                             2,
-                            urwid.Pile([self.plot_view, self.quest_book_view]),
+                            urwid.Pile(
+                                [(15, self.plot_view), self.quest_book_view]
+                            ),
                         ),
                     ]
                 ),
