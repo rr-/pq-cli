@@ -12,6 +12,8 @@ from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
 
+TICK_FREQ = 0.1
+SAVE_FREQ = 60.0
 PALETTE: T.List[T.Tuple[str, ...]] = [
     ("button", "", ""),
     ("button-focus", "light red", "black"),
@@ -57,6 +59,8 @@ class Ui:
         self.switch_to_roster_view()
 
     def run(self) -> None:
+        self.loop.set_alarm_in(TICK_FREQ, self.on_tick)
+        self.loop.set_alarm_in(SAVE_FREQ, self.on_save)
         self.loop.run()
 
     def unhandled_input(self, key: str) -> bool:
@@ -100,7 +104,7 @@ class Ui:
 
     def switch_to_game_view(self, player_idx: int) -> None:
         player = self.roster.players[player_idx]
-        self.loop.widget = GameView(self.loop, self.roster, player, self.args)
+        self.loop.widget = GameView(self.loop, player, self.args)
         self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_delete_player_view(self, player_idx: int) -> None:
@@ -127,3 +131,12 @@ class Ui:
             signal_name,
             lambda _sender, *args: callback(*args),
         )
+
+    def on_tick(self, _loop: urwid.MainLoop, _user_data: T.Any) -> None:
+        if hasattr(self.loop.widget, "tick"):
+            self.loop.widget.tick()
+        self.loop.set_alarm_in(TICK_FREQ, self.on_tick)
+
+    def on_save(self, _loop: urwid.MainLoop, _user_data: T.Any) -> None:
+        self.roster.save()
+        self.loop.set_alarm_in(SAVE_FREQ, self.on_save)

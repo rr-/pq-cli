@@ -14,7 +14,6 @@ from pqcli.mechanic import (
     Simulation,
     Spell,
 )
-from pqcli.roster import Roster
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_list_box import CustomListBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
@@ -360,14 +359,9 @@ class GameView(urwid.Pile):
     signals = ["cancel"]
 
     def __init__(
-        self,
-        loop: urwid.MainLoop,
-        roster: Roster,
-        player: Player,
-        args: argparse.Namespace,
+        self, loop: urwid.MainLoop, player: Player, args: argparse.Namespace
     ) -> None:
         self.loop = loop
-        self.roster = roster
         self.player = player
         self.args = args
         self.simulation = Simulation(player)
@@ -418,9 +412,6 @@ class GameView(urwid.Pile):
             ]
         )
 
-        self.tick()
-        self.save()
-
     def cancel(self) -> None:
         self._emit("cancel")
 
@@ -428,12 +419,7 @@ class GameView(urwid.Pile):
         now = datetime.datetime.now()
         elapsed = (now - self.last_tick).total_seconds()
         self.simulation.tick(elapsed * 1000)
-        self.loop.set_alarm_in(0.1, lambda _loop, _user_data: self.tick())
         self.last_tick = datetime.datetime.now()
-
-    def save(self) -> None:
-        self.roster.save()
-        self.loop.set_alarm_in(60.0, lambda _loop, _user_data: self.save())
 
     def unhandled_input(self, key: str) -> bool:
         if key == "esc":
