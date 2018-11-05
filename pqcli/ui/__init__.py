@@ -100,7 +100,7 @@ class Ui:
 
     def switch_to_game_view(self, player_idx: int) -> None:
         player = self.roster.players[player_idx]
-        self.loop.widget = GameView(self.loop, player, self.args)
+        self.loop.widget = GameView(self.loop, self.roster, player, self.args)
         self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_delete_player_view(self, player_idx: int) -> None:
