@@ -15,6 +15,7 @@ from pqcli.mechanic import (
     Spell,
 )
 from pqcli.ui.custom_line_box import CustomLineBox
+from pqcli.ui.custom_list_box import CustomListBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.double_line_box import DoubleLineBox
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
@@ -28,7 +29,7 @@ class CharacterSheetView(DoubleLineBox):
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
         self.exp_bar = CustomProgressBar()
 
-        self.list_box = urwid.ListBox(
+        self.list_box = CustomListBox(
             [
                 urwid.Columns([urwid.Text("Name"), urwid.Text(player.name)]),
                 urwid.Columns(
@@ -79,7 +80,7 @@ class SpellBookView(CustomLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = urwid.ListBox([])
+        self.list_box = CustomListBox([])
 
         self.player.spell_book.connect("add", self.sync_spell_add)
         self.player.spell_book.connect("change", self.sync_spell_change)
@@ -112,7 +113,7 @@ class EquipmentView(CustomLineBox):
         self.value_texts = {
             equipment_type: urwid.Text("") for equipment_type in EquipmentType
         }
-        self.list_box = urwid.ListBox(
+        self.list_box = CustomListBox(
             [
                 urwid.Columns(
                     [
@@ -146,11 +147,12 @@ class InventoryView(DoubleLineBox):
         self.player = player
 
         self.gold_text = urwid.Text("")
-        self.list_box = urwid.ListBox(
+        self.list_box = CustomListBox(
             [urwid.Columns([urwid.Text("Gold"), self.gold_text])]
         )
         self.encumbrance_bar = CustomProgressBar()
 
+        self.player.connect("new_task", self.on_new_task)
         self.player.inventory.connect("gold_change", self.sync_gold)
         self.player.inventory.connect("item_add", self.sync_item_add)
         self.player.inventory.connect("item_del", self.sync_item_del)
@@ -209,6 +211,11 @@ class InventoryView(DoubleLineBox):
                 return i
         return None
 
+    def on_new_task(self) -> None:
+        description = self.player.task.description if self.player.task else "?"
+        if description.lower().startswith("sell"):
+            self.list_box.set_focus(0)
+
 
 class PlotView(DoubleLineBox):
     cutoff = 100
@@ -216,7 +223,7 @@ class PlotView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = urwid.ListBox([])
+        self.list_box = CustomListBox([])
         self.plot_bar = CustomProgressBar()
 
         self.player.quest_book.connect("complete_act", self.sync_act_add)
@@ -253,7 +260,6 @@ class PlotView(DoubleLineBox):
         self.list_box.body.append(
             ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
         )
-        self.list_box.set_focus(len(self.list_box.body) - 1)
 
     def sync_position(self) -> None:
         self.plot_bar.set_completion(self.player.quest_book.plot_bar.position)
@@ -266,7 +272,7 @@ class QuestBookView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = urwid.ListBox([])
+        self.list_box = CustomListBox([])
         self.quest_bar = CustomProgressBar()
 
         self.player.quest_book.connect("complete_quest", self.sync_quest_add)
@@ -297,7 +303,6 @@ class QuestBookView(DoubleLineBox):
         self.list_box.body.append(
             ReadOnlyCheckBox(self.player.quest_book.quests[-1], state=False)
         )
-        self.list_box.set_focus(len(self.list_box.body) - 1)
 
     def sync_position(self) -> None:
         self.quest_bar.set_completion(
