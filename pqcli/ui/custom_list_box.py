@@ -4,7 +4,7 @@ import urwid
 
 
 class CustomListWalker(urwid.SimpleFocusListWalker):
-    def append(self, item) -> None:
+    def append(self, item: T.Any) -> None:
         super().append(item)
         self.set_focus(len(self) - 1)
 

@@ -12,7 +12,7 @@ from pqcli.ui.new_game_view import NewGameView
 from pqcli.ui.roster_view import RosterView
 
 
-PALETTE: T.List[T.Tuple[str, str, str]] = [
+PALETTE: T.List[T.Tuple[str, ...]] = [
     ("button", "", ""),
     ("button-focus", "light red", "black"),
     ("linebox", "", ""),

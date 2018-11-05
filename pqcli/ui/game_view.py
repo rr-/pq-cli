@@ -137,7 +137,7 @@ class EquipmentView(CustomLineBox):
             )
 
     def sync_equipment_change(
-        self, equipment_type: EquipmentType, item_name: str
+        self, equipment_type: EquipmentType, item_name: T.Optional[str]
     ) -> None:
         self.value_texts[equipment_type].set_text(item_name or "")
 
@@ -253,7 +253,7 @@ class PlotView(DoubleLineBox):
             ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
         )
 
-    def sync_act_add(self):
+    def sync_act_add(self) -> None:
         del self.list_box.body[: -self.cutoff]
         if self.list_box.body:
             self.list_box.body[-1].set_state(True)
@@ -296,7 +296,7 @@ class QuestBookView(DoubleLineBox):
         if self.list_box.body:
             self.list_box.body[-1].set_state(False)
 
-    def sync_quest_add(self):
+    def sync_quest_add(self) -> None:
         del self.list_box.body[: -self.cutoff]
         if self.list_box.body:
             self.list_box.body[-1].set_state(True)

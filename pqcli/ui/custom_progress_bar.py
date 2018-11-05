@@ -32,7 +32,7 @@ class CustomProgressBar(urwid.Widget):
         percent = min(100, max(0, int(self.position * 100 / self.max_)))
         return str(percent) + " %"
 
-    def render(self, size: T.Tuple[int, int], focus: bool = False) -> None:
+    def render(self, size: T.Tuple[int, int], focus: bool = False) -> T.Any:
         (maxcol,) = size
         txt = urwid.Text(self.get_text(), self.text_align, "clip")
         c = txt.render((maxcol,))

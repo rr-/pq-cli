@@ -2,7 +2,7 @@ import urwid
 
 
 class ReadOnlyCheckBox(urwid.Text):
-    def __init__(self, text, state: bool = False) -> None:
+    def __init__(self, text: str, state: bool = False) -> None:
         self.icons = {
             key: widget.text for key, widget in urwid.CheckBox.states.items()
         }
