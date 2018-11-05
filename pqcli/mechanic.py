@@ -73,19 +73,23 @@ class Stats(SignalMixin):
         self.emit("change")
 
 
-class QuestBook:
+class QuestBook(SignalMixin):
+    signals = ["complete_act", "complete_quest"]
+
     def __init__(self) -> None:
         self._quests: T.List[str] = []
+        self.act = 0
+        self.plot_bar = Bar(max_=26)
         self.quest_bar = Bar(max_=1)
         self.monster: T.Optional[Monster] = None
 
     @property
-    def current(self) -> T.Optional[str]:
+    def current_quest(self) -> T.Optional[str]:
         if self._quests:
             return self._quests[-1]
         return None
 
-    def add(self, name: str) -> None:
+    def add_quest(self, name: str) -> None:
         logger.info("Commencing quest: %s", name)
         self._quests = self._quests[-100:]
         self._quests.append(name)
@@ -239,7 +243,7 @@ class PlotTask(RegularTask):
 
 
 class Player(SignalMixin):
-    signals = ["new_task", "level_up", "complete_act"]
+    signals = ["new_task", "level_up"]
 
     def __init__(
         self,
@@ -254,10 +258,14 @@ class Player(SignalMixin):
         self.race: Race = race
         self.class_: Class = class_
         self.stats: Stats = stats
-        self.act = 0
 
         self.exp_bar = Bar(max_=level_up_time(1))
         self.level = 1
+
+        self.quest_book = QuestBook()
+        self.inventory = Inventory(capacity=10 + self.stats[StatType.strength])
+        self.equipment = Equipment()
+        self.spell_book = SpellBook()
 
         self.task_bar = Bar(max_=0)
         self.task: T.Optional[BaseTask] = None
@@ -280,15 +288,8 @@ class Player(SignalMixin):
                 "you set out on a long and dangerous journey",
                 4_000,
             ),
-            PlotTask(f"Loading {act_name(self.act + 1)}", 2_000),
+            PlotTask(f"Loading {act_name(self.quest_book.act + 1)}", 2_000),
         ]
-
-        self.plot_bar = Bar(max_=sum(task.duration for task in self.queue))
-        self.quest_book = QuestBook()
-
-        self.inventory = Inventory(capacity=10 + self.stats[StatType.strength])
-        self.equipment = Equipment()
-        self.spell_book = SpellBook()
 
         self.set_task(RegularTask("Loading", 2_000))
 
@@ -417,10 +418,10 @@ class Simulation:
                 self.player.exp_bar.increment(self.player.task_bar.max_ / 1000)
 
         # advance quest
-        if gain and self.player.act >= 1:
+        if gain and self.player.quest_book.act >= 1:
             if (
                 self.player.quest_book.quest_bar.done
-                or self.player.quest_book.current is None
+                or self.player.quest_book.current_quest is None
             ):
                 self.complete_quest()
             else:
@@ -429,11 +430,11 @@ class Simulation:
                 )
 
         # advance plot
-        if gain or not self.player.act:
-            if self.player.plot_bar.done:
+        if gain:
+            if self.player.quest_book.plot_bar.done:
                 self.interplot_cinematic()
             else:
-                self.player.plot_bar.increment(
+                self.player.quest_book.plot_bar.increment(
                     self.player.task_bar.max_ / 1000
                 )
 
@@ -516,17 +517,21 @@ class Simulation:
                 )
 
     def complete_act(self) -> None:
-        self.player.act += 1
-        self.player.plot_bar.reset(60 * 60 * (1 + 5 * self.player.act))
-        if self.player.act > 1:
+        self.player.quest_book.act += 1
+        self.player.quest_book.plot_bar.reset(
+            60 * 60 * (1 + 5 * self.player.quest_book.act)
+        )
+        if self.player.quest_book.act > 1:
             self.player.win_item()
             self.player.win_equipment()
-        self.player.emit("complete_act")
+        self.player.quest_book.emit("complete_act")
 
     def complete_quest(self) -> None:
         self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))
-        if self.player.quest_book.current:
-            logger.info("Quest completed: %s", self.player.quest_book.current)
+        if self.player.quest_book.current_quest:
+            logger.info(
+                "Quest completed: %s", self.player.quest_book.current_quest
+            )
             random.choice(
                 [
                     self.player.win_spell,
@@ -558,7 +563,8 @@ class Simulation:
         else:
             raise AssertionError
 
-        self.player.quest_book.add(caption)
+        self.player.quest_book.add_quest(caption)
+        self.player.quest_book.emit("complete_quest")
 
     def interplot_cinematic(self) -> None:
         def enqueue(task: BaseTask) -> None:
@@ -605,7 +611,7 @@ class Simulation:
 
             s = random.below(3)
             for i in itertools.count(start=1):
-                if i > random.below(1 + self.player.act + 1):
+                if i > random.below(1 + self.player.quest_book.act + 1):
                     break
                 s += 1 + random.below(2)
                 if s % 3 == 0:
@@ -686,7 +692,11 @@ class Simulation:
         else:
             raise AssertionError
 
-        enqueue(PlotTask(f"Loading {act_name(self.player.act + 1)}", 1_000))
+        enqueue(
+            PlotTask(
+                f"Loading {act_name(self.player.quest_book.act + 1)}", 1_000
+            )
+        )
 
 
 def special_item() -> str:

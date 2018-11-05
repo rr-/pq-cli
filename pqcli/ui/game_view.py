@@ -219,8 +219,8 @@ class PlotView(urwid.Pile):
         self.list_box = urwid.ListBox([])
         self.plot_bar = CustomProgressBar()
 
-        self.player.connect("complete_act", self.sync_act_add)
-        self.player.plot_bar.connect("change", self.sync_position)
+        self.player.quest_book.connect("complete_act", self.sync_act_add)
+        self.player.quest_book.plot_bar.connect("change", self.sync_position)
         self.sync()
 
         super().__init__(
@@ -237,13 +237,14 @@ class PlotView(urwid.Pile):
     def sync_acts(self) -> None:
         del self.list_box.body[:]
         for act_number in range(
-            max(0, self.player.act - self.cutoff), self.player.act
+            max(0, self.player.quest_book.act - self.cutoff),
+            self.player.quest_book.act,
         ):
             self.list_box.body.append(
                 ReadOnlyCheckBox(act_name(act_number), state=True)
             )
         self.list_box.body.append(
-            ReadOnlyCheckBox(act_name(self.player.act), state=False)
+            ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
         )
 
     def sync_act_add(self):
@@ -251,13 +252,13 @@ class PlotView(urwid.Pile):
         if self.list_box.body:
             self.list_box.body[-1].set_state(True)
         self.list_box.body.append(
-            ReadOnlyCheckBox(act_name(self.player.act), state=False)
+            ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
         )
         self.list_box.set_focus(len(self.list_box.body) - 1)
 
     def sync_position(self) -> None:
-        self.plot_bar.set_completion(self.player.plot_bar.position)
-        self.plot_bar.set_max(self.player.plot_bar.max_)
+        self.plot_bar.set_completion(self.player.quest_book.plot_bar.position)
+        self.plot_bar.set_max(self.player.quest_book.plot_bar.max_)
 
 
 class TaskView(urwid.Pile):
