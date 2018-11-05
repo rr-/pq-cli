@@ -18,12 +18,13 @@ from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
 
 
-class CharacterSheetView(CustomLineBox):
+class CharacterSheetView(urwid.Pile):
     def __init__(self, player: Player) -> None:
         self.player = player
 
         self.level_text = urwid.Text("")
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
+        self.exp_bar = CustomProgressBar()
 
         self.list_box = urwid.ListBox(
             [
@@ -45,13 +46,21 @@ class CharacterSheetView(CustomLineBox):
 
         self.player.connect("level_up", self.sync_level)
         self.player.stats.connect("change", self.sync_stats)
+        self.player.exp_bar.connect("change", self.sync_exp)
         self.sync()
 
-        super().__init__(self.list_box, title="Character Sheet")
+        super().__init__(
+            [
+                CustomLineBox(self.list_box, title="Character Sheet"),
+                (1, urwid.Filler(urwid.Text("Experience"))),
+                (1, urwid.Filler(self.exp_bar)),
+            ]
+        )
 
     def sync(self) -> None:
         self.sync_level()
         self.sync_stats()
+        self.sync_exp()
 
     def sync_level(self) -> None:
         self.level_text.set_text(str(self.player.level))
@@ -60,24 +69,9 @@ class CharacterSheetView(CustomLineBox):
         for stat in StatType:
             self.stat_texts[stat].set_text(str(self.player.stats[stat]))
 
-
-class ExperienceView(urwid.Pile):
-    def __init__(self, player: Player) -> None:
-        self.player = player
-
-        self.exp_bar = CustomProgressBar()
-
-        self.player.exp_bar.connect("change", self.sync)
-        self.sync()
-
-        super().__init__([urwid.Text("Experience"), self.exp_bar])
-
-    def sync(self) -> None:
+    def sync_exp(self) -> None:
         self.exp_bar.set_completion(self.player.exp_bar.position)
         self.exp_bar.set_max(self.player.exp_bar.max_)
-
-    def pack(self, size: T.Tuple[int, int]) -> T.Tuple[int, int]:
-        return (size[0], 2)
 
 
 class SpellBookView(CustomLineBox):
@@ -309,7 +303,6 @@ class GameView(urwid.Pile):
         self.last_tick = datetime.datetime.now()
 
         self.character_sheet_view = CharacterSheetView(player)
-        self.experience_view = ExperienceView(player)
         self.spell_book_view = SpellBookView(player)
         self.equipment_view = EquipmentView(player)
         self.inventory_view = InventoryView(player)
@@ -326,7 +319,6 @@ class GameView(urwid.Pile):
                             urwid.Pile(
                                 [
                                     self.character_sheet_view,
-                                    ("pack", self.experience_view),
                                     self.spell_book_view,
                                 ]
                             ),
@@ -378,7 +370,6 @@ class GameView(urwid.Pile):
                     self.simulation.tick()
 
                 self.character_sheet_view.sync()
-                self.experience_view.sync()
                 self.spell_book_view.sync()
                 self.equipment_view.sync()
                 self.inventory_view.sync()
