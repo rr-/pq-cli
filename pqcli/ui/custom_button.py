@@ -2,6 +2,8 @@ import typing as T
 
 import urwid
 
+_MAGIC = 999  # where to display the cursor (high value = don't display it)
+
 
 class CustomButton(urwid.Button):
     def __init__(
@@ -16,7 +18,7 @@ class CustomButton(urwid.Button):
             urwid.Columns(
                 [
                     ("pack", urwid.Text("< ")),
-                    urwid.SelectableIcon([label], 0),
+                    urwid.SelectableIcon([label], _MAGIC),
                     (
                         "pack",
                         urwid.Text(f"[{hint}]" if hint else "", align="right"),
