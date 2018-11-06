@@ -1,7 +1,10 @@
 import argparse
+import json
 import typing as T
+from pathlib import Path
 
 import urwid
+import xdg
 
 from pqcli import random
 from pqcli.mechanic import Player
@@ -25,6 +28,21 @@ PALETTE: T.List[T.Tuple[str, ...]] = [
     ("progressbar-done", "black", "light red"),
     ("progressbar-smooth", "light red", ""),
 ]
+PALETTE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "palette.json"
+
+
+def load_palette() -> bool:
+    global PALETTE
+    if PALETTE_PATH.exists():
+        PALETTE = json.loads(PALETTE_PATH.read_text())
+        return True
+    return False
+
+
+def save_palette() -> None:
+    global PALETTE
+    PALETTE_PATH.parent.mkdir(exist_ok=True, parents=True)
+    PALETTE_PATH.write_text(json.dumps(PALETTE, indent=4))
 
 
 class ConfirmExitDialog(ConfirmDialog):
@@ -48,6 +66,8 @@ def bind_commands() -> None:
 class Ui:
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
         bind_commands()
+        if not load_palette():
+            save_palette()  # create a file for the user to edit
 
         self.roster = roster
         self.args = args
