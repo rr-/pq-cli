@@ -41,3 +41,7 @@ class ConfirmDialog(urwid.Overlay):
 
     def cancel(self) -> None:
         self._emit("cancel")
+
+    def tick(self) -> None:
+        if hasattr(self.bottom_w, "tick"):
+            self.bottom_w.tick()
