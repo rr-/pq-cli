@@ -427,28 +427,28 @@ class Simulation:
 
     def tick(self, elapsed: float = 100.0) -> None:
         if self.player.task is None:
-            self.player.set_task(RegularTask("Loading", 2_000))
+            self.player.set_task(RegularTask("Loading", 2000))
             self.player.queue += [
                 RegularTask(
                     "Experiencing an enigmatic and foreboding night vision",
-                    10_000,
+                    10000,
                 ),
                 RegularTask(
                     "Much is revealed about that wise old bastard "
                     "you'd underestimated",
-                    6_000,
+                    6000,
                 ),
                 RegularTask(
                     "A shocking series of events leaves you "
                     "alone and bewildered, but resolute",
-                    6_000,
+                    6000,
                 ),
                 RegularTask(
                     "Drawing upon an unrealized reserve of determination, "
                     "you set out on a long and dangerous journey",
-                    4_000,
+                    4000,
                 ),
-                PlotTask(f"Loading {act_name(1)}", 2_000),
+                PlotTask(f"Loading {act_name(1)}", 2000),
             ]
             self.player.quest_book.plot_bar.reset(28)
             return
@@ -528,7 +528,7 @@ class Simulation:
                     self.player.set_task(
                         SellTask(
                             "Selling " + indefinite(item.name, item.quantity),
-                            1_000,
+                            1000,
                         )
                     )
                     break
@@ -541,21 +541,19 @@ class Simulation:
                 self.player.set_task(self.player.queue.pop(0))
             elif self.player.inventory.encum_bar.done:
                 self.player.set_task(
-                    HeadingToMarketTask(
-                        "Heading to market to sell loot", 4_000
-                    )
+                    HeadingToMarketTask("Heading to market to sell loot", 4000)
                 )
             elif not isinstance(old, (KillTask, HeadingToKillingFieldsTask)):
                 if self.player.inventory.gold > self.player.equip_price():
                     self.player.set_task(
                         BuyTask(
-                            "Negotiating purchase of better equipment", 5_000
+                            "Negotiating purchase of better equipment", 5000
                         )
                     )
                 else:
                     self.player.set_task(
                         HeadingToKillingFieldsTask(
-                            "Heading to the killing fields", 4_000
+                            "Heading to the killing fields", 4000
                         )
                     )
             else:
@@ -625,19 +623,19 @@ class Simulation:
                 RegularTask(
                     "Exhausted, you arrive at a friendly oasis "
                     "in a hostile land",
-                    1_000,
+                    1000,
                 )
             )
             enqueue(
-                RegularTask("You greet old friends and meet new allies", 2_000)
+                RegularTask("You greet old friends and meet new allies", 2000)
             )
             enqueue(
                 RegularTask(
-                    "You are privy to a council of powerful do-gooders", 2_000
+                    "You are privy to a council of powerful do-gooders", 2000
                 )
             )
             enqueue(
-                RegularTask("There is much to be done. You are chosen!", 1_000)
+                RegularTask("There is much to be done. You are chosen!", 1000)
             )
 
         elif choice == 1:
@@ -645,7 +643,7 @@ class Simulation:
                 RegularTask(
                     "Your quarry is in sight, "
                     "but a mighty enemy bars your path!",
-                    1_000,
+                    1000,
                 )
             )
 
@@ -653,7 +651,7 @@ class Simulation:
 
             enqueue(
                 RegularTask(
-                    f"A desperate struggle commences with {nemesis}", 4_000
+                    f"A desperate struggle commences with {nemesis}", 4000
                 )
             )
 
@@ -665,20 +663,20 @@ class Simulation:
                 if s % 3 == 0:
                     enqueue(
                         RegularTask(
-                            f"Locked in grim combat with {nemesis}", 2_000
+                            f"Locked in grim combat with {nemesis}", 2000
                         )
                     )
                 elif s % 3 == 1:
                     enqueue(
                         RegularTask(
-                            f"{nemesis} seems to have the upper hand", 2_000
+                            f"{nemesis} seems to have the upper hand", 2000
                         )
                     )
                 elif s % 3 == 2:
                     enqueue(
                         RegularTask(
                             f"You seem to gain the advantage over {nemesis}",
-                            2_000,
+                            2000,
                         )
                     )
                 else:
@@ -688,12 +686,12 @@ class Simulation:
                 RegularTask(
                     f"Victory! {nemesis} is slain! "
                     "Exhausted, you lose conciousness",
-                    3_000,
+                    3000,
                 )
             )
             enqueue(
                 RegularTask(
-                    "You awake in a friendly place, but the road awaits", 2_000
+                    "You awake in a friendly place, but the road awaits", 2000
                 )
             )
 
@@ -703,37 +701,35 @@ class Simulation:
                 RegularTask(
                     "Oh sweet relief! "
                     f"You've reached the protection of the good {nemesis}",
-                    2_000,
+                    2000,
                 )
             )
             enqueue(
                 RegularTask(
                     "There is rejoicing, "
                     f"and an unnerving encouter with {nemesis} in private",
-                    3_000,
+                    3000,
                 )
             )
             enqueue(
                 RegularTask(
                     f"You forget your {boring_item()} and go back to get it",
-                    2_000,
+                    2000,
                 )
             )
             enqueue(
                 RegularTask(
-                    "What's this!? You overhear something shocking!", 2_000
+                    "What's this!? You overhear something shocking!", 2000
                 )
             )
             enqueue(
-                RegularTask(
-                    f"Could {nemesis} be a dirty double-dealer?", 2_000
-                )
+                RegularTask(f"Could {nemesis} be a dirty double-dealer?", 2000)
             )
             enqueue(
                 RegularTask(
                     "Who can possibly be trusted with this news!? ... "
                     "Oh yes, of course",
-                    3_000,
+                    3000,
                 )
             )
 
@@ -742,7 +738,7 @@ class Simulation:
 
         enqueue(
             PlotTask(
-                f"Loading {act_name(self.player.quest_book.act + 1)}", 1_000
+                f"Loading {act_name(self.player.quest_book.act + 1)}", 1000
             )
         )
 

@@ -24,9 +24,9 @@ logging.basicConfig(
 
 
 # make things predictable
-SEED_A = 1664525
+SEED_A = 1_664_525
 SEED_B = 2141
-SEED_C = 1013904223
+SEED_C = 1_013_904_223
 
 
 def custom_random(num: int) -> int:
