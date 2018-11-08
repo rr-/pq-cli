@@ -154,13 +154,14 @@ class InventoryView(DoubleLineBox):
         self.player = player
 
         self.gold_text = urwid.Text("")
-        self.list_box = CustomListBox(
+        self.pile = urwid.Pile(
             [
                 urwid.Columns(
                     [("weight", 3, urwid.Text("Gold")), self.gold_text]
                 )
             ]
         )
+        self.scrollable = Scrollable(self.pile)
         self.encumbrance_bar = CustomProgressBar()
 
         self.player.connect("new_task", self.on_new_task)
@@ -173,7 +174,7 @@ class InventoryView(DoubleLineBox):
         )
 
         super().__init__(
-            top_widget=self.list_box,
+            top_widget=ScrollBar(self.scrollable),
             top_title="Inventory",
             bottom_widget=self.encumbrance_bar,
             bottom_title="Encumbrance",
@@ -189,7 +190,7 @@ class InventoryView(DoubleLineBox):
         self.gold_text.set_text(str(self.player.inventory.gold))
 
     def sync_items(self) -> None:
-        del self.list_box.body[1:]
+        del self.pile.contents[1:]
         for item in self.player.inventory:
             self.sync_item_add(item)
 
@@ -201,35 +202,40 @@ class InventoryView(DoubleLineBox):
         self.set_bottom_title(f"Encumbrance ({cur:.0f}/{max_} cubits)")
 
     def sync_item_add(self, item: InventoryItem) -> None:
-        self.list_box.body.append(
-            urwid.Columns(
-                [
-                    ("weight", 3, urwid.Text(item.name)),
-                    urwid.Text(str(item.quantity)),
-                ]
+        self.pile.contents.append(
+            (
+                urwid.Columns(
+                    [
+                        ("weight", 3, urwid.Text(item.name)),
+                        urwid.Text(str(item.quantity)),
+                    ]
+                ),
+                ("pack", None),
             )
         )
+        self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_item_del(self, item: InventoryItem) -> None:
         idx = self.get_item_idx_by_name(item.name)
         if idx is not None:
-            del self.list_box.body[idx]
+            del self.pile.contents[idx]
 
     def sync_item_change(self, item: InventoryItem) -> None:
         idx = self.get_item_idx_by_name(item.name)
         if idx is not None:
-            self.list_box.body[idx].contents[1][0].set_text(str(item.quantity))
+            column_widget = self.pile.contents[idx][0]
+            column_widget.contents[1][0].set_text(str(item.quantity))
 
     def get_item_idx_by_name(self, name: str) -> T.Optional[int]:
-        for i, column_widget in enumerate(self.list_box.body):
-            if column_widget.contents[0][0].text == name:
+        for i, pile_item in enumerate(self.pile.contents):
+            if pile_item[0].contents[0][0].text == name:
                 return i
         return None
 
     def on_new_task(self) -> None:
         description = self.player.task.description if self.player.task else "?"
         if description.lower().startswith("sell"):
-            self.list_box.set_focus(0)
+            self.scrollable.set_scrollpos(0)
 
 
 class PlotView(DoubleLineBox):
