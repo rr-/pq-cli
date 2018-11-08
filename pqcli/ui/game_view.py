@@ -18,8 +18,9 @@ from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.data_table import DataTable
 from pqcli.ui.double_line_box import DoubleLineBox
+from pqcli.ui.layout import NColumns, NPile
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
-from pqcli.ui.scrollable import ScrollBar, Scrollable
+from pqcli.ui.scrollable import Scrollable, ScrollBar
 
 
 class CharacterSheetView(DoubleLineBox):
@@ -301,7 +302,7 @@ class QuestBookView(DoubleLineBox):
         self.quest_bar.set_max(self.player.quest_book.quest_bar.max_)
 
 
-class TaskView(urwid.Pile):
+class TaskView(NPile):
     def __init__(self, player: Player) -> None:
         self.player = player
 
@@ -331,7 +332,7 @@ class TaskView(urwid.Pile):
         return (size[0], 2)
 
 
-class GameView(urwid.Pile):
+class GameView(NPile):
     signals = ["cancel"]
 
     def __init__(
@@ -351,31 +352,31 @@ class GameView(urwid.Pile):
         self.quest_book_view = QuestBookView(player)
         self.task_view = TaskView(player)
 
-        self.columns = urwid.Columns(
+        self.columns = NColumns(
             [
                 (
                     urwid.WEIGHT,
                     1,
-                    urwid.Pile(
+                    NPile(
                         [(19, self.character_sheet_view), self.spell_book_view]
                     ),
                 ),
                 (
                     urwid.WEIGHT,
                     2,
-                    urwid.Pile(
-                        [(15, self.equipment_view), self.inventory_view]
-                    ),
+                    NPile([(15, self.equipment_view), self.inventory_view]),
                 ),
                 (
                     urwid.WEIGHT,
                     2,
-                    urwid.Pile([(15, self.plot_view), self.quest_book_view]),
+                    NPile([(15, self.plot_view), self.quest_book_view]),
                 ),
             ]
         )
 
-        super().__init__([self.columns, (urwid.PACK, self.task_view)])
+        super().__init__(
+            [self.columns, (urwid.PACK, self.task_view)], outermost=True
+        )
 
     def cancel(self) -> None:
         self._emit("cancel")

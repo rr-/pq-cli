@@ -1,6 +1,5 @@
 from setuptools import find_packages, setup
 
-
 setup(
     author="rr-",
     author_email="rr-@sakuya.pl",

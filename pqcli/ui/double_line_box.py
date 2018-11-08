@@ -1,5 +1,7 @@
 import urwid
 
+from pqcli.ui.layout import NPile
+
 
 class DoubleLineBox(urwid.AttrMap):
     def __init__(
@@ -23,9 +25,7 @@ class DoubleLineBox(urwid.AttrMap):
         )
 
         super().__init__(
-            urwid.Pile(
-                [self.top_line_box, (urwid.PACK, self.bottom_line_box)]
-            ),
+            NPile([self.top_line_box, (urwid.PACK, self.bottom_line_box)]),
             "linebox",
             "linebox-focus",
         )

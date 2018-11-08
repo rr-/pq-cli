@@ -2,8 +2,10 @@ import typing as T
 
 import urwid
 
+from pqcli.ui.layout import NColumns, NPile
 
-class DataTable(urwid.Pile):
+
+class DataTable(NPile):
     def __init__(self, columns: T.Any) -> None:
         self.column_count = len(columns)
         self._columns = columns
@@ -25,7 +27,7 @@ class DataTable(urwid.Pile):
 
         self.contents.append(
             (
-                urwid.Columns(
+                NColumns(
                     list((*x, y) for x, y in zip(self._columns, widgets))
                 ),
                 (urwid.PACK, 1),

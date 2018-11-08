@@ -8,6 +8,7 @@ from pqcli.config import CLASSES, PRIME_STATS, RACES
 from pqcli.mechanic import StatsBuilder, create_player, generate_name
 from pqcli.ui.custom_button import CustomButton
 from pqcli.ui.custom_line_box import CustomLineBox
+from pqcli.ui.layout import NColumns, NPile
 
 
 class StatsBox(CustomLineBox):
@@ -29,17 +30,17 @@ class StatsBox(CustomLineBox):
         label_texts = [urwid.Text(f"{stat.value}: ") for stat in PRIME_STATS]
 
         super().__init__(
-            urwid.ListBox(
-                [
-                    urwid.Columns(
-                        [urwid.Pile(label_texts), urwid.Pile(value_texts)]
-                    ),
-                    urwid.Divider(),
-                    urwid.Columns([urwid.Text("Total: "), self.total_label]),
-                    urwid.Divider(),
-                    roll_button,
-                    unroll_button,
-                ]
+            urwid.Filler(
+                NPile(
+                    [
+                        NColumns([NPile(label_texts), NPile(value_texts)]),
+                        urwid.Divider(),
+                        NColumns([urwid.Text("Total: "), self.total_label]),
+                        urwid.Divider(),
+                        roll_button,
+                        unroll_button,
+                    ]
+                )
             ),
             title="Stats",
         )
@@ -115,7 +116,7 @@ class ClassBox(CustomLineBox):
             self.class_ = user_data
 
 
-class NewGameView(urwid.Pile):
+class NewGameView(NPile):
     signals = ["confirm", "cancel"]
 
     def __init__(self) -> None:
@@ -134,7 +135,7 @@ class NewGameView(urwid.Pile):
 
         buttons_box = urwid.Filler(
             urwid.Padding(
-                urwid.Pile(
+                NPile(
                     [
                         CustomButton(
                             "Sold!", hint="F10", on_press=self.on_confirm_press
@@ -162,14 +163,15 @@ class NewGameView(urwid.Pile):
                         )
                     ),
                 ),
-                urwid.Columns(
+                NColumns(
                     [
                         (urwid.WEIGHT, 2, self.race_box),
                         (urwid.WEIGHT, 2, self.class_box),
-                        urwid.Pile([(13, self.stats_box), buttons_box]),
+                        NPile([(13, self.stats_box), buttons_box]),
                     ]
                 ),
-            ]
+            ],
+            outermost=True,
         )
 
     def generate_random_char_name(self) -> None:

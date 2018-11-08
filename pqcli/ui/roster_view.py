@@ -5,6 +5,7 @@ import urwid
 from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
 from pqcli.ui.custom_button import CustomButton
+from pqcli.ui.layout import NColumns, NPile
 
 
 class RosterView(urwid.Filler):
@@ -39,7 +40,7 @@ class RosterView(urwid.Filler):
             )
 
             buttons.append(
-                urwid.Columns(
+                NColumns(
                     [
                         CustomButton(
                             label=label,
@@ -73,13 +74,10 @@ class RosterView(urwid.Filler):
 
         super().__init__(
             urwid.Padding(
-                urwid.Pile(
+                NPile(
                     [urwid.Padding(logo, width="clip"), urwid.Divider()]
-                    + buttons
-                    + [
-                        urwid.Divider(),
-                        urwid.Text("Use arrow keys to move around."),
-                    ]
+                    + buttons,
+                    outermost=True,
                 ),
                 align="center",
                 width=logo.pack()[0],

@@ -19,7 +19,7 @@
 import typing as T
 
 import urwid
-from urwid.widget import BOX, FLOW, FIXED
+from urwid.widget import BOX, FIXED, FLOW
 
 # Scroll actions
 SCROLL_LINE_UP = "line up"

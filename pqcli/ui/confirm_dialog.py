@@ -4,6 +4,7 @@ import urwid
 
 from pqcli.ui.custom_button import CustomButton
 from pqcli.ui.custom_line_box import CustomLineBox
+from pqcli.ui.layout import NPile
 
 
 class ConfirmDialog(urwid.Overlay):
@@ -19,9 +20,7 @@ class ConfirmDialog(urwid.Overlay):
         )
 
         line_box = CustomLineBox(
-            urwid.ListBox(
-                urwid.SimpleFocusListWalker([question, no_btn, yes_btn])
-            )
+            urwid.Filler(NPile([question, no_btn, yes_btn], outermost=True))
         )
 
         super().__init__(

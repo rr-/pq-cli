@@ -63,8 +63,6 @@ def bind_commands() -> None:
     }.items():
         for key_variant in {key, key.upper()}:
             urwid.command_map[key_variant] = f"cursor {direction}"
-    urwid.command_map["tab"] = f"cursor down"
-    urwid.command_map["shift tab"] = f"cursor up"
 
 
 class Ui:
