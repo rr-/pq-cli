@@ -31,30 +31,21 @@ class CharacterSheetView(DoubleLineBox):
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
         self.exp_bar = CustomProgressBar()
 
-        self.list_box = CustomListBox(
-            [
-                urwid.Columns([urwid.Text("Name"), urwid.Text(player.name)]),
-                urwid.Columns(
-                    [urwid.Text("Race"), urwid.Text(player.race.name)]
-                ),
-                urwid.Columns(
-                    [urwid.Text("Class"), urwid.Text(player.class_.name)]
-                ),
-                urwid.Columns([urwid.Text("Level"), self.level_text]),
-                urwid.Divider(),
-            ]
-            + [
-                urwid.Columns([urwid.Text(stat.value), self.stat_texts[stat]])
-                for stat in StatType
-            ]
-        )
+        data_table = DataTable(columns=[("weight", 1), ("weight", 1)])
+        data_table.add_row(urwid.Text("Name"), urwid.Text(player.name))
+        data_table.add_row(urwid.Text("Race"), urwid.Text(player.race.name))
+        data_table.add_row(urwid.Text("Class"), urwid.Text(player.class_.name))
+        data_table.add_row(urwid.Text("Level"), self.level_text)
+        data_table.add_row(urwid.Divider(), urwid.Divider())
+        for stat in StatType:
+            data_table.add_row(urwid.Text(stat.value), self.stat_texts[stat])
 
         self.player.connect("level_up", self.sync_level)
         self.player.stats.connect("change", self.sync_stats)
         self.player.exp_bar.connect("change", self.sync_exp)
 
         super().__init__(
-            top_widget=self.list_box,
+            top_widget=ScrollBar(Scrollable(data_table)),
             bottom_widget=self.exp_bar,
             top_title="Character Sheet",
             bottom_title="Experience",
