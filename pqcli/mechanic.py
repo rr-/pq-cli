@@ -93,7 +93,7 @@ class Stats(SignalMixin):
 
 
 class QuestBook(SignalMixin):
-    signals = ["complete_act", "complete_quest"]
+    signals = ["complete_act", "start_quest"]
 
     def __init__(self) -> None:
         self._quests: T.List[str] = []
@@ -610,7 +610,7 @@ class Simulation:
             raise AssertionError
 
         self.player.quest_book.add_quest(caption)
-        self.player.quest_book.emit("complete_quest")
+        self.player.quest_book.emit("start_quest", caption)
 
     def interplot_cinematic(self) -> None:
         def enqueue(task: BaseTask) -> None:

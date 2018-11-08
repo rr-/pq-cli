@@ -289,7 +289,7 @@ class QuestBookView(DoubleLineBox):
         self.list_box = CustomListBox([])
         self.quest_bar = CustomProgressBar()
 
-        self.player.quest_book.connect("complete_quest", self.sync_quest_add)
+        self.player.quest_book.connect("start_quest", self.sync_quest_add)
         self.player.quest_book.quest_bar.connect("change", self.sync_position)
 
         super().__init__(
@@ -306,17 +306,13 @@ class QuestBookView(DoubleLineBox):
     def sync_quests(self) -> None:
         del self.list_box.body[:]
         for quest_name in self.player.quest_book.quests[-self.cutoff :]:
-            self.list_box.body.append(ReadOnlyCheckBox(quest_name, state=True))
-        if self.list_box.body:
-            self.list_box.body[-1].set_state(False)
+            self.sync_quest_add(quest_name)
 
-    def sync_quest_add(self) -> None:
+    def sync_quest_add(self, quest_name: str) -> None:
         del self.list_box.body[: -self.cutoff]
         if self.list_box.body:
             self.list_box.body[-1].set_state(True)
-        self.list_box.body.append(
-            ReadOnlyCheckBox(self.player.quest_book.quests[-1], state=False)
-        )
+        self.list_box.body.append(ReadOnlyCheckBox(quest_name, state=False))
 
     def sync_position(self) -> None:
         self.quest_bar.set_completion(
