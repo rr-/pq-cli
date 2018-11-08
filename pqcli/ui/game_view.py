@@ -19,6 +19,7 @@ from pqcli.ui.custom_list_box import CustomListBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.double_line_box import DoubleLineBox
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
+from pqcli.ui.scrollable import ScrollBar, Scrollable
 
 
 class CharacterSheetView(DoubleLineBox):
@@ -286,14 +287,15 @@ class QuestBookView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = CustomListBox([])
+        self.pile = urwid.Pile([])
         self.quest_bar = CustomProgressBar()
+        self.scrollable = Scrollable(self.pile)
 
         self.player.quest_book.connect("start_quest", self.sync_quest_add)
         self.player.quest_book.quest_bar.connect("change", self.sync_position)
 
         super().__init__(
-            top_widget=self.list_box,
+            top_widget=ScrollBar(self.scrollable),
             top_title="Quests",
             bottom_widget=self.quest_bar,
         )
@@ -304,15 +306,17 @@ class QuestBookView(DoubleLineBox):
         self.sync_position()
 
     def sync_quests(self) -> None:
-        del self.list_box.body[:]
         for quest_name in self.player.quest_book.quests[-self.cutoff :]:
             self.sync_quest_add(quest_name)
 
     def sync_quest_add(self, quest_name: str) -> None:
-        del self.list_box.body[: -self.cutoff]
-        if self.list_box.body:
-            self.list_box.body[-1].set_state(True)
-        self.list_box.body.append(ReadOnlyCheckBox(quest_name, state=False))
+        del self.pile.contents[: -self.cutoff]
+        if self.pile.contents:
+            self.pile.contents[-1][0].set_state(True)
+        self.pile.contents.append(
+            (ReadOnlyCheckBox(quest_name, state=False), ("pack", None))
+        )
+        self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_position(self) -> None:
         self.quest_bar.set_completion(
