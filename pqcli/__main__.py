@@ -11,7 +11,16 @@ SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pqcli")
-    parser.add_argument("--cheats", help="???", action="store_true")
+    parser.add_argument(
+        "--no-config",
+        dest="use_config",
+        action="store_false",
+        help=(
+            "Don't load or save configuration files from $XDG_CONFIG_HOME "
+            "(player data will still be saved)"
+        ),
+    )
+    parser.add_argument("--cheats", action="store_true", help="???")
     return parser.parse_args()
 
 

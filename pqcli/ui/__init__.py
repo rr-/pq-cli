@@ -70,8 +70,10 @@ def bind_commands() -> None:
 class Ui:
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
         bind_commands()
-        if not load_palette():
-            save_palette()  # create a file for the user to edit
+
+        if args.use_config:
+            if not load_palette():
+                save_palette()  # create a file for the user to edit
 
         self.roster = roster
         self.args = args
