@@ -17,6 +17,7 @@ from pqcli.mechanic import (
 from pqcli.ui.custom_line_box import CustomLineBox
 from pqcli.ui.custom_list_box import CustomListBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
+from pqcli.ui.data_table import DataTable
 from pqcli.ui.double_line_box import DoubleLineBox
 from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
 from pqcli.ui.scrollable import ScrollBar, Scrollable
@@ -154,14 +155,9 @@ class InventoryView(DoubleLineBox):
         self.player = player
 
         self.gold_text = urwid.Text("")
-        self.pile = urwid.Pile(
-            [
-                urwid.Columns(
-                    [("weight", 3, urwid.Text("Gold")), self.gold_text]
-                )
-            ]
-        )
-        self.scrollable = Scrollable(self.pile)
+        self.data_table = DataTable(columns=[("weight", 3), ("pack",)])
+        self.data_table.add_row(urwid.Text("Gold"), self.gold_text)
+        self.scrollable = Scrollable(self.data_table)
         self.encumbrance_bar = CustomProgressBar()
 
         self.player.connect("new_task", self.on_new_task)
@@ -190,7 +186,7 @@ class InventoryView(DoubleLineBox):
         self.gold_text.set_text(str(self.player.inventory.gold))
 
     def sync_items(self) -> None:
-        del self.pile.contents[1:]
+        self.data_table.delete_rows(1, len(self.data_table.data_rows) - 1)
         for item in self.player.inventory:
             self.sync_item_add(item)
 
@@ -202,33 +198,24 @@ class InventoryView(DoubleLineBox):
         self.set_bottom_title(f"Encumbrance ({cur:.0f}/{max_} cubits)")
 
     def sync_item_add(self, item: InventoryItem) -> None:
-        self.pile.contents.append(
-            (
-                urwid.Columns(
-                    [
-                        ("weight", 3, urwid.Text(item.name)),
-                        urwid.Text(str(item.quantity)),
-                    ]
-                ),
-                ("pack", None),
-            )
+        self.data_table.add_row(
+            urwid.Text(item.name), urwid.Text(str(item.quantity))
         )
         self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_item_del(self, item: InventoryItem) -> None:
         idx = self.get_item_idx_by_name(item.name)
         if idx is not None:
-            del self.pile.contents[idx]
+            self.data_table.delete_row(idx)
 
     def sync_item_change(self, item: InventoryItem) -> None:
         idx = self.get_item_idx_by_name(item.name)
         if idx is not None:
-            column_widget = self.pile.contents[idx][0]
-            column_widget.contents[1][0].set_text(str(item.quantity))
+            self.data_table.data_rows[idx][1].set_text(str(item.quantity))
 
     def get_item_idx_by_name(self, name: str) -> T.Optional[int]:
-        for i, pile_item in enumerate(self.pile.contents):
-            if pile_item[0].contents[0][0].text == name:
+        for i, row_widgets in enumerate(self.data_table.data_rows):
+            if row_widgets[0].text == name:
                 return i
         return None
 
@@ -293,9 +280,9 @@ class QuestBookView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.pile = urwid.Pile([])
+        self.data_table = DataTable(columns=[("weight", 1)])
         self.quest_bar = CustomProgressBar()
-        self.scrollable = Scrollable(self.pile)
+        self.scrollable = Scrollable(self.data_table)
 
         self.player.quest_book.connect("start_quest", self.sync_quest_add)
         self.player.quest_book.quest_bar.connect("change", self.sync_position)
@@ -316,12 +303,12 @@ class QuestBookView(DoubleLineBox):
             self.sync_quest_add(quest_name)
 
     def sync_quest_add(self, quest_name: str) -> None:
-        del self.pile.contents[: -self.cutoff]
-        if self.pile.contents:
-            self.pile.contents[-1][0].set_state(True)
-        self.pile.contents.append(
-            (ReadOnlyCheckBox(quest_name, state=False), ("pack", None))
+        self.data_table.delete_rows(
+            0, max(0, self.data_table.row_count - self.cutoff)
         )
+        if self.data_table.data_rows:
+            self.data_table.data_rows[-1][0].set_state(True)
+        self.data_table.add_row(ReadOnlyCheckBox(quest_name, state=False))
         self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_position(self) -> None:
