@@ -20,6 +20,12 @@ def parse_args() -> argparse.Namespace:
             "(player data will still be saved)"
         ),
     )
+    parser.add_argument(
+        "--no-save",
+        dest="use_saves",
+        action="store_false",
+        help=argparse.SUPPRESS,
+    )
     parser.add_argument("--cheats", action="store_true", help="???")
     return parser.parse_args()
 
@@ -31,7 +37,8 @@ def main() -> None:
     try:
         Ui(roster, args).run()
     finally:
-        roster.save()
+        if args.use_saves:
+            roster.save()
 
 
 if __name__ == "__main__":

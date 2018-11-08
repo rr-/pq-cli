@@ -164,5 +164,6 @@ class Ui:
         self.loop.set_alarm_in(TICK_FREQ, self.on_tick)
 
     def on_save(self, _loop: urwid.MainLoop, _user_data: T.Any) -> None:
-        self.roster.save()
+        if self.args.use_saves:
+            self.roster.save()
         self.loop.set_alarm_in(SAVE_FREQ, self.on_save)
