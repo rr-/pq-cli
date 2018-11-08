@@ -12,6 +12,7 @@
 # Taken from stig (stig.tui.scroll).
 # Changes compared to upstream:
 # - reformatted the code
+# - added AttrMap wrapping
 
 import urwid
 from urwid.widget import BOX, FLOW, FIXED
@@ -29,7 +30,7 @@ SCROLLBAR_LEFT = "left"
 SCROLLBAR_RIGHT = "right"
 
 
-class Scrollable(urwid.WidgetDecoration):
+class _Scrollable(urwid.WidgetDecoration):
     def sizing(self):
         return frozenset([BOX])
 
@@ -54,7 +55,7 @@ class Scrollable(urwid.WidgetDecoration):
         self._forward_keypress = None
         self._old_cursor_coords = None
         self._rows_max_cached = 0
-        self.__super.__init__(widget)
+        super().__init__(widget)
 
     def render(self, size, focus=False):
         maxcol, maxrow = size
@@ -278,13 +279,7 @@ class Scrollable(urwid.WidgetDecoration):
         return self._rows_max_cached
 
 
-class ScrollBar(urwid.WidgetDecoration):
-    def sizing(self):
-        return frozenset((BOX,))
-
-    def selectable(self):
-        return True
-
+class _ScrollBar(urwid.WidgetDecoration):
     def __init__(
         self,
         widget,
@@ -310,12 +305,18 @@ class ScrollBar(urwid.WidgetDecoration):
         """
         if BOX not in widget.sizing():
             raise ValueError("Not a box widget: %r" % widget)
-        self.__super.__init__(widget)
+        super().__init__(widget)
         self._thumb_char = thumb_char
         self._trough_char = trough_char
         self.scrollbar_side = side
         self.scrollbar_width = max(1, width)
         self._original_widget_size = (0, 0)
+
+    def sizing(self):
+        return frozenset((BOX,))
+
+    def selectable(self):
+        return True
 
     def render(self, size, focus=False):
         maxcol, maxrow = size
@@ -430,3 +431,17 @@ class ScrollBar(urwid.WidgetDecoration):
                 return True
 
         return False
+
+
+class Scrollable(urwid.AttrWrap):
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            _Scrollable(*args, **kwargs), "scrollable", "scrollable-focus"
+        )
+
+
+class ScrollBar(urwid.AttrWrap):
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            _ScrollBar(*args, **kwargs), "scrollbar", "scrollbar-focus"
+        )

@@ -27,6 +27,10 @@ PALETTE: T.List[T.Tuple[str, ...]] = [
     ("progressbar-normal", "", "", "standout"),
     ("progressbar-done", "black", "light red"),
     ("progressbar-smooth", "light red", ""),
+    ("scrollbar", "dark gray", ""),
+    ("scrollbar-focus", "light red", ""),
+    ("scrollable", "", ""),
+    ("scrollable-focus", "", ""),
 ]
 PALETTE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "palette.json"
 
