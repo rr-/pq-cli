@@ -216,14 +216,15 @@ class PlotView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = CustomListBox([])
+        self.data_table = DataTable(columns=[("weight", 1)])
+        self.scrollable = Scrollable(self.data_table)
         self.plot_bar = CustomProgressBar()
 
-        self.player.quest_book.connect("complete_act", self.sync_act_add)
+        self.player.quest_book.connect("start_act", self.sync_act_add)
         self.player.quest_book.plot_bar.connect("change", self.sync_position)
 
         super().__init__(
-            top_widget=self.list_box,
+            top_widget=ScrollBar(self.scrollable),
             top_title="Plot Development",
             bottom_widget=self.plot_bar,
         )
@@ -234,25 +235,23 @@ class PlotView(DoubleLineBox):
         self.sync_position()
 
     def sync_acts(self) -> None:
-        del self.list_box.body[:]
+        self.data_table.delete_rows(0, len(self.data_table.data_rows))
         for act_number in range(
             max(0, self.player.quest_book.act - self.cutoff),
-            self.player.quest_book.act,
+            self.player.quest_book.act + 1,
         ):
-            self.list_box.body.append(
-                ReadOnlyCheckBox(act_name(act_number), state=True)
-            )
-        self.list_box.body.append(
-            ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
-        )
+            self.sync_act_add(act_number)
 
-    def sync_act_add(self) -> None:
-        del self.list_box.body[: -self.cutoff]
-        if self.list_box.body:
-            self.list_box.body[-1].set_state(True)
-        self.list_box.body.append(
-            ReadOnlyCheckBox(act_name(self.player.quest_book.act), state=False)
+    def sync_act_add(self, act_number: int) -> None:
+        self.data_table.delete_rows(
+            0, max(0, self.data_table.row_count - self.cutoff)
         )
+        if self.data_table.data_rows:
+            self.data_table.data_rows[-1][0].set_state(True)
+        self.data_table.add_row(
+            ReadOnlyCheckBox(act_name(act_number), state=False)
+        )
+        self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_position(self) -> None:
         self.plot_bar.set_completion(self.player.quest_book.plot_bar.position)

@@ -93,7 +93,7 @@ class Stats(SignalMixin):
 
 
 class QuestBook(SignalMixin):
-    signals = ["complete_act", "start_quest"]
+    signals = ["start_act", "start_quest"]
 
     def __init__(self) -> None:
         self._quests: T.List[str] = []
@@ -118,7 +118,7 @@ class QuestBook(SignalMixin):
 
     def increment_act(self) -> None:
         self._act += 1
-        self.emit("complete_act")
+        self.emit("start_act", self._act)
 
     def add_quest(self, name: str) -> None:
         logger.info("Commencing quest: %s", name)
