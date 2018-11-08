@@ -29,7 +29,8 @@ class RosterView(urwid.Filler):
                 best_spell_name = "-"
 
             best_stat_name = (
-                f"{player.stats.best.value} {player.stats[player.stats.best]}"
+                f"{player.stats.best_prime.value} "
+                f"{player.stats[player.stats.best_prime]}"
             )
 
             label = (

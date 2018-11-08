@@ -86,6 +86,12 @@ class Stats(SignalMixin):
     def best(self) -> StatType:
         return max(self, key=lambda kv: kv[1])[0]
 
+    @property
+    def best_prime(self) -> StatType:
+        return max(
+            (kv for kv in self if kv[0] in PRIME_STATS), key=lambda kv: kv[1]
+        )[0]
+
     def increment(self, stat: StatType, qty: int = 1) -> None:
         self._values[stat] += qty
         logger.info("Increased %s to %d", stat.value, self[stat])
