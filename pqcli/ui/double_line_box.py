@@ -23,7 +23,9 @@ class DoubleLineBox(urwid.AttrMap):
         )
 
         super().__init__(
-            urwid.Pile([self.top_line_box, ("pack", self.bottom_line_box)]),
+            urwid.Pile(
+                [self.top_line_box, (urwid.PACK, self.bottom_line_box)]
+            ),
             "linebox",
             "linebox-focus",
         )

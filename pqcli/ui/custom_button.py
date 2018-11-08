@@ -17,13 +17,13 @@ class CustomButton(urwid.Button):
         self._w = urwid.AttrMap(
             urwid.Columns(
                 [
-                    ("pack", urwid.Text("< ")),
+                    (urwid.PACK, urwid.Text("< ")),
                     urwid.SelectableIcon([label], _MAGIC),
                     (
-                        "pack",
+                        urwid.PACK,
                         urwid.Text(f"[{hint}]" if hint else "", align="right"),
                     ),
-                    ("pack", urwid.Text(" >")),
+                    (urwid.PACK, urwid.Text(" >")),
                 ]
             ),
             "button",

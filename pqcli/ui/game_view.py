@@ -30,7 +30,7 @@ class CharacterSheetView(DoubleLineBox):
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
         self.exp_bar = CustomProgressBar()
 
-        data_table = DataTable(columns=[("weight", 1), ("weight", 1)])
+        data_table = DataTable(columns=[(urwid.WEIGHT, 1), (urwid.WEIGHT, 1)])
         data_table.add_row(urwid.Text("Name"), urwid.Text(player.name))
         data_table.add_row(urwid.Text("Race"), urwid.Text(player.race.name))
         data_table.add_row(urwid.Text("Class"), urwid.Text(player.class_.name))
@@ -75,7 +75,7 @@ class SpellBookView(CustomLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.data_table = DataTable(columns=[("weight", 3), ("pack",)])
+        self.data_table = DataTable(columns=[(urwid.WEIGHT, 3), (urwid.PACK,)])
         self.scrollable = Scrollable(self.data_table)
 
         self.player.spell_book.connect("add", self.sync_spell_add)
@@ -110,7 +110,7 @@ class EquipmentView(CustomLineBox):
         self.value_texts = {
             equipment_type: urwid.Text("") for equipment_type in EquipmentType
         }
-        data_table = DataTable(columns=[("weight", 1), ("weight", 3)])
+        data_table = DataTable(columns=[(urwid.WEIGHT, 1), (urwid.WEIGHT, 3)])
         for equipment_type in EquipmentType:
             data_table.add_row(
                 urwid.Text(equipment_type.value),
@@ -139,7 +139,7 @@ class InventoryView(DoubleLineBox):
         self.player = player
 
         self.gold_text = urwid.Text("")
-        self.data_table = DataTable(columns=[("weight", 3), ("pack",)])
+        self.data_table = DataTable(columns=[(urwid.WEIGHT, 3), (urwid.PACK,)])
         self.data_table.add_row(urwid.Text("Gold"), self.gold_text)
         self.scrollable = Scrollable(self.data_table)
         self.encumbrance_bar = CustomProgressBar()
@@ -215,7 +215,7 @@ class PlotView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.data_table = DataTable(columns=[("weight", 1)])
+        self.data_table = DataTable(columns=[(urwid.WEIGHT, 1)])
         self.scrollable = Scrollable(self.data_table)
         self.plot_bar = CustomProgressBar()
 
@@ -263,7 +263,7 @@ class QuestBookView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.data_table = DataTable(columns=[("weight", 1)])
+        self.data_table = DataTable(columns=[(urwid.WEIGHT, 1)])
         self.quest_bar = CustomProgressBar()
         self.scrollable = Scrollable(self.data_table)
 
@@ -356,7 +356,7 @@ class GameView(urwid.Pile):
                 urwid.Columns(
                     [
                         (
-                            "weight",
+                            urwid.WEIGHT,
                             1,
                             urwid.Pile(
                                 [
@@ -366,7 +366,7 @@ class GameView(urwid.Pile):
                             ),
                         ),
                         (
-                            "weight",
+                            urwid.WEIGHT,
                             2,
                             urwid.Pile(
                                 [
@@ -376,7 +376,7 @@ class GameView(urwid.Pile):
                             ),
                         ),
                         (
-                            "weight",
+                            urwid.WEIGHT,
                             2,
                             urwid.Pile(
                                 [(15, self.plot_view), self.quest_book_view]
@@ -384,7 +384,7 @@ class GameView(urwid.Pile):
                         ),
                     ]
                 ),
-                ("pack", self.task_view),
+                (urwid.PACK, self.task_view),
             ]
         )
 

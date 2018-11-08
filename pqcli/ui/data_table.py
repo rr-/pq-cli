@@ -28,7 +28,7 @@ class DataTable(urwid.Pile):
                 urwid.Columns(
                     list((*x, y) for x, y in zip(self._columns, widgets))
                 ),
-                ("pack", 1),
+                (urwid.PACK, 1),
             )
         )
         self._rows.append(widgets)

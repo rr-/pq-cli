@@ -164,8 +164,8 @@ class NewGameView(urwid.Pile):
                 ),
                 urwid.Columns(
                     [
-                        ("weight", 2, self.race_box),
-                        ("weight", 2, self.class_box),
+                        (urwid.WEIGHT, 2, self.race_box),
+                        (urwid.WEIGHT, 2, self.class_box),
                         urwid.Pile([(13, self.stats_box), buttons_box]),
                     ]
                 ),
