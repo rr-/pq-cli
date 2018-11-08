@@ -76,33 +76,32 @@ class SpellBookView(CustomLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.list_box = CustomListBox([])
+        self.data_table = DataTable(columns=[("weight", 3), ("pack",)])
+        self.scrollable = Scrollable(self.data_table)
 
         self.player.spell_book.connect("add", self.sync_spell_add)
         self.player.spell_book.connect("change", self.sync_spell_change)
 
-        super().__init__(self.list_box, title="Spell Book")
+        super().__init__(
+            ScrollBar(self.scrollable, padding=1), title="Spell Book"
+        )
         self.sync()
 
     def sync(self) -> None:
-        del self.list_box.body[:]
+        self.data_table.delete_rows(0, len(self.data_table.data_rows))
         for spell in self.player.spell_book:
             self.sync_spell_add(spell)
 
     def sync_spell_add(self, spell: Spell) -> None:
-        self.list_box.body.append(
-            urwid.Columns(
-                [
-                    ("weight", 3, urwid.Text(spell.name)),
-                    urwid.Text(to_roman(spell.level)),
-                ]
-            )
+        self.data_table.add_row(
+            urwid.Text(spell.name), urwid.Text(to_roman(spell.level))
         )
+        self.scrollable.set_scrollpos(len(self.data_table.data_rows) - 1)
 
     def sync_spell_change(self, spell: Spell) -> None:
-        for widget in self.list_box.body:
-            if widget.contents[0][0].text == spell.name:
-                widget.contents[1][0].set_text(to_roman(spell.level))
+        for row_widgets in self.data_table.data_rows:
+            if row_widgets[0].text == spell.name:
+                row_widgets[1].set_text(to_roman(spell.level))
 
 
 class EquipmentView(CustomLineBox):
