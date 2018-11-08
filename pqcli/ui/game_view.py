@@ -111,21 +111,16 @@ class EquipmentView(CustomLineBox):
         self.value_texts = {
             equipment_type: urwid.Text("") for equipment_type in EquipmentType
         }
-        self.list_box = CustomListBox(
-            [
-                urwid.Columns(
-                    [
-                        urwid.Text(equipment_type.value),
-                        ("weight", 3, self.value_texts[equipment_type]),
-                    ]
-                )
-                for equipment_type in EquipmentType
-            ]
-        )
+        data_table = DataTable(columns=[("weight", 1), ("weight", 3)])
+        for equipment_type in EquipmentType:
+            data_table.add_row(
+                urwid.Text(equipment_type.value),
+                self.value_texts[equipment_type],
+            )
 
         self.player.equipment.connect("change", self.sync_equipment_change)
 
-        super().__init__(self.list_box, title="Equipment")
+        super().__init__(ScrollBar(Scrollable(data_table)), title="Equipment")
         self.sync()
 
     def sync(self) -> None:
