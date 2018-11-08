@@ -13,6 +13,9 @@
 # Changes compared to upstream:
 # - reformatted the code
 # - added AttrMap wrapping
+# - added padding support
+
+import typing as T
 
 import urwid
 from urwid.widget import BOX, FLOW, FIXED
@@ -28,6 +31,43 @@ SCROLL_TO_END = "to end"
 # Scrollbar positions
 SCROLLBAR_LEFT = "left"
 SCROLLBAR_RIGHT = "right"
+
+
+class EmptyCanvas(urwid.Canvas):
+    def __init__(self, cols: int, rows: int) -> None:
+        super().__init__()
+        self._text, cs = urwid.apply_target_encoding(" ")
+        self._cs = cs[0][0]
+        self.size = cols, rows
+        self.cursor = None
+
+    def cols(self) -> int:
+        return self.size[0]
+
+    def rows(self) -> int:
+        return self.size[1]
+
+    def content(
+        self,
+        trim_left: int = 0,
+        trim_top: int = 0,
+        cols: T.Optional[int] = None,
+        rows: T.Optional[int] = None,
+        attr: T.Optional[str] = None,
+    ) -> T.Generator:
+        if cols is None:
+            cols = self.size[0]
+        if rows is None:
+            rows = self.size[1]
+
+        line = [(None, self._cs, self._text * cols)]
+        for i in range(rows):
+            yield line
+
+    def content_delta(self, other: T.Any) -> T.Any:
+        if other is self:
+            return [self.cols()] * self.rows()
+        return self.content()
 
 
 class _Scrollable(urwid.WidgetDecoration):
@@ -287,6 +327,7 @@ class _ScrollBar(urwid.WidgetDecoration):
         trough_char=" ",
         side=SCROLLBAR_RIGHT,
         width=1,
+        padding=0,
     ):
         """Box widget that adds a scrollbar to `widget`
 
@@ -302,14 +343,17 @@ class _ScrollBar(urwid.WidgetDecoration):
         `trough_char` is used for the space above and below the handle.
         `side` must be 'left' or 'right'.
         `width` specifies the number of columns the scrollbar uses.
+        `padding` specifies the number of columns the scrollbar is separated
+        from the content by.
         """
         if BOX not in widget.sizing():
             raise ValueError("Not a box widget: %r" % widget)
         super().__init__(widget)
         self._thumb_char = thumb_char
         self._trough_char = trough_char
-        self.scrollbar_side = side
-        self.scrollbar_width = max(1, width)
+        self._scrollbar_side = side
+        self._scrollbar_width = max(1, width)
+        self._padding_width = padding
         self._original_widget_size = (0, 0)
 
     def sizing(self):
@@ -330,7 +374,11 @@ class _ScrollBar(urwid.WidgetDecoration):
             return ow.render(size, focus)
 
         sb_width = self._scrollbar_width
-        self._original_widget_size = ow_size = (maxcol - sb_width, maxrow)
+        pad_width = self._padding_width
+        self._original_widget_size = ow_size = (
+            maxcol - sb_width - pad_width,
+            maxrow,
+        )
         ow_canv = ow.render(ow_size, focus)
 
         pos = ow_base.get_scrollpos(ow_size, focus)
@@ -359,8 +407,12 @@ class _ScrollBar(urwid.WidgetDecoration):
             [(top, None, False), (thumb, None, False), (bottom, None, False)]
         )
 
+        # Create padding canvas
+        pad_canv = EmptyCanvas(pad_width, maxrow)
+
         combinelist = [
             (ow_canv, None, True, ow_size[0]),
+            (pad_canv, None, False, pad_width),
             (sb_canv, None, False, sb_width),
         ]
         if self._scrollbar_side != SCROLLBAR_LEFT:

@@ -27,8 +27,8 @@ PALETTE: T.List[T.Tuple[str, ...]] = [
     ("progressbar-normal", "", "", "standout"),
     ("progressbar-done", "black", "light red"),
     ("progressbar-smooth", "light red", ""),
-    ("scrollbar", "dark gray", ""),
-    ("scrollbar-focus", "light red", ""),
+    ("scrollbar", "light gray", "black"),
+    ("scrollbar-focus", "light red", "black"),
     ("scrollable", "", ""),
     ("scrollable-focus", "", ""),
 ]

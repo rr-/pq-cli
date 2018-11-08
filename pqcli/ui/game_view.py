@@ -170,7 +170,7 @@ class InventoryView(DoubleLineBox):
         )
 
         super().__init__(
-            top_widget=ScrollBar(self.scrollable),
+            top_widget=ScrollBar(self.scrollable, padding=1),
             top_title="Inventory",
             bottom_widget=self.encumbrance_bar,
             bottom_title="Encumbrance",
