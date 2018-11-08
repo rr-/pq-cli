@@ -15,7 +15,6 @@ from pqcli.mechanic import (
     Spell,
 )
 from pqcli.ui.custom_line_box import CustomLineBox
-from pqcli.ui.custom_list_box import CustomListBox
 from pqcli.ui.custom_progress_bar import CustomProgressBar
 from pqcli.ui.data_table import DataTable
 from pqcli.ui.double_line_box import DoubleLineBox
