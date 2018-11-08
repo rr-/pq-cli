@@ -351,42 +351,31 @@ class GameView(urwid.Pile):
         self.quest_book_view = QuestBookView(player)
         self.task_view = TaskView(player)
 
-        super().__init__(
+        self.columns = urwid.Columns(
             [
-                urwid.Columns(
-                    [
-                        (
-                            urwid.WEIGHT,
-                            1,
-                            urwid.Pile(
-                                [
-                                    (19, self.character_sheet_view),
-                                    self.spell_book_view,
-                                ]
-                            ),
-                        ),
-                        (
-                            urwid.WEIGHT,
-                            2,
-                            urwid.Pile(
-                                [
-                                    (15, self.equipment_view),
-                                    self.inventory_view,
-                                ]
-                            ),
-                        ),
-                        (
-                            urwid.WEIGHT,
-                            2,
-                            urwid.Pile(
-                                [(15, self.plot_view), self.quest_book_view]
-                            ),
-                        ),
-                    ]
+                (
+                    urwid.WEIGHT,
+                    1,
+                    urwid.Pile(
+                        [(19, self.character_sheet_view), self.spell_book_view]
+                    ),
                 ),
-                (urwid.PACK, self.task_view),
+                (
+                    urwid.WEIGHT,
+                    2,
+                    urwid.Pile(
+                        [(15, self.equipment_view), self.inventory_view]
+                    ),
+                ),
+                (
+                    urwid.WEIGHT,
+                    2,
+                    urwid.Pile([(15, self.plot_view), self.quest_book_view]),
+                ),
             ]
         )
+
+        super().__init__([self.columns, (urwid.PACK, self.task_view)])
 
     def cancel(self) -> None:
         self._emit("cancel")
@@ -397,15 +386,31 @@ class GameView(urwid.Pile):
         self.simulation.tick(elapsed * 1000)
         self.last_tick = datetime.datetime.now()
 
-    def unhandled_input(self, key: str) -> bool:
+    def keypress(self, size: T.Tuple[int, int], key: str) -> bool:
         if key == "esc":
             self.cancel()
-            return True
+            return None
+
+        if self._command_map[key] == urwid.CURSOR_RIGHT:
+            old_focus_position = self.columns.focus.focus_position
+            self.columns.focus_position = (
+                self.columns.focus_position + 1
+            ) % len(self.columns.contents)
+            self.columns.focus.focus_position = old_focus_position
+            return None
+
+        if self._command_map[key] == urwid.CURSOR_LEFT:
+            old_focus_position = self.columns.focus.focus_position
+            self.columns.focus_position = (
+                self.columns.focus_position - 1
+            ) % len(self.columns.contents)
+            self.columns.focus.focus_position = old_focus_position
+            return None
 
         if self.args.cheats:
             if key == "e":
                 self.simulation.player.exp_bar.increment(1)
-                return True
+                return None
 
             fast_forward = {"t": 1, "T": 100, "ctrl t": 10000}
             if key in fast_forward:
@@ -420,9 +425,9 @@ class GameView(urwid.Pile):
                     for _ in range(iterations):
                         self.simulation.tick()
 
-                return True
+                return None
 
-        return False
+        return super().keypress(size, key)
 
     @contextlib.contextmanager
     def suppress_updates(self) -> T.Generator:

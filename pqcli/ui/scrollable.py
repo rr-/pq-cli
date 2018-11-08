@@ -14,6 +14,7 @@
 # - reformatted the code
 # - added AttrMap wrapping
 # - added padding support
+# - removed up/down arrow navigation (for widget navigation)
 
 import typing as T
 
@@ -187,12 +188,7 @@ class _Scrollable(urwid.WidgetDecoration):
 
         # Handle up/down, page up/down, etc
         command_map = self._command_map
-        if command_map[key] == urwid.CURSOR_UP:
-            self._scroll_action = SCROLL_LINE_UP
-        elif command_map[key] == urwid.CURSOR_DOWN:
-            self._scroll_action = SCROLL_LINE_DOWN
-
-        elif command_map[key] == urwid.CURSOR_PAGE_UP:
+        if command_map[key] == urwid.CURSOR_PAGE_UP:
             self._scroll_action = SCROLL_PAGE_UP
         elif command_map[key] == urwid.CURSOR_PAGE_DOWN:
             self._scroll_action = SCROLL_PAGE_DOWN
