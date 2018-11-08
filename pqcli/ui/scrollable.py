@@ -72,12 +72,6 @@ class EmptyCanvas(urwid.Canvas):
 
 
 class _Scrollable(urwid.WidgetDecoration):
-    def sizing(self):
-        return frozenset([BOX])
-
-    def selectable(self):
-        return True
-
     def __init__(self, widget):
         """Box widget that makes a fixed or flow widget vertically scrollable
 
@@ -97,6 +91,12 @@ class _Scrollable(urwid.WidgetDecoration):
         self._old_cursor_coords = None
         self._rows_max_cached = 0
         super().__init__(widget)
+
+    def sizing(self):
+        return frozenset([BOX])
+
+    def selectable(self):
+        return True
 
     def render(self, size, focus=False):
         maxcol, maxrow = size
@@ -360,6 +360,12 @@ class _ScrollBar(urwid.WidgetDecoration):
 
     def render(self, size, focus=False):
         maxcol, maxrow = size
+        sb_width = self._scrollbar_width
+        pad_width = self._padding_width
+        self._original_widget_size = ow_size = (
+            maxcol - sb_width - pad_width,
+            maxrow,
+        )
 
         ow = self._original_widget
         ow_base = self.scrolling_base_widget
@@ -368,13 +374,8 @@ class _ScrollBar(urwid.WidgetDecoration):
             # Canvas fits without scrolling - no scrollbar needed
             self._original_widget_size = size
             return ow.render(size, focus)
+        ow_rows_max = ow_base.rows_max(ow_size, focus)
 
-        sb_width = self._scrollbar_width
-        pad_width = self._padding_width
-        self._original_widget_size = ow_size = (
-            maxcol - sb_width - pad_width,
-            maxrow,
-        )
         ow_canv = ow.render(ow_size, focus)
 
         pos = ow_base.get_scrollpos(ow_size, focus)
@@ -396,11 +397,13 @@ class _ScrollBar(urwid.WidgetDecoration):
         assert thumb_height + top_height + bottom_height == maxrow
 
         # Create scrollbar canvas
-        top = urwid.SolidCanvas(self._trough_char, sb_width, top_height)
-        thumb = urwid.SolidCanvas(self._thumb_char, sb_width, thumb_height)
-        bottom = urwid.SolidCanvas(self._trough_char, sb_width, bottom_height)
+        top = urwid.SolidCanvas(self._trough_char, sb_width, 1)
+        thumb = urwid.SolidCanvas(self._thumb_char, sb_width, 1)
+        bottom = urwid.SolidCanvas(self._trough_char, sb_width, 1)
         sb_canv = urwid.CanvasCombine(
-            [(top, None, False), (thumb, None, False), (bottom, None, False)]
+            [(top, None, False)] * top_height
+            + [(thumb, None, False)] * thumb_height
+            + [(bottom, None, False)] * bottom_height
         )
 
         # Create padding canvas

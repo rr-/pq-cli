@@ -8,7 +8,7 @@ import urwid
 class CustomProgressBar(urwid.Widget):
     _sizing = frozenset(["flow"])
     text_align = "center"
-    eighths = u" ▏▎▍▌▋▊▉"
+    eighths = " ▏▎▍▌▋▊▉"
 
     def __init__(self) -> None:
         self.position = 0.0
