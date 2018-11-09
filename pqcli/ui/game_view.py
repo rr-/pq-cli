@@ -31,7 +31,7 @@ class CharacterSheetView(DoubleLineBox):
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
         self.exp_bar = CustomProgressBar()
 
-        data_table = DataTable(columns=[(urwid.WEIGHT, 1), (urwid.WEIGHT, 1)])
+        data_table = DataTable(columns=[(urwid.WEIGHT, 1), (urwid.WEIGHT, 2)])
         data_table.add_row(urwid.Text("Name"), urwid.Text(player.name))
         data_table.add_row(urwid.Text("Race"), urwid.Text(player.race.name))
         data_table.add_row(urwid.Text("Class"), urwid.Text(player.class_.name))
@@ -82,9 +82,7 @@ class SpellBookView(CustomLineBox):
         self.player.spell_book.connect("add", self.sync_spell_add)
         self.player.spell_book.connect("change", self.sync_spell_change)
 
-        super().__init__(
-            ScrollBar(self.scrollable, padding=1), title="Spell Book"
-        )
+        super().__init__(ScrollBar(self.scrollable), title="Spell Book")
         self.sync()
 
     def sync(self) -> None:
@@ -102,6 +100,7 @@ class SpellBookView(CustomLineBox):
         for row_widgets in self.data_table.data_rows:
             if row_widgets[0].text == spell.name:
                 row_widgets[1].set_text(to_roman(spell.level))
+        self.data_table.resize_columns()
 
 
 class EquipmentView(CustomLineBox):
@@ -139,7 +138,7 @@ class InventoryView(DoubleLineBox):
     def __init__(self, player: Player) -> None:
         self.player = player
 
-        self.gold_text = urwid.Text("")
+        self.gold_text = urwid.Text("", align=urwid.RIGHT)
         self.data_table = DataTable(columns=[(urwid.WEIGHT, 3), (urwid.PACK,)])
         self.data_table.add_row(urwid.Text("Gold"), self.gold_text)
         self.scrollable = Scrollable(self.data_table)
@@ -155,7 +154,7 @@ class InventoryView(DoubleLineBox):
         )
 
         super().__init__(
-            top_widget=ScrollBar(self.scrollable, padding=1),
+            top_widget=ScrollBar(self.scrollable),
             top_title="Inventory",
             bottom_widget=self.encumbrance_bar,
             bottom_title="Encumbrance",
@@ -184,7 +183,8 @@ class InventoryView(DoubleLineBox):
 
     def sync_item_add(self, item: InventoryItem) -> None:
         self.data_table.add_row(
-            urwid.Text(item.name), urwid.Text(str(item.quantity))
+            urwid.Text(item.name),
+            urwid.Text(str(item.quantity), align=urwid.RIGHT),
         )
         self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
