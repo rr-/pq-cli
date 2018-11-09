@@ -394,17 +394,17 @@ class GameView(NPile):
 
         if self._command_map[key] == urwid.CURSOR_RIGHT:
             old_focus_position = self.columns.focus.focus_position
-            self.columns.focus_position = (
-                self.columns.focus_position + 1
-            ) % len(self.columns.contents)
+            self.columns.focus_position = min(
+                self.columns.focus_position + 1, len(self.columns.contents) - 1
+            )
             self.columns.focus.focus_position = old_focus_position
             return None
 
         if self._command_map[key] == urwid.CURSOR_LEFT:
             old_focus_position = self.columns.focus.focus_position
-            self.columns.focus_position = (
-                self.columns.focus_position - 1
-            ) % len(self.columns.contents)
+            self.columns.focus_position = max(
+                self.columns.focus_position - 1, 0
+            )
             self.columns.focus.focus_position = old_focus_position
             return None
 
