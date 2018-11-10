@@ -4,12 +4,24 @@ import typing as T
 import urwid
 
 
+def format_timespan(timespan: datetime.timedelta) -> str:
+    num = timespan.total_seconds()
+    if num < 60.0:
+        return f"~{int(num)}s"
+    num /= 60
+    if num < 60.0:
+        return f"~{int(num)}m"
+    num /= 60
+    return f"~{num:.01f}h"
+
+
 class CustomProgressBar(urwid.Widget):
     _sizing = frozenset(["flow"])
     text_align = "center"
     eighths = " ▏▎▍▌▋▊▉"
 
-    def __init__(self) -> None:
+    def __init__(self, show_time: bool) -> None:
+        self.show_time = show_time
         self.position = 0.0
         self.max_ = 1.0
         self.normal = "progressbar-normal"
@@ -48,7 +60,10 @@ class CustomProgressBar(urwid.Widget):
 
     def get_text(self) -> str:
         percent = min(100.0, max(0.0, self.position * 100.0 / self.max_))
-        return f"{percent:.02f} %"
+        ret = f"{percent:.02f} %"
+        if self.time_left and self.show_time:
+            ret += f" ({format_timespan(self.time_left)})"
+        return ret
 
     # workaround for https://github.com/urwid/urwid/issues/317
     def render(self, size: T.Tuple[int, int], focus: bool = False) -> T.Any:

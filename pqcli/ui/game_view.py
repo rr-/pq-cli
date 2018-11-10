@@ -29,7 +29,7 @@ class CharacterSheetView(DoubleLineBox):
 
         self.level_text = urwid.Text("")
         self.stat_texts = {stat: urwid.Text("") for stat in list(StatType)}
-        self.exp_bar = CustomProgressBar()
+        self.exp_bar = CustomProgressBar(show_time=True)
 
         data_table = DataTable(columns=[(urwid.WEIGHT, 1), (urwid.WEIGHT, 2)])
         data_table.add_row(urwid.Text("Name"), urwid.Text(player.name))
@@ -142,7 +142,7 @@ class InventoryView(DoubleLineBox):
         self.data_table = DataTable(columns=[(urwid.WEIGHT, 3), (urwid.PACK,)])
         self.data_table.add_row(urwid.Text("Gold"), self.gold_text)
         self.scrollable = Scrollable(self.data_table)
-        self.encumbrance_bar = CustomProgressBar()
+        self.encumbrance_bar = CustomProgressBar(show_time=False)
 
         self.player.connect("new_task", self.on_new_task)
         self.player.inventory.connect("gold_change", self.sync_gold)
@@ -218,7 +218,7 @@ class PlotView(DoubleLineBox):
 
         self.data_table = DataTable(columns=[(urwid.WEIGHT, 1)])
         self.scrollable = Scrollable(self.data_table)
-        self.plot_bar = CustomProgressBar()
+        self.plot_bar = CustomProgressBar(show_time=True)
 
         self.player.quest_book.connect("start_act", self.sync_act_add)
         self.player.quest_book.plot_bar.connect("change", self.sync_position)
@@ -265,7 +265,7 @@ class QuestBookView(DoubleLineBox):
         self.player = player
 
         self.data_table = DataTable(columns=[(urwid.WEIGHT, 1)])
-        self.quest_bar = CustomProgressBar()
+        self.quest_bar = CustomProgressBar(show_time=True)
         self.scrollable = Scrollable(self.data_table)
 
         self.player.quest_book.connect("start_quest", self.sync_quest_add)
@@ -307,7 +307,7 @@ class TaskView(NPile):
         self.player = player
 
         self.current_task_text = urwid.Text("...")
-        self.current_task_bar = CustomProgressBar()
+        self.current_task_bar = CustomProgressBar(show_time=False)
 
         self.player.connect("new_task", self.sync_task_name)
         self.player.task_bar.connect("change", self.sync_position)
