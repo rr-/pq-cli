@@ -308,6 +308,7 @@ class Player(SignalMixin):
         self.race: Race = race
         self.class_: Class = class_
         self.stats: Stats = stats
+        self.elapsed = 0.0
 
         self.exp_bar = Bar(max_=level_up_time(1))
         self.level = 1
@@ -320,6 +321,10 @@ class Player(SignalMixin):
         self.task_bar = Bar(max_=1)
         self.task: T.Optional[BaseTask] = None
         self.queue: T.List[BaseTask] = []
+
+    def __setstate__(self, obj) -> None:
+        self.__dict__.update(obj)
+        self.elapsed = obj.get("elapsed", 0.0)
 
     def set_task(self, task: BaseTask) -> None:
         self.task = task
@@ -429,9 +434,10 @@ class Simulation:
     def __init__(self, player: Player) -> None:
         self.player = player
         self.last_tick = datetime.datetime.now()
-        self.elapsed = 0.0
 
     def tick(self, elapsed: float = 100.0) -> None:
+        self.player.elapsed += elapsed
+
         if self.player.task is None:
             self.player.set_task(RegularTask("Loading", 2000))
             self.player.queue += [
@@ -460,7 +466,6 @@ class Simulation:
             return
 
         if not self.player.task_bar.done:
-            self.elapsed += elapsed
             self.player.task_bar.increment(elapsed)
             return
 
