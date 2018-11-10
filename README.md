@@ -19,7 +19,7 @@ Relive the great adventure… this time in the terminal realm!
 
 ## How it looks like
 
-![20181106_001341_mjt](https://user-images.githubusercontent.com/1045476/48032665-d616f300-e158-11e8-8978-4ee3a69e44f8.png)
+![Screenshot](screen.png)
 
 ## How to install
 
