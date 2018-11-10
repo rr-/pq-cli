@@ -67,8 +67,7 @@ class CharacterSheetView(DoubleLineBox):
     def sync_exp(self) -> None:
         cur = self.player.exp_bar.position
         max_ = self.player.exp_bar.max_
-        self.exp_bar.set_completion(cur)
-        self.exp_bar.set_max(max_)
+        self.exp_bar.reset(cur, max_)
         self.set_bottom_title(f"Experience ({max_-cur:.0f} XP to go)")
 
 
@@ -177,8 +176,7 @@ class InventoryView(DoubleLineBox):
     def sync_encumbrance_position(self) -> None:
         cur = self.player.inventory.encum_bar.position
         max_ = self.player.inventory.encum_bar.max_
-        self.encumbrance_bar.set_completion(cur)
-        self.encumbrance_bar.set_max(max_)
+        self.encumbrance_bar.reset(cur, max_)
         self.set_bottom_title(f"Encumbrance ({cur:.0f}/{max_} cubits)")
 
     def sync_item_add(self, item: InventoryItem) -> None:
@@ -254,8 +252,10 @@ class PlotView(DoubleLineBox):
         self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_position(self) -> None:
-        self.plot_bar.set_completion(self.player.quest_book.plot_bar.position)
-        self.plot_bar.set_max(self.player.quest_book.plot_bar.max_)
+        self.plot_bar.reset(
+            self.player.quest_book.plot_bar.position,
+            self.player.quest_book.plot_bar.max_,
+        )
 
 
 class QuestBookView(DoubleLineBox):
@@ -296,10 +296,10 @@ class QuestBookView(DoubleLineBox):
         self.scrollable.set_scrollpos(self.scrollable.rows_max() - 1)
 
     def sync_position(self) -> None:
-        self.quest_bar.set_completion(
-            self.player.quest_book.quest_bar.position
+        self.quest_bar.reset(
+            self.player.quest_book.quest_bar.position,
+            self.player.quest_book.quest_bar.max_,
         )
-        self.quest_bar.set_max(self.player.quest_book.quest_bar.max_)
 
 
 class TaskView(NPile):
@@ -325,8 +325,9 @@ class TaskView(NPile):
         )
 
     def sync_position(self) -> None:
-        self.current_task_bar.set_completion(self.player.task_bar.position)
-        self.current_task_bar.set_max(self.player.task_bar.max_)
+        self.current_task_bar.reset(
+            self.player.task_bar.position, self.player.task_bar.max_
+        )
 
     def pack(self, size: T.Tuple[int, int]) -> T.Tuple[int, int]:
         return (size[0], 2)

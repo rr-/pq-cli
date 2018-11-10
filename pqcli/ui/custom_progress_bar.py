@@ -55,6 +55,13 @@ class CustomProgressBar(urwid.Widget):
         self.max_ = value
         self._invalidate()
 
+    def reset(self, cur: float, max_: T.Union[int, float]) -> None:
+        if self.last_tick is None or cur == 0 or max_ != self.max_:
+            self.last_tick = (datetime.datetime.now(), cur)
+        self.position = cur
+        self.max_ = max_
+        self._invalidate()
+
     def rows(self, size: T.Tuple[int, int], focus: bool = False) -> int:
         return 1
 
