@@ -1,8 +1,7 @@
+import datetime
 import typing as T
 
 import urwid
-
-# workaround for https://github.com/urwid/urwid/issues/317
 
 
 class CustomProgressBar(urwid.Widget):
@@ -16,12 +15,31 @@ class CustomProgressBar(urwid.Widget):
         self.normal = "progressbar-normal"
         self.complete = "progressbar-done"
         self.smooth = "progressbar-smooth"
+        self.last_tick: T.Optional[datetime.datetime, float] = None
+
+    @property
+    def time_left(self) -> T.Optional[datetime.timedelta]:
+        if self.last_tick is None:
+            return None
+        time_now = datetime.datetime.now()
+        time_then = self.last_tick[0]
+        pos_now = self.position
+        pos_then = self.last_tick[1]
+        speed = (pos_now - pos_then) / (time_now - time_then).total_seconds()
+        if not speed:
+            return None
+        return datetime.timedelta(seconds=(self.max_ - pos_now) / speed)
 
     def set_completion(self, value: float) -> None:
+        if self.last_tick is None or value == 0:
+            self.last_tick = (datetime.datetime.now(), value)
         self.position = value
         self._invalidate()
 
     def set_max(self, value: T.Union[int, float]) -> None:
+        if self.max_ == value:
+            return
+        self.last_tick = None
         self.max_ = value
         self._invalidate()
 
@@ -32,6 +50,7 @@ class CustomProgressBar(urwid.Widget):
         percent = min(100.0, max(0.0, self.position * 100.0 / self.max_))
         return f"{percent:.02f} %"
 
+    # workaround for https://github.com/urwid/urwid/issues/317
     def render(self, size: T.Tuple[int, int], focus: bool = False) -> T.Any:
         (maxcol,) = size
         txt = urwid.Text(self.get_text(), self.text_align, "clip")
