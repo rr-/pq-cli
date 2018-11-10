@@ -356,19 +356,19 @@ class GameView(NPile):
             [
                 (
                     urwid.WEIGHT,
-                    1,
+                    4,
                     NPile(
                         [(19, self.character_sheet_view), self.spell_book_view]
                     ),
                 ),
                 (
                     urwid.WEIGHT,
-                    2,
+                    5,
                     NPile([(15, self.equipment_view), self.inventory_view]),
                 ),
                 (
                     urwid.WEIGHT,
-                    2,
+                    4,
                     NPile([(15, self.plot_view), self.quest_book_view]),
                 ),
             ]
