@@ -12,7 +12,10 @@ def format_timespan(timespan: datetime.timedelta) -> str:
     if num < 60.0:
         return f"~{int(num)}m"
     num /= 60
-    return f"~{num:.01f}h"
+    if num < 24.0:
+        return f"~{num:.01f}h"
+    num /= 24
+    return f"~{num:.01f}d"
 
 
 class CustomProgressBar(urwid.Widget):
