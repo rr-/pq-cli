@@ -4,6 +4,13 @@ import typing as T
 import urwid
 
 
+def format_float(num: float) -> str:
+    ret = f"{num:.01f}"
+    if ret.endswith("0"):
+        ret = ret[:-2]
+    return ret
+
+
 def format_timespan(timespan: datetime.timedelta) -> str:
     num = timespan.total_seconds()
     if num < 60.0:
@@ -13,9 +20,9 @@ def format_timespan(timespan: datetime.timedelta) -> str:
         return f"~{int(num)}m"
     num /= 60
     if num < 24.0:
-        return f"~{num:.01f}h"
+        return f"~{format_float(num)}h"
     num /= 24
-    return f"~{num:.01f}d"
+    return f"~{format_float(num)}d"
 
 
 class CustomProgressBar(urwid.Widget):
