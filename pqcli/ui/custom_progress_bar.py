@@ -77,7 +77,7 @@ class CustomProgressBar(urwid.Widget):
 
     def get_text(self) -> str:
         percent = min(100.0, max(0.0, self.position * 100.0 / self.max_))
-        ret = f"{percent:.02f} %"
+        ret = f"{percent:.02f}%"
         if self.time_left and self.show_time:
             ret += f" ({format_timespan(self.time_left)})"
         return ret
