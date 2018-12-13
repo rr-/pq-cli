@@ -122,3 +122,8 @@ def special(m: int, subject: str) -> str:
     return prefix(
         ["Battle-", "cursed ", "Were-", "undead ", "demon "], m, subject, ""
     )
+
+
+def terminate_message(player_name: str) -> None:
+    adjective = random.choice(["faithful", "noble", "loyal", "brave"])
+    return f"Terminate {adjective} {player_name}?"

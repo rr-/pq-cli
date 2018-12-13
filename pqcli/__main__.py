@@ -4,6 +4,7 @@ from pathlib import Path
 import xdg
 
 from pqcli.roster import Roster
+from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.urwid import UrwidUserInterface
 
 SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
@@ -11,6 +12,9 @@ SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pqcli")
+    parser.add_argument(
+        "--basic", action="store_true", help="Use basic user interface"
+    )
     parser.add_argument(
         "--no-config",
         dest="use_config",
@@ -35,7 +39,12 @@ def main() -> None:
     roster = Roster.load(SAVE_PATH)
 
     try:
-        UrwidUserInterface(roster, args).run()
+        if args.basic:
+            ui = BasicUserInterface(roster, args)
+        else:
+            ui = UrwidUserInterface(roster, args)
+
+        ui.run()
     finally:
         if args.use_saves:
             roster.save()

@@ -170,7 +170,7 @@ class Inventory(SignalMixin):
 
     def pop(self, index: int) -> None:
         item = self._items[index]
-        logger.info("Lost %s (qty=%d)", item.name, item.quantity)
+        logger.info("Lost %s", indefinite(item.name, item.quantity))
         self._items.pop(index)
         self.sync_encumbrance()
         self.emit("item_del", item)
@@ -236,6 +236,12 @@ class SpellBook(SignalMixin):
 
     def __iter__(self) -> T.Iterator[Spell]:
         return iter(self._spells)
+
+    def __bool__(self) -> bool:
+        return bool(self._spells)
+
+    def __len__(self) -> int:
+        return len(self._spells)
 
     def add(self, spell_name: str, level: int) -> None:
         for spell in self._spells:

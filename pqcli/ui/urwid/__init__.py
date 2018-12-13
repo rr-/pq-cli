@@ -7,6 +7,7 @@ import urwid
 import xdg
 
 from pqcli import random
+from pqcli import lingo
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.urwid.confirm_dialog import ConfirmDialog
@@ -132,12 +133,11 @@ class UrwidUserInterface:
         self._connect("cancel", self.switch_to_roster_view)
 
     def switch_to_delete_player_view(self, player_idx: int) -> None:
-        adjective = random.choice(["faithful", "noble", "loyal", "brave"])
         player_name = self.roster.players[player_idx].name
 
         self.old_views.append(self.loop.widget)
         self.loop.widget = ConfirmDialog(
-            f"Terminate {adjective} {player_name}?", self.old_views[-1]
+            lingo.terminate_message(player_name), self.old_views[-1]
         )
         self._connect("confirm", lambda: self.delete_player(player_idx))
         self._connect("cancel", self.cancel_dialog)
