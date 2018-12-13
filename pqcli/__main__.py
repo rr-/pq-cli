@@ -4,7 +4,7 @@ from pathlib import Path
 import xdg
 
 from pqcli.roster import Roster
-from pqcli.ui import Ui
+from pqcli.ui.urwid import UrwidUserInterface
 
 SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 
@@ -35,7 +35,7 @@ def main() -> None:
     roster = Roster.load(SAVE_PATH)
 
     try:
-        Ui(roster, args).run()
+        UrwidUserInterface(roster, args).run()
     finally:
         if args.use_saves:
             roster.save()

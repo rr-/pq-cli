@@ -14,13 +14,13 @@ from pqcli.mechanic import (
     Simulation,
     Spell,
 )
-from pqcli.ui.custom_line_box import CustomLineBox
-from pqcli.ui.custom_progress_bar import CustomProgressBar
-from pqcli.ui.data_table import DataTable
-from pqcli.ui.double_line_box import DoubleLineBox
-from pqcli.ui.layout import NColumns, NPile
-from pqcli.ui.read_only_check_box import ReadOnlyCheckBox
-from pqcli.ui.scrollable import Scrollable, ScrollBar
+from pqcli.ui.urwid.custom_line_box import CustomLineBox
+from pqcli.ui.urwid.custom_progress_bar import CustomProgressBar
+from pqcli.ui.urwid.data_table import DataTable
+from pqcli.ui.urwid.double_line_box import DoubleLineBox
+from pqcli.ui.urwid.layout import NColumns, NPile
+from pqcli.ui.urwid.read_only_check_box import ReadOnlyCheckBox
+from pqcli.ui.urwid.scrollable import Scrollable, ScrollBar
 
 
 class CharacterSheetView(DoubleLineBox):

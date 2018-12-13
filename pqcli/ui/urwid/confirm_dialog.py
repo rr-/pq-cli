@@ -2,9 +2,9 @@ import typing as T
 
 import urwid
 
-from pqcli.ui.custom_button import CustomButton
-from pqcli.ui.custom_line_box import CustomLineBox
-from pqcli.ui.layout import NPile
+from pqcli.ui.urwid.custom_button import CustomButton
+from pqcli.ui.urwid.custom_line_box import CustomLineBox
+from pqcli.ui.urwid.layout import NPile
 
 
 class ConfirmDialog(urwid.Overlay):

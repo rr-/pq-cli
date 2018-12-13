@@ -6,9 +6,9 @@ import urwid_readline
 
 from pqcli.config import CLASSES, PRIME_STATS, RACES
 from pqcli.mechanic import StatsBuilder, create_player, generate_name
-from pqcli.ui.custom_button import CustomButton
-from pqcli.ui.custom_line_box import CustomLineBox
-from pqcli.ui.layout import NColumns, NPile
+from pqcli.ui.urwid.custom_button import CustomButton
+from pqcli.ui.urwid.custom_line_box import CustomLineBox
+from pqcli.ui.urwid.layout import NColumns, NPile
 
 
 class StatsBox(CustomLineBox):

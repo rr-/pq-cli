@@ -1,6 +1,6 @@
 import urwid
 
-from pqcli.ui.layout import NPile
+from pqcli.ui.urwid.layout import NPile
 
 
 class DoubleLineBox(urwid.AttrMap):
