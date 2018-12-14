@@ -5,6 +5,7 @@ import xdg
 
 from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
+from pqcli.ui.curses import CursesUserInterface
 from pqcli.ui.urwid import UrwidUserInterface
 
 SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
@@ -12,9 +13,31 @@ SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pqcli")
-    parser.add_argument(
-        "--basic", action="store_true", help="Use basic user interface"
+
+    group = parser.add_mutually_exclusive_group()
+    group.set_defaults(ui=UrwidUserInterface)
+    group.add_argument(
+        "--basic",
+        dest="ui",
+        action="store_const",
+        const=BasicUserInterface,
+        help="Use basic user interface (very crude, but uses least CPU)",
     )
+    group.add_argument(
+        "--curses",
+        dest="ui",
+        action="store_const",
+        const=CursesUserInterface,
+        help="Use curses user interface (fast, but no colors output)",
+    )
+    group.add_argument(
+        "--urwid",
+        dest="ui",
+        action="store_const",
+        const=UrwidUserInterface,
+        help="Use curses user interface (slow, but rich colors output)",
+    )
+
     parser.add_argument(
         "--no-config",
         dest="use_config",
@@ -39,11 +62,7 @@ def main() -> None:
     roster = Roster.load(SAVE_PATH)
 
     try:
-        if args.basic:
-            ui = BasicUserInterface(roster, args)
-        else:
-            ui = UrwidUserInterface(roster, args)
-
+        ui = args.ui(roster, args)
         ui.run()
     finally:
         if args.use_saves:

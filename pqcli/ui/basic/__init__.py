@@ -12,6 +12,7 @@ from pqcli.config import CLASSES, PRIME_STATS, RACES
 from pqcli.mechanic import Player, Simulation, StatsBuilder, create_player
 from pqcli.roster import Roster
 
+from ..base import BaseUserInterface
 
 LOGO = """
  ____                                     ___                  _
@@ -31,10 +32,9 @@ class MainMenu(enum.IntEnum):
     quit = 5
 
 
-class BasicUserInterface:
+class BasicUserInterface(BaseUserInterface):
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
-        self.roster = roster
-        self.args = args
+        super().__init__(roster, args)
 
         def signal_handler(sig, frame):
             print("Quitting")

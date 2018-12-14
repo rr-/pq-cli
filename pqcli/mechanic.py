@@ -28,7 +28,12 @@ class SignalMixin:
         _SIGNALS[self.__class__.__name__, signal_name].append(callback)
 
     def disconnect(self, signal_name: str, callback: T.Callable) -> None:
-        idx = _SIGNALS[self.__class__.__name__, signal_name].index(callback)
+        try:
+            idx = _SIGNALS[self.__class__.__name__, signal_name].index(
+                callback
+            )
+        except ValueError:
+            return
         del _SIGNALS[self.__class__.__name__, signal_name][idx]
 
 
@@ -328,7 +333,7 @@ class Player(SignalMixin):
         self.task: T.Optional[BaseTask] = None
         self.queue: T.List[BaseTask] = []
 
-    def __setstate__(self, obj) -> None:
+    def __setstate__(self, obj: T.Any) -> None:
         self.__dict__.update(obj)
         self.elapsed = obj.get("elapsed", 0.0)
 

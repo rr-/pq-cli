@@ -6,8 +6,7 @@ from pathlib import Path
 import urwid
 import xdg
 
-from pqcli import random
-from pqcli import lingo
+from pqcli import lingo, random
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.urwid.confirm_dialog import ConfirmDialog
@@ -15,6 +14,7 @@ from pqcli.ui.urwid.game_view import GameView
 from pqcli.ui.urwid.new_game_view import NewGameView
 from pqcli.ui.urwid.roster_view import RosterView
 
+from ..base import BaseUserInterface
 
 TICK_FREQ = 0.1
 SAVE_FREQ = 60.0
@@ -66,16 +66,16 @@ def bind_commands() -> None:
             urwid.command_map[key_variant] = f"cursor {direction}"
 
 
-class UrwidUserInterface:
+class UrwidUserInterface(BaseUserInterface):
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
+        super().__init__(roster, args)
+
         bind_commands()
 
         if args.use_config:
             if not load_palette():
                 save_palette()  # create a file for the user to edit
 
-        self.roster = roster
-        self.args = args
         self.loop = urwid.MainLoop(
             None, PALETTE, unhandled_input=self.unhandled_input
         )

@@ -124,6 +124,6 @@ def special(m: int, subject: str) -> str:
     )
 
 
-def terminate_message(player_name: str) -> None:
+def terminate_message(player_name: str) -> str:
     adjective = random.choice(["faithful", "noble", "loyal", "brave"])
     return f"Terminate {adjective} {player_name}?"
