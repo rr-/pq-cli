@@ -4,8 +4,6 @@ import logging
 import typing as T
 from dataclasses import dataclass
 
-import urwid
-
 from pqcli import random
 from pqcli.config import *
 from pqcli.lingo import *
@@ -13,23 +11,25 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
+_SIGNALS: T.Dict[T.Tuple[str, str], T.List[T.Callable]] = {}
+
+
 class SignalMixin:
     def __init_subclass__(cls: T.Any, **kwargs: T.Any) -> None:
-        urwid.signals.register_signal(cls, cls.signals)
         super().__init_subclass__(**kwargs)
+        for signal_name in cls.signals:
+            _SIGNALS[cls.__name__, signal_name] = []
 
     def emit(self, signal_name: str, *user_data: T.Any) -> None:
-        urwid.signals.emit_signal(self, signal_name, *user_data)
+        for callback in _SIGNALS[self.__class__.__name__, signal_name]:
+            callback(*user_data)
 
     def connect(self, signal_name: str, callback: T.Callable) -> None:
-        urwid.signals.connect_signal(self, signal_name, callback)
+        _SIGNALS[self.__class__.__name__, signal_name].append(callback)
 
-    def __getstate__(self) -> T.Any:
-        return {
-            key: value
-            for key, value in self.__dict__.items()
-            if "signal" not in key
-        }
+    def disconnect(self, signal_name: str, callback: T.Callable) -> None:
+        idx = _SIGNALS[self.__class__.__name__, signal_name].index(callback)
+        del _SIGNALS[self.__class__.__name__, signal_name][idx]
 
 
 def level_up_time(level: int) -> int:
