@@ -123,6 +123,7 @@ class BasicUserInterface:
     def play(self, player: Player) -> None:
         print(f"Playing as {player.name}")
         simulation = Simulation(player)
+        last_save = datetime.now()
         last_tick = datetime.now()
         last_level = 0
         while True:
@@ -135,6 +136,13 @@ class BasicUserInterface:
             if player.level != last_level:
                 last_level = player.level
                 self.print_player_info(player)
+            if (
+                self.args.use_saves
+                and (last_tick - last_save).total_seconds() >= 300
+            ):
+                logging.info("Saving...")
+                last_save = last_tick
+                self.roster.save()
 
     def print_player_info(self, player: Player) -> None:
         print("--- Character Sheet ---")
