@@ -3,16 +3,18 @@ import typing as T
 from pqcli.mechanic import Player
 from pqcli.ui.curses.widgets import ListBox, WindowWrapper
 
+from .focusable import Focusable
 from .progress_bar_window import ListBoxProgressBarWindow
 
 
-class QuestBookWindow(ListBoxProgressBarWindow):
+class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
     cutoff = 100
 
     def __init__(
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(parent, h, w, y, x, " Quests ")
+        self._on_focus_change += self._render
 
         self._player = player
         self._player.quest_book.connect("start_quest", self._sync_quest_add)
@@ -49,8 +51,6 @@ class QuestBookWindow(ListBoxProgressBarWindow):
         self._list_box.add("[ ] " + quest_name)
 
     def _sync_position(self) -> None:
-        self._render_progress_bar(
-            self._player.quest_book.quest_bar.position,
-            self._player.quest_book.quest_bar.max_,
-            "",
-        )
+        self._cur_pos = self._player.quest_book.quest_bar.position
+        self._max_pos = self._player.quest_book.quest_bar.max_
+        self._render_progress_bar()

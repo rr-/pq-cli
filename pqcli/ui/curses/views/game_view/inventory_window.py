@@ -5,14 +5,16 @@ from pqcli.lingo import to_roman
 from pqcli.mechanic import InventoryItem, Player
 from pqcli.ui.curses.widgets import DataTable, ProgressBar, WindowWrapper
 
+from .focusable import Focusable
 from .progress_bar_window import DataTableProgressBarWindow
 
 
-class InventoryWindow(DataTableProgressBarWindow):
+class InventoryWindow(Focusable, DataTableProgressBarWindow):
     def __init__(
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(parent, h, w, y, x, " Inventory ", align_right=True)
+        self._on_focus_change += self._render
 
         self._player = player
         self._player.connect("new_task", self._on_new_task)
@@ -46,10 +48,12 @@ class InventoryWindow(DataTableProgressBarWindow):
         self._sync_encumbrance()
 
     def _sync_encumbrance(self) -> None:
-        cur = self._player.inventory.encum_bar.position
-        max_ = self._player.inventory.encum_bar.max_
-        text = f"Encumbrance ({cur:.0f}/{max_} cubits)"
-        self._render_progress_bar(cur, max_, text)
+        self._cur_pos = self._player.inventory.encum_bar.position
+        self._max_pos = self._player.inventory.encum_bar.max_
+        self._progress_title = (
+            f"Encumbrance ({self._cur_pos:.0f}/{self._max_pos} cubits)"
+        )
+        self._render_progress_bar()
 
     def _sync_gold(self) -> None:
         self._data_table.set("Gold", str(self._player.inventory.gold))

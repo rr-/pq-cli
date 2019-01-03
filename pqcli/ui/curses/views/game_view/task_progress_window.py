@@ -3,8 +3,10 @@ import typing as T
 from pqcli.mechanic import Player
 from pqcli.ui.curses.widgets import Label, ProgressBar, WindowWrapper
 
+from .focusable import Focusable
 
-class TaskProgressWindow(WindowWrapper):
+
+class TaskProgressWindow(Focusable, WindowWrapper):
     def __init__(
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:

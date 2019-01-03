@@ -8,6 +8,8 @@ from pqcli.ui.curses.widgets import (
     WindowWrapper,
 )
 
+from .focusable import Focusable
+
 
 class ProgressBarWindow(WindowWrapper):
     def __init__(
@@ -16,6 +18,9 @@ class ProgressBarWindow(WindowWrapper):
         super().__init__(parent, h, w, y, x)
 
         self._title = title
+        self._cur_pos = 0
+        self._max_pos = 1
+        self._progress_title = ""
 
         try:
             self._progress_bar_win = (
@@ -34,27 +39,41 @@ class ProgressBarWindow(WindowWrapper):
         del self._progress_bar_win
         self._progress_bar_win = None
 
-    def _render_progress_bar(self, cur: float, max_: float, text: str) -> None:
+    def _render_progress_bar(self) -> None:
         if not self._progress_bar_win:
             return
 
         self._progress_bar_win.erase()
-        self._progress_bar_win.border(
-            curses.ACS_VLINE,
-            curses.ACS_VLINE,
-            curses.ACS_HLINE,
-            curses.ACS_HLINE,
-            curses.ACS_LTEE,
-            curses.ACS_RTEE,
-            curses.ACS_LLCORNER,
-            curses.ACS_LRCORNER,
-        )
 
-        x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
-        self._progress_bar_win.addnstr(
-            0, x, text, min(len(text), self._progress_bar_win.getmaxyx()[1])
-        )
-        self._progress_bar.set_position(cur, max_)
+        if self._focused:
+            # with self._focus_standout(self._progress_bar_win):
+            self._progress_bar_win.standout()
+
+        if True:
+            self._progress_bar_win.border(
+                curses.ACS_VLINE,
+                curses.ACS_VLINE,
+                curses.ACS_HLINE,
+                curses.ACS_HLINE,
+                curses.ACS_LTEE,
+                curses.ACS_RTEE,
+                curses.ACS_LLCORNER,
+                curses.ACS_LRCORNER,
+            )
+
+            text = self._progress_title
+            x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
+            self._progress_bar_win.addnstr(
+                0,
+                x,
+                text,
+                min(len(text), self._progress_bar_win.getmaxyx()[1]),
+            )
+
+        if self._focused:
+            self._progress_bar_win.standend()
+
+        self._progress_bar.set_position(self._cur_pos, self._max_pos)
         self._progress_bar_win.refresh()
 
 
@@ -83,13 +102,19 @@ class DataTableProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        self._win.box()
-        x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
-        self._win.addnstr(
-            0, x, self._title, min(len(self._title), self.getmaxyx()[1])
-        )
+        with self._focus_standout(self._win):
+            self._win.box()
+            x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
+            self._win.addnstr(
+                0, x, self._title, min(len(self._title), self.getmaxyx()[1])
+            )
+
         self._win.refresh()
         self._data_table.render()
+
+    def _render(self) -> None:
+        self._render_data_table()
+        self._render_progress_bar()
 
 
 class ListBoxProgressBarWindow(ProgressBarWindow):
@@ -108,10 +133,16 @@ class ListBoxProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        self._win.box()
-        x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
-        self._win.addnstr(
-            0, x, self._title, min(len(self._title), self.getmaxyx()[1])
-        )
+        with self._focus_standout(self._win):
+            self._win.box()
+            x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
+            self._win.addnstr(
+                0, x, self._title, min(len(self._title), self.getmaxyx()[1])
+            )
+
         self._win.refresh()
         self._list_box.render()
+
+    def _render(self) -> None:
+        self._render_list_box()
+        self._render_progress_bar()

@@ -6,6 +6,7 @@ import typing as T
 from pqcli.mechanic import Player, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
+from pqcli.ui.curses.widgets import Widget
 
 from ..base_view import BaseView
 from .character_sheet_window import CharacterSheetWindow
@@ -36,8 +37,47 @@ class GameView(BaseView):
         self._last_tick = datetime.datetime.now()
 
     def keypress(self, key: int) -> None:
+        focused = self.focused
+
         if key in map(ord, "qQ"):
             self.on_exit()
+
+        elif key in map(ord, "jJ"):
+            if focused == self._char_sheet_win:
+                self.focus(self._spell_book_win)
+            elif focused == self._equipment_win:
+                self.focus(self._inventory_win)
+            elif focused == self._plot_win:
+                self.focus(self._quest_book_win)
+
+        elif key in map(ord, "kK"):
+            if focused == self._spell_book_win:
+                self.focus(self._char_sheet_win)
+            elif focused == self._inventory_win:
+                self.focus(self._equipment_win)
+            elif focused == self._quest_book_win:
+                self.focus(self._plot_win)
+
+        elif key in map(ord, "hH"):
+            if focused == self._equipment_win:
+                self.focus(self._char_sheet_win)
+            elif focused == self._inventory_win:
+                self.focus(self._spell_book_win)
+            elif focused == self._plot_win:
+                self.focus(self._equipment_win)
+            elif focused == self._quest_book_win:
+                self.focus(self._inventory_win)
+
+        elif key in map(ord, "lL"):
+            if focused == self._char_sheet_win:
+                self.focus(self._equipment_win)
+            elif focused == self._spell_book_win:
+                self.focus(self._inventory_win)
+            elif focused == self._equipment_win:
+                self.focus(self._plot_win)
+            elif focused == self._inventory_win:
+                self.focus(self._quest_book_win)
+
         else:
             super().keypress(key)
 
@@ -135,14 +175,19 @@ class GameView(BaseView):
             x=0,
         )
 
+        self._children: T.List[Widget] = [
+            self._char_sheet_win,
+            self._spell_book_win,
+            self._equipment_win,
+            self._inventory_win,
+            self._plot_win,
+            self._quest_book_win,
+            self._task_win,
+        ]
+
     def stop(self) -> None:
-        self._char_sheet_win.stop()
-        self._spell_book_win.stop()
-        self._equipment_win.stop()
-        self._inventory_win.stop()
-        self._plot_win.stop()
-        self._quest_book_win.stop()
-        self._task_win.stop()
+        for child in self._children:
+            child.stop()
         del self._col1_win
         del self._col2_win
         del self._col3_win
@@ -154,3 +199,14 @@ class GameView(BaseView):
         self._last_tick = datetime.datetime.now()
         if self._args.use_saves:
             self._roster.save_periodically()
+
+    @property
+    def focused(self) -> Widget:
+        for widget in self._children:
+            if widget.focused:
+                return widget
+        return None
+
+    def focus(self, widget: Widget):
+        self.focused.focused = False
+        widget.focused = True

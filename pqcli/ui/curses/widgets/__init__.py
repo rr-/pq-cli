@@ -1,4 +1,4 @@
-from .base import WindowWrapper
+from .base import Widget, WindowWrapper
 from .data_table import DataTable
 from .label import Label
 from .list_box import ListBox
