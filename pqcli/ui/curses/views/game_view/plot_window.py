@@ -13,7 +13,7 @@ class PlotWindow(ListBoxProgressBarWindow):
     def __init__(
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:
-        super().__init__(parent, h, w, y, x, " Plot ")
+        super().__init__(parent, h, w, y, x, " Plot Development ")
 
         self._player = player
         self._player.quest_book.connect("start_act", self._sync_act_add)
@@ -41,7 +41,7 @@ class PlotWindow(ListBoxProgressBarWindow):
             self._player.quest_book.act + 1,
         ):
             self._sync_act_add(act_number)
-        self._render()
+        self._render_list_box()
 
     def _sync_act_add(self, act_number: int) -> None:
         self._list_box.delete(0, max(0, len(self._list_box) - self.cutoff))
@@ -56,14 +56,3 @@ class PlotWindow(ListBoxProgressBarWindow):
             self._player.quest_book.plot_bar.max_,
             "",
         )
-
-    def _render(self) -> None:
-        if not self._win:
-            return
-
-        self._win.box()
-        text = " Plot Development "
-        x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
-        self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1]))
-        self._win.refresh()
-        self._list_box.render()

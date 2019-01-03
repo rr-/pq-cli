@@ -39,7 +39,7 @@ class QuestBookWindow(ListBoxProgressBarWindow):
         self._list_box.clear()
         for quest_name in self._player.quest_book.quests[-self.cutoff :]:
             self._sync_quest_add(quest_name)
-        self._render()
+        self._render_list_box()
 
     def _sync_quest_add(self, quest_name: str) -> None:
         self._list_box.delete(0, max(0, len(self._list_box) - self.cutoff))
@@ -54,14 +54,3 @@ class QuestBookWindow(ListBoxProgressBarWindow):
             self._player.quest_book.quest_bar.max_,
             "",
         )
-
-    def _render(self) -> None:
-        if not self._win:
-            return
-
-        self._win.box()
-        text = " Plot Development "
-        x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
-        self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1]))
-        self._win.refresh()
-        self._list_box.render()
