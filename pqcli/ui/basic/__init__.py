@@ -136,13 +136,8 @@ class BasicUserInterface(BaseUserInterface):
             if player.level != last_level:
                 last_level = player.level
                 self.print_player_info(player)
-            if (
-                self.args.use_saves
-                and (last_tick - last_save).total_seconds() >= 300
-            ):
-                logging.info("Saving...")
-                last_save = last_tick
-                self.roster.save()
+            if self.args.use_saves:
+                self.roster.save_periodically()
 
     def print_player_info(self, player: Player) -> None:
         print("--- Character Sheet ---")

@@ -14,6 +14,7 @@ from pqcli.mechanic import (
     Simulation,
     Spell,
 )
+from pqcli.roster import Roster
 from pqcli.ui.urwid.custom_line_box import CustomLineBox
 from pqcli.ui.urwid.custom_progress_bar import CustomProgressBar
 from pqcli.ui.urwid.data_table import DataTable
@@ -337,11 +338,17 @@ class GameView(NPile):
     signals = ["cancel"]
 
     def __init__(
-        self, loop: urwid.MainLoop, player: Player, args: argparse.Namespace
+        self,
+        loop: urwid.MainLoop,
+        roster: Roster,
+        player: Player,
+        args: argparse.Namespace,
     ) -> None:
         self.loop = loop
+        self.roster = roster
         self.player = player
         self.args = args
+
         self.simulation = Simulation(player)
         self.last_tick = datetime.datetime.now()
 
@@ -387,6 +394,8 @@ class GameView(NPile):
         elapsed = (now - self.last_tick).total_seconds()
         self.simulation.tick(elapsed * 1000)
         self.last_tick = datetime.datetime.now()
+        if self.args.use_saves:
+            self.roster.save_periodically()
 
     def keypress(self, size: T.Tuple[int, int], key: str) -> bool:
         if key == "esc":

@@ -1,7 +1,7 @@
 import argparse
-import signal
 import curses
 import os
+import signal
 import time
 import typing as T
 
@@ -107,7 +107,7 @@ class CursesUserInterface(BaseUserInterface):
         self.switch_view(view)
 
     def switch_to_game_view(self, player: Player) -> None:
-        view = GameView(self.screen, player)
+        view = GameView(self.screen, self.roster, player, self.args)
         view.on_exit += self.switch_to_roster_view
         self.switch_view(view)
 

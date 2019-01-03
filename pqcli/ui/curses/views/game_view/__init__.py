@@ -1,8 +1,10 @@
+import argparse
 import curses
 import datetime
 import typing as T
 
 from pqcli.mechanic import Player, Simulation
+from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 
 from ..base_view import BaseView
@@ -16,11 +18,20 @@ from .task_progress_window import TaskProgressWindow
 
 
 class GameView(BaseView):
-    def __init__(self, screen: T.Any, player: Player) -> None:
+    def __init__(
+        self,
+        screen: T.Any,
+        roster: Roster,
+        player: Player,
+        args: argparse.Namespace,
+    ) -> None:
         super().__init__(screen)
         self.on_exit = EventHandler()
 
+        self._roster = roster
         self._player = player
+        self._args = args
+
         self._simulation = Simulation(player)
         self._last_tick = datetime.datetime.now()
 
@@ -141,3 +152,5 @@ class GameView(BaseView):
         elapsed = datetime.datetime.now() - self._last_tick
         self._simulation.tick(elapsed.total_seconds() * 1000)
         self._last_tick = datetime.datetime.now()
+        if self._args.use_saves:
+            self._roster.save_periodically()
