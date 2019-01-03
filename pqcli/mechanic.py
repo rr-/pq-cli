@@ -1,6 +1,7 @@
 import datetime
 import itertools
 import logging
+import math
 import typing as T
 from collections import defaultdict
 from dataclasses import dataclass
@@ -45,9 +46,12 @@ class Bar(SignalMixin):
         self.emit("change")
 
     def reset(self, new_max: int, position: float = 0.0) -> None:
-        self._max = new_max
-        self._position = position
-        self.emit("change")
+        if not math.isclose(new_max, self._max) or not math.isclose(
+            position, self._position
+        ):
+            self._max = new_max
+            self._position = position
+            self.emit("change")
 
     def increment(self, inc: float) -> None:
         self.reposition(self._position + inc)
@@ -65,8 +69,10 @@ class Bar(SignalMixin):
         return self._position >= self.max_
 
     def reposition(self, new_pos: float) -> None:
-        self._position = float(min(new_pos, self._max))
-        self.emit("change")
+        new_pos = float(min(new_pos, self._max))
+        if not math.isclose(new_pos, self._position):
+            self._position = new_pos
+            self.emit("change")
 
 
 class Stats(SignalMixin):
