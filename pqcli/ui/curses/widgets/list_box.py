@@ -30,11 +30,7 @@ class ListBox(Scrollable):
     def delete(self, idx: int, count: int = 1) -> None:
         del self._items[idx : idx + count]
 
-    def _render_impl(self) -> None:
+    def _render_impl(self, h: int, w: int) -> None:
         assert self._pad
-        h, w = self.getmaxyx()
         for y, item in enumerate(self._items):
             self._pad.addnstr(y, 0, item, min(len(item), w))
-
-        y, x = self.getbegyx()
-        self._pad.refresh(self._scroll_y, 0, y, x, y + h - 1, x + w - 1)

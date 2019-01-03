@@ -44,9 +44,8 @@ class DataTable(Scrollable):
                 return idx
         return None
 
-    def _render_impl(self) -> None:
+    def _render_impl(self, h: int, w: int) -> None:
         assert self._pad
-        h, w = self.getmaxyx()
         if self._align_right:
             for y, row in enumerate(self._items):
                 self._pad.move(y, 0)
@@ -63,9 +62,6 @@ class DataTable(Scrollable):
                     self._pad.addnstr(
                         y, col2_x, row[1], min(len(row[1]), w - col2_x)
                     )
-
-        y, x = self.getbegyx()
-        self._pad.refresh(self._scroll_y, 0, y, x, y + h - 1, x + w - 1)
 
     def _get_col_width(self, x: int) -> int:
         return max([len(row[0]) for row in self._items] + [0])

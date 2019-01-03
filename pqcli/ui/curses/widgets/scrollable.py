@@ -5,8 +5,8 @@ from .base import WindowWrapper
 
 
 class Scrollable(WindowWrapper):
-    def __init__(self, *args: T.Any, **kwargs: T.Any) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(self, parent: T.Any, h: int, w: int, y: int, x: int) -> None:
+        super().__init__(parent, h, w, y, x)
         self._scroll_y = 0
         self._pad: T.Optional[T.Any] = curses.newpad(1, 1)
         self._items: T.List[T.Any] = []
@@ -32,7 +32,7 @@ class Scrollable(WindowWrapper):
         return len(self._items)
 
     def render(self) -> None:
-        if not self._pad:
+        if not self._pad or not self._win:
             return
 
         if self._items:
@@ -43,8 +43,29 @@ class Scrollable(WindowWrapper):
             self._pad.resize(1, 1)
 
         self._pad.erase()
+        h, w = self.getmaxyx()
+        y, x = self.getbegyx()
+
         try:
-            self._render_impl()
+            if self._scroll_y > 0 or self._scroll_y + h < len(self._items):
+                y1 = self._scroll_y
+                y2 = self._scroll_y + h
+                win_y1 = int(y1 * h // len(self._items))
+                win_y2 = int(y2 * h // len(self._items))
+                for win_y in range(win_y1, win_y2):
+                    self._win.chgat(win_y, 0, curses.A_REVERSE)
+                self._win.refresh()
+
+                self._render_impl(h, w - 1)
+                self._pad.refresh(
+                    self._scroll_y, 0, y, x, y + h - 1, x + w - 2
+                )
+            else:
+                self._render_impl(h, w)
+                self._pad.refresh(
+                    self._scroll_y, 0, y, x, y + h - 1, x + w - 1
+                )
+
         except curses.error:
             pass
 
