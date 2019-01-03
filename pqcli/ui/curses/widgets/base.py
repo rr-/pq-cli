@@ -22,7 +22,7 @@ class WindowWrapper(Widget):
         else:
             try:
                 self._win = parent.derwin(h, w, y, x)
-                self._win.refresh()
+                self._win.noutrefresh()
             except curses.error:
                 self._win = None
 

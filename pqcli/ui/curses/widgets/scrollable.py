@@ -54,15 +54,15 @@ class Scrollable(WindowWrapper):
                 win_y2 = int(y2 * h // len(self._items))
                 for win_y in range(win_y1, win_y2):
                     self._win.chgat(win_y, 0, curses.A_REVERSE)
-                self._win.refresh()
+                self._win.noutrefresh()
 
                 self._render_impl(h, w - 1)
-                self._pad.refresh(
+                self._pad.noutrefresh(
                     self._scroll_y, 0, y, x, y + h - 1, x + w - 2
                 )
             else:
                 self._render_impl(h, w)
-                self._pad.refresh(
+                self._pad.noutrefresh(
                     self._scroll_y, 0, y, x, y + h - 1, x + w - 1
                 )
 

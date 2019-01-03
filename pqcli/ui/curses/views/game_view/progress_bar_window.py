@@ -74,7 +74,7 @@ class ProgressBarWindow(WindowWrapper):
             self._progress_bar_win.standend()
 
         self._progress_bar.set_position(self._cur_pos, self._max_pos)
-        self._progress_bar_win.refresh()
+        self._progress_bar_win.noutrefresh()
 
 
 class DataTableProgressBarWindow(ProgressBarWindow):
@@ -109,7 +109,7 @@ class DataTableProgressBarWindow(ProgressBarWindow):
                 0, x, self._title, min(len(self._title), self.getmaxyx()[1])
             )
 
-        self._win.refresh()
+        self._win.noutrefresh()
         self._data_table.render()
 
     def _render(self) -> None:
@@ -140,7 +140,7 @@ class ListBoxProgressBarWindow(ProgressBarWindow):
                 0, x, self._title, min(len(self._title), self.getmaxyx()[1])
             )
 
-        self._win.refresh()
+        self._win.noutrefresh()
         self._list_box.render()
 
     def _render(self) -> None:

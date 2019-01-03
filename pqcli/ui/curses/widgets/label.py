@@ -7,4 +7,4 @@ class Label(WindowWrapper):
             return
         self._win.erase()
         self._win.addnstr(text, min(len(text), self.getmaxyx()[1] - 1))
-        self._win.refresh()
+        self._win.noutrefresh()

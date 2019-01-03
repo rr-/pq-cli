@@ -55,5 +55,5 @@ class SpellBookWindow(Focusable, WindowWrapper):
             x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
             self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1]))
 
-        self._win.refresh()
+        self._win.noutrefresh()
         self._data_table.render()

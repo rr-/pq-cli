@@ -81,6 +81,8 @@ class GameView(BaseView):
         else:
             super().keypress(key)
 
+        curses.doupdate()
+
     def start(self) -> None:
         scr_height, scr_width = self.screen.getmaxyx()
         col1_width = int(scr_width * 0.3)
@@ -88,7 +90,7 @@ class GameView(BaseView):
         col2_width = scr_width - col1_width - col3_width
 
         self.screen.erase()
-        self.screen.refresh()
+        self.screen.noutrefresh()
 
         self._big_win = curses.newwin(scr_height, scr_width)
         self._col1_win = self._big_win.derwin(scr_height - 2, col1_width, 0, 0)
@@ -199,6 +201,7 @@ class GameView(BaseView):
         self._last_tick = datetime.datetime.now()
         if self._args.use_saves:
             self._roster.save_periodically()
+        curses.doupdate()
 
     @property
     def focused(self) -> Widget:

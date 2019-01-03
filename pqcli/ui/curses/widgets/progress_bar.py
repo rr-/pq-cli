@@ -16,4 +16,4 @@ class ProgressBar(WindowWrapper):
             self._win.chgat(0, 0, curses.A_REVERSE)
             if x < self.getmaxyx()[1]:
                 self._win.chgat(0, x, curses.A_NORMAL)
-        self._win.refresh()
+        self._win.noutrefresh()

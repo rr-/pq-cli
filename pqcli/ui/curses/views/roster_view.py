@@ -48,7 +48,7 @@ class RosterView(BaseView):
     def start(self) -> None:
         scr_height, scr_width = self.screen.getmaxyx()
         self.screen.erase()
-        self.screen.refresh()
+        self.screen.noutrefresh()
 
         self.main_menu = Menu(
             header=LOGO,
