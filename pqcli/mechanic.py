@@ -2,6 +2,7 @@ import datetime
 import itertools
 import logging
 import typing as T
+from collections import defaultdict
 from dataclasses import dataclass
 
 from pqcli import random
@@ -11,30 +12,23 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
-_SIGNALS: T.Dict[T.Tuple[str, str], T.List[T.Callable]] = {}
+_SIGNALS: T.Dict[T.Tuple[str, str], T.List[T.Callable]] = defaultdict(list)
 
 
 class SignalMixin:
-    def __init_subclass__(cls: T.Any, **kwargs: T.Any) -> None:
-        super().__init_subclass__(**kwargs)
-        for signal_name in cls.signals:
-            _SIGNALS[cls.__name__, signal_name] = []
-
     def emit(self, signal_name: str, *user_data: T.Any) -> None:
-        for callback in _SIGNALS[self.__class__.__name__, signal_name]:
+        for callback in _SIGNALS[self, signal_name]:
             callback(*user_data)
 
     def connect(self, signal_name: str, callback: T.Callable) -> None:
-        _SIGNALS[self.__class__.__name__, signal_name].append(callback)
+        _SIGNALS[self, signal_name].append(callback)
 
     def disconnect(self, signal_name: str, callback: T.Callable) -> None:
         try:
-            idx = _SIGNALS[self.__class__.__name__, signal_name].index(
-                callback
-            )
+            idx = _SIGNALS[self, signal_name].index(callback)
         except ValueError:
             return
-        del _SIGNALS[self.__class__.__name__, signal_name][idx]
+        del _SIGNALS[self, signal_name][idx]
 
 
 def level_up_time(level: int) -> int:
