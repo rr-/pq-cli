@@ -13,7 +13,9 @@ class TaskProgressWindow(Focusable, WindowWrapper):
         super().__init__(parent, h, w, y, x)
 
         self._desc_win = Label(self._win, 1, w, 0, 0)
-        self._progress_bar = ProgressBar(self._win, 1, w, 1, 0)
+        self._progress_bar = ProgressBar(
+            self._win, 1, w, 1, 0, show_time=False
+        )
 
         self._player = player
         self._player.connect("new_task", self._sync_task_name)

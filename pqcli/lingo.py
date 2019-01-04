@@ -1,6 +1,28 @@
+import datetime
 import typing as T
 
 from pqcli import random
+
+
+def format_float(num: float) -> str:
+    ret = f"{num:.01f}"
+    if ret.endswith("0"):
+        ret = ret[:-2]
+    return ret
+
+
+def format_timespan(timespan: datetime.timedelta) -> str:
+    num = timespan.total_seconds()
+    if num < 60.0:
+        return f"~{int(num)}s"
+    num /= 60
+    if num < 60.0:
+        return f"~{int(num)}m"
+    num /= 60
+    if num < 24.0:
+        return f"~{format_float(num)}h"
+    num /= 24
+    return f"~{format_float(num)}d"
 
 
 def generate_name() -> str:

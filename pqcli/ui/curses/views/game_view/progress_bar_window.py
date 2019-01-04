@@ -13,7 +13,14 @@ from .focusable import Focusable
 
 class ProgressBarWindow(WindowWrapper):
     def __init__(
-        self, parent: T.Any, h: int, w: int, y: int, x: int, title: str
+        self,
+        parent: T.Any,
+        h: int,
+        w: int,
+        y: int,
+        x: int,
+        title: str,
+        show_time: bool,
     ) -> None:
         super().__init__(parent, h, w, y, x)
 
@@ -29,7 +36,7 @@ class ProgressBarWindow(WindowWrapper):
         except curses.error:
             self._progress_bar_win = None
         self._progress_bar = ProgressBar(
-            self._progress_bar_win, 1, w - 2, 1, 1
+            self._progress_bar_win, 1, w - 2, 1, 1, show_time=show_time
         )
 
     def stop(self) -> None:
@@ -87,8 +94,9 @@ class DataTableProgressBarWindow(ProgressBarWindow):
         x: int,
         title: str,
         align_right: bool,
+        show_time: bool,
     ) -> None:
-        super().__init__(parent, h, w, y, x, title)
+        super().__init__(parent, h, w, y, x, title, show_time)
 
         self._data_table = DataTable(
             self._win, h - 4, w - 2, 1, 1, align_right
@@ -119,9 +127,16 @@ class DataTableProgressBarWindow(ProgressBarWindow):
 
 class ListBoxProgressBarWindow(ProgressBarWindow):
     def __init__(
-        self, parent: T.Any, h: int, w: int, y: int, x: int, title: str
+        self,
+        parent: T.Any,
+        h: int,
+        w: int,
+        y: int,
+        x: int,
+        title: str,
+        show_time: bool,
     ) -> None:
-        super().__init__(parent, h, w, y, x, title)
+        super().__init__(parent, h, w, y, x, title, show_time)
 
         self._list_box = ListBox(self._win, h - 4, w - 2, 1, 1)
 

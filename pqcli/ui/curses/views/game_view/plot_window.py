@@ -14,7 +14,9 @@ class PlotWindow(Focusable, ListBoxProgressBarWindow):
     def __init__(
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:
-        super().__init__(parent, h, w, y, x, " Plot Development ")
+        super().__init__(
+            parent, h, w, y, x, " Plot Development ", show_time=True
+        )
         self._on_focus_change += self._render
 
         self._player = player

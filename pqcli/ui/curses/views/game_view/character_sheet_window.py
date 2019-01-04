@@ -11,7 +11,14 @@ class CharacterSheetWindow(Focusable, DataTableProgressBarWindow):
         self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(
-            parent, h, w, y, x, " Character Sheet ", align_right=False
+            parent,
+            h,
+            w,
+            y,
+            x,
+            " Character Sheet ",
+            align_right=False,
+            show_time=True,
         )
         self._on_focus_change += self._render
 
