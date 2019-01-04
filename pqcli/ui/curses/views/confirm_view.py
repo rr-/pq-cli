@@ -35,6 +35,7 @@ class ConfirmView(BaseView):
         self.main_menu = Menu(
             header=self.title,
             choices=self.choices,
+            active_choice=0,
             scr_height=scr_height,
             scr_width=scr_width,
         )

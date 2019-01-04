@@ -3,7 +3,7 @@ import curses.ascii
 import functools
 import typing as T
 
-from pqcli.config import CLASSES, PRIME_STATS, RACES
+from pqcli.config import CLASSES, PRIME_STATS, RACES, Class, Race
 from pqcli.mechanic import StatsBuilder, generate_name
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import Choice
@@ -12,13 +12,15 @@ from pqcli.ui.curses.views.menu_view import MenuView
 
 
 class ChooseCharacterNameView(BaseView):
-    def __init__(self, screen: T.Any) -> None:
+    def __init__(
+        self, screen: T.Any, character_name: T.Optional[str] = None
+    ) -> None:
         super().__init__(screen)
 
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
-        self._text = generate_name()
+        self._text = character_name or generate_name()
 
     def start(self) -> None:
         self.screen.erase()
@@ -79,8 +81,12 @@ class ChooseCharacterNameView(BaseView):
 
 
 class ChooseCharacterRaceView(MenuView):
-    def __init__(self, screen: T.Any) -> None:
-        super().__init__(screen, "Choose character race")
+    def __init__(self, screen: T.Any, race: T.Optional[Race] = None) -> None:
+        super().__init__(
+            screen,
+            "Choose character race",
+            RACES.index(race) if race is not None else 0,
+        )
 
         for y, race in enumerate(RACES, 1):
             key: T.Optional[str] = str(y % 10) if y <= 10 else None
@@ -102,8 +108,14 @@ class ChooseCharacterRaceView(MenuView):
 
 
 class ChooseCharacterClassView(MenuView):
-    def __init__(self, screen: T.Any) -> None:
-        super().__init__(screen, "Choose character class")
+    def __init__(
+        self, screen: T.Any, class_: T.Optional[Class] = None
+    ) -> None:
+        super().__init__(
+            screen,
+            "Choose character class",
+            CLASSES.index(class_) if class_ is not None else 0,
+        )
 
         for y, class_ in enumerate(CLASSES, 1):
             key: T.Optional[str] = str(y % 10) if y <= 10 else None

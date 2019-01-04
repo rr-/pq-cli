@@ -53,6 +53,7 @@ class RosterView(BaseView):
         self.main_menu = Menu(
             header=LOGO,
             choices=self.choices,
+            active_choice=0,
             scr_height=scr_height,
             scr_width=scr_width,
         )

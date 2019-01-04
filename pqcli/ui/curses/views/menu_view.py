@@ -8,7 +8,9 @@ from pqcli.ui.curses.widgets import Menu
 
 
 class MenuView(BaseView):
-    def __init__(self, screen: T.Any, title: str) -> None:
+    def __init__(
+        self, screen: T.Any, title: str, active_choice: int = 0
+    ) -> None:
         super().__init__(screen)
 
         self.on_cancel = EventHandler()
@@ -16,6 +18,7 @@ class MenuView(BaseView):
 
         self._title = f"{title}:"
         self._choices: T.List[Choice] = []
+        self._active_choice = active_choice
 
     def start(self) -> None:
         scr_height, scr_width = self.screen.getmaxyx()
@@ -25,6 +28,7 @@ class MenuView(BaseView):
         self.main_menu = Menu(
             header=self._title,
             choices=self._choices,
+            active_choice=self._active_choice,
             scr_height=scr_height,
             scr_width=scr_width,
         )

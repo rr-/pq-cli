@@ -81,25 +81,33 @@ class CursesUserInterface(BaseUserInterface):
     def _switch_to_roster_view(self) -> None:
         self._switch_view(self._roster_view)
 
-    def _switch_to_create_char_name_view(self) -> None:
-        view = ChooseCharacterNameView(self._screen)
+    def _switch_to_create_char_name_view(
+        self, player_name: T.Optional[str] = None
+    ) -> None:
+        view = ChooseCharacterNameView(self._screen, player_name)
         view.on_cancel += self._switch_to_roster_view
         view.on_confirm += self._switch_to_create_char_race_view
         self._switch_view(view)
 
-    def _switch_to_create_char_race_view(self, player_name: str) -> None:
-        view = ChooseCharacterRaceView(self._screen)
-        view.on_cancel += self._switch_to_roster_view
+    def _switch_to_create_char_race_view(
+        self, player_name: str, race: T.Optional[Race] = None
+    ) -> None:
+        view = ChooseCharacterRaceView(self._screen, race)
+        view.on_cancel += lambda: self._switch_to_create_char_name_view(
+            player_name
+        )
         view.on_confirm += lambda race: self._switch_to_create_char_class_view(
             player_name, race
         )
         self._switch_view(view)
 
     def _switch_to_create_char_class_view(
-        self, player_name: str, race: Race
+        self, player_name: str, race: Race, class_: T.Optional[Class] = None
     ) -> None:
-        view = ChooseCharacterClassView(self._screen)
-        view.on_cancel += self._switch_to_roster_view
+        view = ChooseCharacterClassView(self._screen, class_)
+        view.on_cancel += lambda: self._switch_to_create_char_race_view(
+            player_name, race
+        )
         view.on_confirm += lambda class_: self._switch_to_create_char_stats_view(
             player_name, race, class_
         )
@@ -109,7 +117,9 @@ class CursesUserInterface(BaseUserInterface):
         self, player_name: str, race: Race, class_: Class
     ) -> None:
         view = ChooseCharacterStatsView(self._screen)
-        view.on_cancel += self._switch_to_roster_view
+        view.on_cancel += lambda: self._switch_to_create_char_class_view(
+            player_name, race, class_
+        )
         view.on_confirm += lambda stats: self._create_character(
             player_name, race, class_, stats
         )

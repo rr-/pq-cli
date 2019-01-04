@@ -12,6 +12,7 @@ class Menu(Widget):
         self,
         header: str,
         choices: T.List[Choice],
+        active_choice: int,
         scr_height: int,
         scr_width: int,
     ) -> None:
@@ -28,7 +29,7 @@ class Menu(Widget):
             self._pad.move(y, 0)
             self._pad.addstr(line)
 
-        self._active_choice = 0
+        self._active_choice = active_choice
 
     def stop(self) -> None:
         del self._pad
