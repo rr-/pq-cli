@@ -42,6 +42,9 @@ class Scrollable(WindowWrapper):
         else:
             self._pad.resize(1, 1)
 
+        self._win.erase()
+        self._win.noutrefresh()
+
         self._pad.erase()
         h, w = self.getmaxyx()
         y, x = self.getbegyx()
@@ -50,10 +53,16 @@ class Scrollable(WindowWrapper):
             if self._scroll_y > 0 or self._scroll_y + h < len(self._items):
                 y1 = self._scroll_y
                 y2 = self._scroll_y + h
-                win_y1 = int(y1 * h // len(self._items))
-                win_y2 = int(y2 * h // len(self._items))
-                for win_y in range(win_y1, win_y2):
-                    self._win.chgat(win_y, 0, curses.A_REVERSE)
+                thumb_y1 = int(y1 * h // len(self._items))
+                thumb_y2 = int(y2 * h // len(self._items))
+                for win_y in range(h):
+                    self._win.chgat(
+                        win_y,
+                        w - 1,
+                        curses.A_REVERSE
+                        if thumb_y1 <= win_y <= thumb_y2
+                        else curses.A_NORMAL,
+                    )
                 self._win.noutrefresh()
 
                 self._render_impl(h, w - 1)
