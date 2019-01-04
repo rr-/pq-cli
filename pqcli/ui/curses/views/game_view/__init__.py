@@ -6,6 +6,7 @@ import typing as T
 from pqcli.mechanic import Player, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
+from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
 from pqcli.ui.curses.widgets import Widget
 
 from ..base_view import BaseView
@@ -42,7 +43,7 @@ class GameView(BaseView):
         if key in map(ord, "qQ"):
             self.on_exit()
 
-        elif key in map(ord, "jJ"):
+        elif key in KEYS_DOWN:
             if focused == self._char_sheet_win:
                 self.focus(self._spell_book_win)
             elif focused == self._equipment_win:
@@ -50,7 +51,7 @@ class GameView(BaseView):
             elif focused == self._plot_win:
                 self.focus(self._quest_book_win)
 
-        elif key in map(ord, "kK"):
+        elif key in KEYS_UP:
             if focused == self._spell_book_win:
                 self.focus(self._char_sheet_win)
             elif focused == self._inventory_win:
@@ -58,7 +59,7 @@ class GameView(BaseView):
             elif focused == self._quest_book_win:
                 self.focus(self._plot_win)
 
-        elif key in map(ord, "hH"):
+        elif key in KEYS_LEFT:
             if focused == self._equipment_win:
                 self.focus(self._char_sheet_win)
             elif focused == self._inventory_win:
@@ -68,7 +69,7 @@ class GameView(BaseView):
             elif focused == self._quest_book_win:
                 self.focus(self._inventory_win)
 
-        elif key in map(ord, "lL"):
+        elif key in KEYS_RIGHT:
             if focused == self._char_sheet_win:
                 self.focus(self._equipment_win)
             elif focused == self._spell_book_win:

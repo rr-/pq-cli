@@ -1,6 +1,8 @@
 import curses
 import typing as T
 
+from pqcli.ui.curses.util import KEYS_DOWN, KEYS_UP
+
 from ..util import Choice
 from .base import Widget
 
@@ -49,11 +51,11 @@ class Menu(Widget):
                 choice.callback()
                 return
 
-        if key in set(map(ord, "jJ")) | {curses.KEY_DOWN}:
+        if key in KEYS_DOWN:
             self.next()
             return
 
-        if key in set(map(ord, "kK")) | {curses.KEY_UP}:
+        if key in KEYS_UP:
             self.prev()
             return
 
