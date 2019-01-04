@@ -57,7 +57,7 @@ class SpellBookWindow(Focusable, WindowWrapper):
         if not self._win:
             return
 
-        with self._focus_standout(self._win):
+        with self.focus_standout(self._win):
             self._win.box()
             text = " Spell Book "
             x = max(0, (self.getmaxyx()[1] - len(text)) // 2)

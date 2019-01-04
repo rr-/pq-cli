@@ -38,7 +38,7 @@ class CursesUserInterface(BaseUserInterface):
         curses.noecho()
         curses.curs_set(0)
 
-        def signal_handler(sig, frame):
+        def signal_handler(sig: T.Any, frame: T.Any) -> None:
             if self.args.use_saves:
                 self.roster.save()
             exit(0)

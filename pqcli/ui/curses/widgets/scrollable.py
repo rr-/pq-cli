@@ -92,5 +92,5 @@ class Scrollable(WindowWrapper):
         except curses.error:
             pass
 
-    def _render_impl(self) -> None:
+    def _render_impl(self, h: int, w: int) -> None:
         raise NotImplementedError("not implemented")

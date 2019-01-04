@@ -1,14 +1,13 @@
 import curses
 import typing as T
 
+from pqcli.ui.curses.views.game_view.focusable import Focusable
 from pqcli.ui.curses.widgets import (
     DataTable,
     ListBox,
     ProgressBar,
     WindowWrapper,
 )
-
-from .focusable import Focusable
 
 
 class ProgressBarWindow(WindowWrapper):
@@ -25,8 +24,8 @@ class ProgressBarWindow(WindowWrapper):
         super().__init__(parent, h, w, y, x)
 
         self._title = title
-        self._cur_pos = 0
-        self._max_pos = 1
+        self._cur_pos = 0.0
+        self._max_pos = 1.0
         self._progress_title = ""
 
         try:
@@ -52,11 +51,7 @@ class ProgressBarWindow(WindowWrapper):
 
         self._progress_bar_win.erase()
 
-        if self._focused:
-            # with self._focus_standout(self._progress_bar_win):
-            self._progress_bar_win.standout()
-
-        if True:
+        with Focusable.focus_standout(self, self._progress_bar_win):
             self._progress_bar_win.border(
                 curses.ACS_VLINE,
                 curses.ACS_VLINE,
@@ -76,9 +71,6 @@ class ProgressBarWindow(WindowWrapper):
                 text,
                 min(len(text), self._progress_bar_win.getmaxyx()[1]),
             )
-
-        if self._focused:
-            self._progress_bar_win.standend()
 
         self._progress_bar.set_position(self._cur_pos, self._max_pos)
         self._progress_bar_win.noutrefresh()
@@ -110,7 +102,7 @@ class DataTableProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        with self._focus_standout(self._win):
+        with Focusable.focus_standout(self, self._win):
             self._win.box()
             x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
             self._win.addnstr(
@@ -148,7 +140,7 @@ class ListBoxProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        with self._focus_standout(self._win):
+        with Focusable.focus_standout(self, self._win):
             self._win.box()
             x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
             self._win.addnstr(

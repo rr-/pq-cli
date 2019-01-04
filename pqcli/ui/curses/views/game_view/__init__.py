@@ -7,11 +7,12 @@ from pqcli.mechanic import Player, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
+from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.widgets import Scrollable, Widget
 
-from ..base_view import BaseView
 from .character_sheet_window import CharacterSheetWindow
 from .equipment_window import EquipmentWindow
+from .focusable import Focusable
 from .inventory_window import InventoryWindow
 from .plot_window import PlotWindow
 from .quest_book_window import QuestBookWindow
@@ -186,14 +187,16 @@ class GameView(BaseView):
             x=0,
         )
 
-        self._children: T.List[Widget] = [
+        self._focusable_children: T.List[Focusable] = [
             self._char_sheet_win,
             self._spell_book_win,
             self._equipment_win,
             self._inventory_win,
             self._plot_win,
             self._quest_book_win,
-            self._task_win,
+        ]
+        self._children: T.List[Widget] = self._focusable_children + [
+            self._task_win
         ]
 
     def stop(self) -> None:
@@ -213,12 +216,12 @@ class GameView(BaseView):
         curses.doupdate()
 
     @property
-    def focused(self) -> Widget:
-        for widget in self._children:
+    def focused(self) -> Focusable:
+        for widget in self._focusable_children:
             if widget.focused:
                 return widget
-        return None
+        raise AssertionError
 
-    def focus(self, widget: Widget):
+    def focus(self, widget: Focusable) -> None:
         self.focused.focused = False
         widget.focused = True

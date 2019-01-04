@@ -20,9 +20,9 @@ class Focusable:
         self._on_focus_change()
 
     @contextlib.contextmanager
-    def _focus_standout(self, win: T.Any) -> T.Generator:
+    def focus_standout(self, win: T.Any) -> T.Generator:
         if self._focused:
-            self._win.standout()
+            win.standout()
         yield
         if self._focused:
-            self._win.standend()
+            win.standend()

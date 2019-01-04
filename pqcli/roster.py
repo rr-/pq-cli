@@ -32,7 +32,7 @@ class Roster:
             self.path.rename(old_path)
         tmp_path.rename(self.path)
 
-    def save_periodically(self):
+    def save_periodically(self) -> None:
         if (datetime.now() - self._last_save).total_seconds() >= 300:
             logging.info("Saving...")
             self.save()

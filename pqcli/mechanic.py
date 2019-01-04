@@ -13,7 +13,9 @@ from pqcli.lingo import *
 logger = logging.getLogger(__name__)
 
 
-_SIGNALS: T.Dict[T.Tuple[str, str], T.List[T.Callable]] = defaultdict(list)
+_SIGNALS: T.Dict[
+    T.Tuple["SignalMixin", str], T.List[T.Callable[..., T.Any]]
+] = defaultdict(list)
 
 
 class SignalMixin:
@@ -21,10 +23,14 @@ class SignalMixin:
         for callback in _SIGNALS[self, signal_name]:
             callback(*user_data)
 
-    def connect(self, signal_name: str, callback: T.Callable) -> None:
+    def connect(
+        self, signal_name: str, callback: T.Callable[..., T.Any]
+    ) -> None:
         _SIGNALS[self, signal_name].append(callback)
 
-    def disconnect(self, signal_name: str, callback: T.Callable) -> None:
+    def disconnect(
+        self, signal_name: str, callback: T.Callable[..., T.Any]
+    ) -> None:
         try:
             idx = _SIGNALS[self, signal_name].index(callback)
         except ValueError:

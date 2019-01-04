@@ -1,4 +1,5 @@
 import curses
+import curses.ascii
 import typing as T
 
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_UP

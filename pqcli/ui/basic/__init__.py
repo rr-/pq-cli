@@ -36,8 +36,8 @@ class BasicUserInterface(BaseUserInterface):
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
         super().__init__(roster, args)
 
-        def signal_handler(sig, frame):
-            print("Quitting")
+        def signal_handler(sig: T.Any, frame: T.Any) -> None:
+            logging.info("Quitting")
             if self.args.use_saves:
                 self.roster.save()
             sys.exit(0)
@@ -57,7 +57,7 @@ class BasicUserInterface(BaseUserInterface):
     def logo(self) -> None:
         print(LOGO)
 
-    def main_menu(self):
+    def main_menu(self) -> None:
         while True:
             choice = self.menu(
                 [
@@ -168,7 +168,9 @@ class BasicUserInterface(BaseUserInterface):
         print("--- Plot ---")
         print(f"Current act: {lingo.to_roman(player.quest_book.act)}")
         print(f"Current quest: {player.quest_book.current_quest or '?'}")
-        print(f"Current task: {player.task.description}")
+        print(
+            f"Current task: {player.task.description if player.task else '?'}"
+        )
 
     def delete_player(self, player: Player) -> None:
         if self.confirm(lingo.terminate_message(player.name)):

@@ -20,6 +20,7 @@ class ChooseCharacterNameView(BaseView):
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
+        self._win: T.Optional[T.Any] = None
         self._text = character_name or generate_name()
 
     def start(self) -> None:
@@ -143,6 +144,9 @@ class ChooseCharacterStatsView(BaseView):
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
+        self._win: T.Optional[T.Any] = None
+        self._stats_win: T.Optional[T.Any] = None
+
         self._stats_builder = StatsBuilder()
         self._stats = self._stats_builder.roll()
 
@@ -184,7 +188,7 @@ class ChooseCharacterStatsView(BaseView):
         self._render()
 
     def _render(self) -> None:
-        if not self._win:
+        if not self._win or not self._stats_win:
             return
 
         y, x = self._win.getbegyx()
