@@ -10,16 +10,27 @@ Relive the great adventure… this time in the terminal realm!
 
 ## Features
 
-- Saves (with backups) to `$XDG_CONFIG_HOME/pqcli/save.dat`
-- Clean terminal interface
-    - Smooth progress bars using UTF-8 block characters
-    - Scrollable list boxes
 - Faithful port of the game logic
+- Saves (with backups) to `$XDG_CONFIG_HOME/pqcli/save.dat`
+- Terminal interface that comes in 3 flavors:
+    - Rich and colorful, but CPU intensive (`--urwid`)
+    - Simple, but easy on CPU, friendly for embedded environments (`--curses`)
+    - Minimal, suitable for raw grind (`--basic`)
 - Ideal to run on your server
 
 ## How it looks like
 
-![Screenshot](screen.png)
+Urwid version:
+
+![Screenshot](screen-urwid.png)
+
+Curses version:
+
+![Screenshot](screen-curses.png)
+
+Basic version:
+
+![Screenshot](screen-basic.png)
 
 ## How to install
 
