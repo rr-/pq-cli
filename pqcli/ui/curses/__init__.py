@@ -6,13 +6,17 @@ import time
 import typing as T
 
 from pqcli import lingo
-from pqcli.mechanic import Player
+from pqcli.config import Class, Race
+from pqcli.mechanic import Player, Stats, create_player
 from pqcli.roster import Roster
 from pqcli.ui.curses.views import (
     BaseView,
+    ChooseCharacterClassView,
+    ChooseCharacterNameView,
+    ChooseCharacterRaceView,
+    ChooseCharacterStatsView,
     ChooseCharacterView,
     ConfirmView,
-    CreateCharacterView,
     GameView,
     RosterView,
 )
@@ -28,46 +32,45 @@ class CursesUserInterface(BaseUserInterface):
     def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
         super().__init__(roster, args)
         os.environ.setdefault("ESCDELAY", "25")
-        self.screen = curses.initscr()
-        self.screen.nodelay(True)
-        self.screen.keypad(True)
+        self._screen = curses.initscr()
+        self._screen.nodelay(True)
+        self._screen.keypad(True)
         curses.noecho()
         curses.curs_set(0)
 
         def signal_handler(sig, frame):
-            print("Quitting")
             if self.args.use_saves:
                 self.roster.save()
             exit(0)
 
         signal.signal(signal.SIGINT, signal_handler)
 
-        self.roster_view = RosterView(self.screen)
-        self.roster_view.on_create += self.switch_to_create_character_view
-        self.roster_view.on_delete += self.switch_to_delete_character_view
-        self.roster_view.on_play += self.switch_to_play_view
-        self.roster_view.on_quit += self.quit
-        self.view: BaseView = self.roster_view
-        self.view.start()
+        self._roster_view = RosterView(self._screen)
+        self._roster_view.on_create += self._switch_to_create_char_name_view
+        self._roster_view.on_delete += self._switch_to_delete_char_view
+        self._roster_view.on_play += self._switch_to_play_view
+        self._roster_view.on_quit += self._quit
+        self._view: BaseView = self._roster_view
+        self._view.start()
 
     def run(self) -> None:
         try:
-            self.switch_to_roster_view()
+            self._switch_to_roster_view()
 
             while True:
-                key = T.cast(int, self.screen.getch())
+                key = T.cast(int, self._screen.getch())
 
                 if key == curses.ERR:
                     time.sleep(0.1)
-                    self.view.idle()
+                    self._view.idle()
                     continue
 
                 if key == curses.KEY_RESIZE:
-                    self.view.stop()
-                    self.view.start()
+                    self._view.stop()
+                    self._view.start()
                 else:
                     try:
-                        self.view.keypress(key)
+                        self._view.keypress(key)
                     except StopMainLoop:
                         break
 
@@ -75,50 +78,87 @@ class CursesUserInterface(BaseUserInterface):
             curses.endwin()
             curses.curs_set(1)
 
-    def switch_to_roster_view(self) -> None:
-        self.switch_view(self.roster_view)
+    def _switch_to_roster_view(self) -> None:
+        self._switch_view(self._roster_view)
 
-    def switch_to_create_character_view(self) -> None:
-        view = CreateCharacterView(self.screen)
-        view.on_cancel += self.switch_to_roster_view
-        view.on_confirm += self.switch_to_game_view
-        self.switch_view(view)
+    def _switch_to_create_char_name_view(self) -> None:
+        view = ChooseCharacterNameView(self._screen)
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += self._switch_to_create_char_race_view
+        self._switch_view(view)
 
-    def switch_to_delete_character_view(self) -> None:
-        view = ChooseCharacterView(
-            self.screen, self.roster, "Choose character to delete"
+    def _switch_to_create_char_race_view(self, player_name: str) -> None:
+        view = ChooseCharacterRaceView(self._screen)
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += lambda race: self._switch_to_create_char_class_view(
+            player_name, race
         )
-        view.on_cancel += self.switch_to_roster_view
-        view.on_confirm += self.switch_to_confirm_delete_character_view
-        self.switch_view(view)
+        self._switch_view(view)
 
-    def switch_to_confirm_delete_character_view(self, player: Player) -> None:
-        view = ConfirmView(self.screen, lingo.terminate_message(player.name))
-        view.on_cancel += self.switch_to_delete_character_view
-        view.on_confirm += lambda: self.delete_character(player)
-        self.switch_view(view)
-
-    def switch_to_play_view(self) -> None:
-        view = ChooseCharacterView(
-            self.screen, self.roster, "Choose character to play"
+    def _switch_to_create_char_class_view(
+        self, player_name: str, race: Race
+    ) -> None:
+        view = ChooseCharacterClassView(self._screen)
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += lambda class_: self._switch_to_create_char_stats_view(
+            player_name, race, class_
         )
-        view.on_cancel += self.switch_to_roster_view
-        view.on_confirm += self.switch_to_game_view
-        self.switch_view(view)
+        self._switch_view(view)
 
-    def switch_to_game_view(self, player: Player) -> None:
-        view = GameView(self.screen, self.roster, player, self.args)
-        view.on_exit += self.switch_to_roster_view
-        self.switch_view(view)
+    def _switch_to_create_char_stats_view(
+        self, player_name: str, race: Race, class_: Class
+    ) -> None:
+        view = ChooseCharacterStatsView(self._screen)
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += lambda stats: self._create_character(
+            player_name, race, class_, stats
+        )
+        self._switch_view(view)
 
-    def switch_view(self, view: BaseView) -> None:
-        self.view.stop()
-        self.view = view
-        self.view.start()
+    def _switch_to_delete_char_view(self) -> None:
+        view = ChooseCharacterView(
+            self._screen, self.roster, "Choose character to delete"
+        )
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += self._switch_to_confirm_delete_char_view
+        self._switch_view(view)
 
-    def delete_character(self, player: Player) -> None:
+    def _switch_to_confirm_delete_char_view(self, player: Player) -> None:
+        view = ConfirmView(self._screen, lingo.terminate_message(player.name))
+        view.on_cancel += self._switch_to_delete_char_view
+        view.on_confirm += lambda: self._delete_character(player)
+        self._switch_view(view)
+
+    def _switch_to_play_view(self) -> None:
+        view = ChooseCharacterView(
+            self._screen, self.roster, "Choose character to play"
+        )
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += self._switch_to_game_view
+        self._switch_view(view)
+
+    def _switch_to_game_view(self, player: Player) -> None:
+        view = GameView(self._screen, self.roster, player, self.args)
+        view.on_exit += self._switch_to_roster_view
+        self._switch_view(view)
+
+    def _switch_view(self, view: BaseView) -> None:
+        self._view.stop()
+        self._view = view
+        self._view.start()
+
+    def _create_character(
+        self, name: str, race: Race, class_: Class, stats: Stats
+    ) -> None:
+        player = create_player(name, race, class_, stats)
+        self.roster.players.append(player)
+        if self.args.use_saves:
+            self.roster.save()
+        self._switch_to_game_view(player)
+
+    def _delete_character(self, player: Player) -> None:
         self.roster.players.remove(player)
-        self.switch_to_roster_view()
+        self._switch_to_roster_view()
 
-    def quit(self) -> None:
+    def _quit(self) -> None:
         raise StopMainLoop

@@ -15,20 +15,20 @@ class Menu(Widget):
         scr_height: int,
         scr_width: int,
     ) -> None:
-        self.header_lines = header.split("\n")
-        self.choices = choices
-        self.scr_width = scr_width
-        self.scr_height = scr_height
+        self._header_lines = header.split("\n")
+        self._choices = choices
+        self._scr_width = scr_width
+        self._scr_height = scr_height
 
-        w = max(map(len, self.header_lines))
-        h = len(self.header_lines) + 1 + len(choices)
+        w = max(map(len, self._header_lines))
+        h = len(self._header_lines) + 1 + len(choices)
         self._pad: T.Optional[T.Any] = curses.newpad(h, w)
 
-        for y, line in enumerate(self.header_lines):
+        for y, line in enumerate(self._header_lines):
             self._pad.move(y, 0)
             self._pad.addstr(line)
 
-        self.active_choice = 0
+        self._active_choice = 0
 
     def stop(self) -> None:
         del self._pad
@@ -40,16 +40,22 @@ class Menu(Widget):
         return self._pad.getmaxyx()
 
     def next(self) -> None:
-        self.active_choice = min(len(self.choices) - 1, self.active_choice + 1)
+        self._active_choice = min(
+            len(self._choices) - 1, self._active_choice + 1
+        )
 
     def prev(self) -> None:
-        self.active_choice = max(0, self.active_choice - 1)
+        self._active_choice = max(0, self._active_choice - 1)
 
     def keypress(self, key: int) -> None:
-        for choice in self.choices:
+        for choice in self._choices:
             if key in choice.keys:
                 choice.callback()
                 return
+
+        if key == curses.ascii.NL:
+            self._choices[self._active_choice].callback()
+            return
 
         if key in KEYS_DOWN:
             self.next()
@@ -63,19 +69,19 @@ class Menu(Widget):
         if not self._pad:
             return
 
-        for y, choice in enumerate(self.choices):
-            self._pad.move(len(self.header_lines) + 1 + y, 0)
-            if y == self.active_choice:
+        for y, choice in enumerate(self._choices):
+            self._pad.move(len(self._header_lines) + 1 + y, 0)
+            if y == self._active_choice:
                 self._pad.standout()
             self._pad.addstr(choice.desc)
-            if y == self.active_choice:
+            if y == self._active_choice:
                 self._pad.standend()
 
         self._pad.refresh(
             0,
             0,
-            (self.scr_height - self._pad.getmaxyx()[0]) // 2,
-            (self.scr_width - self._pad.getmaxyx()[1]) // 2,
-            self.scr_height - 1,
-            self.scr_width - 1,
+            (self._scr_height - self._pad.getmaxyx()[0]) // 2,
+            (self._scr_width - self._pad.getmaxyx()[1]) // 2,
+            self._scr_height - 1,
+            self._scr_width - 1,
         )
