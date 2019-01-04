@@ -910,7 +910,8 @@ class StatsBuilder:
         return stats
 
     def unroll(self) -> Stats:
-        self.history.pop()
+        if len(self.history) > 1:
+            self.history.pop()
         return self.history[-1]
 
 

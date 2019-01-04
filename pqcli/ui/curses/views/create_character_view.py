@@ -167,10 +167,7 @@ class ChooseCharacterStatsView(BaseView):
             self._stats = self._stats_builder.roll()
 
         elif key == curses.KEY_F6:
-            try:
-                self._stats = self._stats_builder.unroll()
-            except IndexError:
-                pass
+            self._stats = self._stats_builder.unroll()
 
         self._render()
 

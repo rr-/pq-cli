@@ -50,10 +50,7 @@ class StatsBox(CustomLineBox):
         self.update_values()
 
     def unroll(self) -> None:
-        try:
-            self.stats = self.stats_builder.unroll()
-        except IndexError:
-            return
+        self.stats = self.stats_builder.unroll()
         self.update_values()
 
     def on_roll_press(self, _user_data: T.Any) -> None:
