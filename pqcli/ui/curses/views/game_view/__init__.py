@@ -7,7 +7,7 @@ from pqcli.mechanic import Player, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
-from pqcli.ui.curses.widgets import Widget
+from pqcli.ui.curses.widgets import Scrollable, Widget
 
 from ..base_view import BaseView
 from .character_sheet_window import CharacterSheetWindow
@@ -42,6 +42,14 @@ class GameView(BaseView):
 
         if key in map(ord, "qQ"):
             self.on_exit()
+
+        elif key in {curses.KEY_PPAGE}:
+            if hasattr(focused, "scroll_page_up"):
+                focused.scroll_page_up()
+
+        elif key in {curses.KEY_NPAGE}:
+            if hasattr(focused, "scroll_page_down"):
+                focused.scroll_page_down()
 
         elif key in KEYS_DOWN:
             if focused == self._char_sheet_win:

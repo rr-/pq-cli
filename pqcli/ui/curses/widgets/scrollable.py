@@ -7,7 +7,7 @@ from .base import WindowWrapper
 class Scrollable(WindowWrapper):
     def __init__(self, parent: T.Any, h: int, w: int, y: int, x: int) -> None:
         super().__init__(parent, h, w, y, x)
-        self._scroll_y = 0
+        self._scroll_pos = 0
         self._pad: T.Optional[T.Any] = curses.newpad(1, 1)
         self._items: T.List[T.Any] = []
 
@@ -15,13 +15,27 @@ class Scrollable(WindowWrapper):
         self._items = []
         self.scroll_to_item(0)
 
+    def scroll_page_up(self) -> None:
+        self.scroll_to_item(max(0, self._scroll_pos - self.getmaxyx()[0]))
+
+    def scroll_page_down(self) -> None:
+        self.scroll_to_item(
+            min(
+                len(self._items) - 1,
+                self._scroll_pos + self.getmaxyx()[0] * 2 - 1,
+            )
+        )
+
     def scroll_to_item(self, y: int) -> None:
         if not self._items or not self._win:
             return
         if y < 0:
             y %= len(self._items)
-        while not (self._scroll_y <= y < self._scroll_y + self.getmaxyx()[0]):
-            self._scroll_y += 1 if self._scroll_y < y else -1
+
+        h = self.getmaxyx()[0]
+        delta = 1 if self._scroll_pos < y else -1
+        while not self._scroll_pos <= y < self._scroll_pos + h:
+            self._scroll_pos += delta
 
     def stop(self) -> None:
         super().stop()
@@ -50,9 +64,9 @@ class Scrollable(WindowWrapper):
         y, x = self.getbegyx()
 
         try:
-            if self._scroll_y > 0 or self._scroll_y + h < len(self._items):
-                y1 = self._scroll_y
-                y2 = self._scroll_y + h
+            if self._scroll_pos > 0 or self._scroll_pos + h < len(self._items):
+                y1 = self._scroll_pos
+                y2 = self._scroll_pos + h
                 thumb_y1 = int(y1 * h // len(self._items))
                 thumb_y2 = int(y2 * h // len(self._items))
                 for win_y in range(h):
@@ -67,12 +81,12 @@ class Scrollable(WindowWrapper):
 
                 self._render_impl(h, w - 1)
                 self._pad.noutrefresh(
-                    self._scroll_y, 0, y, x, y + h - 1, x + w - 2
+                    self._scroll_pos, 0, y, x, y + h - 1, x + w - 2
                 )
             else:
                 self._render_impl(h, w)
                 self._pad.noutrefresh(
-                    self._scroll_y, 0, y, x, y + h - 1, x + w - 1
+                    self._scroll_pos, 0, y, x, y + h - 1, x + w - 1
                 )
 
         except curses.error:

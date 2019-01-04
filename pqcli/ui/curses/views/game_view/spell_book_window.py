@@ -31,6 +31,14 @@ class SpellBookWindow(Focusable, WindowWrapper):
         self._player.spell_book.disconnect("add", self._sync_spell_add)
         self._player.spell_book.disconnect("change", self._sync_spell_change)
 
+    def scroll_page_up(self) -> None:
+        self._data_table.scroll_page_up()
+        self._render()
+
+    def scroll_page_down(self) -> None:
+        self._data_table.scroll_page_down()
+        self._render()
+
     def _sync(self) -> None:
         self._data_table.clear()
         for spell in self._player.spell_book:

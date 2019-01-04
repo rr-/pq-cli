@@ -33,6 +33,14 @@ class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
             "change", self._sync_position
         )
 
+    def scroll_page_up(self) -> None:
+        self._list_box.scroll_page_up()
+        self._render()
+
+    def scroll_page_down(self) -> None:
+        self._list_box.scroll_page_down()
+        self._render()
+
     def _sync(self) -> None:
         self._sync_quests()
         self._sync_position()
