@@ -13,7 +13,9 @@ class RosterView(urwid.Filler):
     def __init__(self, roster: Roster) -> None:
         self.roster = roster
 
-        logo = urwid.BigText("Progress Quest", urwid.HalfBlock5x4Font())
+        logo = urwid.AttrMap(
+            urwid.BigText("Progress Quest", urwid.HalfBlock5x4Font()), "logo"
+        )
 
         buttons = []
         for player_idx, player in enumerate(self.roster.players):

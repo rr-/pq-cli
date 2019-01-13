@@ -14,6 +14,7 @@ from ..base import BaseUserInterface
 TICK_FREQ = 0.1
 SAVE_FREQ = 60.0
 PALETTE: T.List[T.Tuple[str, ...]] = [
+    ("logo", "light green", ""),
     ("button", "", ""),
     ("button-focus", "light red", "black"),
     ("linebox", "", ""),
