@@ -4,8 +4,9 @@ import typing as T
 from pqcli.config import PRIME_STATS
 from pqcli.mechanic import StatsBuilder
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import KEYS_CANCEL
+from pqcli.ui.curses.util import KEYS_CANCEL, KEYS_DOWN, KEYS_UP
 from pqcli.ui.curses.views.base_view import BaseView
+from pqcli.ui.curses.widgets.focusable import focus_standout
 
 
 class ChooseCharacterStatsView(BaseView):
@@ -15,6 +16,7 @@ class ChooseCharacterStatsView(BaseView):
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
+        self._active_widget = 0
         self._win: T.Optional[T.Any] = None
         self._stats_win: T.Optional[T.Any] = None
 
@@ -48,13 +50,31 @@ class ChooseCharacterStatsView(BaseView):
             self.on_cancel()
 
         elif key == curses.ascii.NL:
-            self.on_confirm(self._stats)
+            if self._active_widget == 0:
+                self._stats = self._stats_builder.roll()
+            elif self._active_widget == 1:
+                self._stats = self._stats_builder.unroll()
+            elif self._active_widget == 2:
+                self.on_confirm(self._stats)
+            elif self._active_widget == 3:
+                self.on_cancel()
+            else:
+                assert False
 
         elif key == curses.KEY_F5:
             self._stats = self._stats_builder.roll()
 
         elif key == curses.KEY_F6:
             self._stats = self._stats_builder.unroll()
+
+        elif key == curses.KEY_F10:
+            self.on_confirm(self._stats)
+
+        elif key in KEYS_DOWN and self._active_widget < 3:
+            self._active_widget += 1
+
+        elif key in KEYS_UP and self._active_widget > 0:
+            self._active_widget -= 1
 
         self._render()
 
@@ -67,10 +87,14 @@ class ChooseCharacterStatsView(BaseView):
 
         self._win.erase()
         self._win.addstr(0, 0, "Roll character stats:")
-        self._win.addstr(3 + stats_h + 0, 0, "[F5   ] roll")
-        self._win.addstr(3 + stats_h + 1, 0, "[F6   ] unroll")
-        self._win.addstr(3 + stats_h + 2, 0, "[Esc  ] cancel")
-        self._win.addstr(3 + stats_h + 3, 0, "[Enter] confirm")
+        with focus_standout(self._active_widget == 0, self._win):
+            self._win.addstr(3 + stats_h + 0, 0, "[F5   ] roll")
+        with focus_standout(self._active_widget == 1, self._win):
+            self._win.addstr(3 + stats_h + 1, 0, "[F6   ] unroll")
+        with focus_standout(self._active_widget == 2, self._win):
+            self._win.addstr(3 + stats_h + 2, 0, "[F10  ] continue")
+        with focus_standout(self._active_widget == 3, self._win):
+            self._win.addstr(3 + stats_h + 3, 0, "[Esc  ] cancel")
         self._win.noutrefresh()
 
         self._stats_win.erase()
