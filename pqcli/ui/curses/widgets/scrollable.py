@@ -1,6 +1,12 @@
 import curses
 import typing as T
 
+from pqcli.ui.curses.colors import (
+    COLOR_SCROLLBAR_THUMB,
+    COLOR_SCROLLBAR_TRACK,
+    has_colors,
+)
+
 from .base import WindowWrapper
 
 
@@ -69,13 +75,25 @@ class Scrollable(WindowWrapper):
                 y2 = self._scroll_pos + h
                 thumb_y1 = int(y1 * h // len(self._items))
                 thumb_y2 = int(y2 * h // len(self._items))
+
+                attr_thumb = (
+                    curses.color_pair(COLOR_SCROLLBAR_THUMB)
+                    if has_colors()
+                    else curses.A_REVERSE
+                )
+                attr_track = (
+                    curses.color_pair(COLOR_SCROLLBAR_TRACK)
+                    if has_colors()
+                    else curses.A_NORMAL
+                )
+
                 for win_y in range(h):
                     self._win.chgat(
                         win_y,
                         w - 1,
-                        curses.A_REVERSE
+                        attr_thumb
                         if thumb_y1 <= win_y <= thumb_y2
-                        else curses.A_NORMAL,
+                        else attr_track,
                     )
                 self._win.noutrefresh()
 

@@ -3,6 +3,7 @@ import curses.ascii
 import typing as T
 
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_UP
+from pqcli.ui.curses.widgets.focusable import focus_standout
 
 from ..util import Choice
 from .base import Widget
@@ -73,11 +74,8 @@ class Menu(Widget):
 
         for y, choice in enumerate(self._choices):
             self._pad.move(len(self._header_lines) + 1 + y, 0)
-            if y == self._active_choice:
-                self._pad.standout()
-            self._pad.addstr(choice.desc)
-            if y == self._active_choice:
-                self._pad.standend()
+            with focus_standout(y == self._active_choice, self._pad):
+                self._pad.addstr(choice.desc)
 
         self._pad.refresh(
             0,

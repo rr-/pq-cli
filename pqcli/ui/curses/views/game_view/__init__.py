@@ -8,11 +8,10 @@ from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
 from pqcli.ui.curses.views.base_view import BaseView
-from pqcli.ui.curses.widgets import Scrollable, Widget
+from pqcli.ui.curses.widgets import Focusable, Scrollable, Widget
 
 from .character_sheet_window import CharacterSheetWindow
 from .equipment_window import EquipmentWindow
-from .focusable import Focusable
 from .inventory_window import InventoryWindow
 from .plot_window import PlotWindow
 from .quest_book_window import QuestBookWindow

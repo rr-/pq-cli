@@ -1,9 +1,8 @@
 import typing as T
 
 from pqcli.mechanic import Player
-from pqcli.ui.curses.widgets import ListBox, WindowWrapper
+from pqcli.ui.curses.widgets import Focusable, ListBox, WindowWrapper
 
-from .focusable import Focusable
 from .progress_bar_window import ListBoxProgressBarWindow
 
 

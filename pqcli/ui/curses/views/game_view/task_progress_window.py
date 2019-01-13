@@ -1,9 +1,12 @@
 import typing as T
 
 from pqcli.mechanic import Player
-from pqcli.ui.curses.widgets import Label, ProgressBar, WindowWrapper
-
-from .focusable import Focusable
+from pqcli.ui.curses.widgets import (
+    Focusable,
+    Label,
+    ProgressBar,
+    WindowWrapper,
+)
 
 
 class TaskProgressWindow(Focusable, WindowWrapper):

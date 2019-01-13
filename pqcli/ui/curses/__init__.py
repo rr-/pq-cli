@@ -9,6 +9,15 @@ from pqcli import lingo
 from pqcli.config import Class, Race
 from pqcli.mechanic import Player, Stats, create_player
 from pqcli.roster import Roster
+from pqcli.ui.curses.colors import (
+    COLOR_FOCUSED,
+    COLOR_LOGO,
+    COLOR_PROGRESSBAR,
+    COLOR_SCROLLBAR_THUMB,
+    COLOR_SCROLLBAR_TRACK,
+    has_colors,
+    set_colors,
+)
 from pqcli.ui.curses.views import (
     BaseView,
     ChooseCharacterClassView,
@@ -37,6 +46,16 @@ class CursesUserInterface(BaseUserInterface):
         self._screen.keypad(True)
         curses.noecho()
         curses.curs_set(0)
+
+        set_colors(args.colors)
+        if has_colors():
+            curses.start_color()
+            curses.use_default_colors()
+            curses.init_pair(COLOR_LOGO, 10, -1)
+            curses.init_pair(COLOR_FOCUSED, -1, 8)
+            curses.init_pair(COLOR_SCROLLBAR_THUMB, -1, 0)
+            curses.init_pair(COLOR_SCROLLBAR_TRACK, -1, -1)
+            curses.init_pair(COLOR_PROGRESSBAR, 0, 9)
 
         def signal_handler(sig: T.Any, frame: T.Any) -> None:
             if self.args.use_saves:

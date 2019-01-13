@@ -1,9 +1,7 @@
 import typing as T
 
 from pqcli.mechanic import EquipmentType, Player
-from pqcli.ui.curses.widgets import DataTable, WindowWrapper
-
-from .focusable import Focusable
+from pqcli.ui.curses.widgets import DataTable, Focusable, WindowWrapper
 
 
 class EquipmentWindow(Focusable, WindowWrapper):

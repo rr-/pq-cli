@@ -3,6 +3,7 @@ import datetime
 import typing as T
 
 from pqcli.lingo import format_timespan
+from pqcli.ui.curses.colors import COLOR_PROGRESSBAR, has_colors
 from pqcli.ui.curses.widgets.base import WindowWrapper
 
 
@@ -47,7 +48,13 @@ class ProgressBar(WindowWrapper):
         self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1] - 1))
         x = int(cur_pos * self.getmaxyx()[1] // max_pos)
         if x > 0:
-            self._win.chgat(0, 0, curses.A_REVERSE)
+            self._win.chgat(
+                0,
+                0,
+                curses.color_pair(COLOR_PROGRESSBAR)
+                if has_colors()
+                else curses.A_REVERSE,
+            )
             if x < self.getmaxyx()[1]:
                 self._win.chgat(0, x, curses.A_NORMAL)
         self._win.noutrefresh()

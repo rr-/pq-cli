@@ -39,6 +39,13 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--no-colors",
+        dest="colors",
+        action="store_false",
+        help="Disable color highlighting in curses interface",
+    )
+
+    parser.add_argument(
         "--no-config",
         dest="use_config",
         action="store_false",

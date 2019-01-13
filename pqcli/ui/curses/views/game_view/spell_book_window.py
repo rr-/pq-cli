@@ -2,9 +2,7 @@ import typing as T
 
 from pqcli.lingo import to_roman
 from pqcli.mechanic import Player, Spell
-from pqcli.ui.curses.widgets import DataTable, WindowWrapper
-
-from .focusable import Focusable
+from pqcli.ui.curses.widgets import DataTable, Focusable, WindowWrapper
 
 
 class SpellBookWindow(Focusable, WindowWrapper):

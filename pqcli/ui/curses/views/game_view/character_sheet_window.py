@@ -1,8 +1,8 @@
 import typing as T
 
 from pqcli.mechanic import Player, StatType
+from pqcli.ui.curses.widgets import Focusable
 
-from .focusable import Focusable
 from .progress_bar_window import DataTableProgressBarWindow
 
 

@@ -1,8 +1,11 @@
+import curses
 import typing as T
 
-from ..event_handler import EventHandler
-from ..util import Choice
-from ..widgets import Menu
+from pqcli.ui.curses.colors import COLOR_LOGO, has_colors
+from pqcli.ui.curses.event_handler import EventHandler
+from pqcli.ui.curses.util import Choice
+from pqcli.ui.curses.widgets import Menu
+
 from .base_view import BaseView
 
 LOGO = """
@@ -11,6 +14,22 @@ LOGO = """
 █    █   █  █ ▀▄▄█ █   █▀▀   ▀▀▄  ▀▀▄   █ ▌█ █  █ █▀▀   ▀▀▄  █
 ▀    ▀    ▀▀   ▄▄▀ ▀    ▀▀  ▀▀▀  ▀▀▀     ▀▀▌  ▀▀   ▀▀  ▀▀▀    ▀
 """.strip()
+
+
+class MainMenu(Menu):
+    def __init__(
+        self, choices: T.List[Choice], scr_height: int, scr_width: int
+    ) -> None:
+        super().__init__(
+            header=LOGO,
+            choices=choices,
+            active_choice=0,
+            scr_height=scr_height,
+            scr_width=scr_width,
+        )
+        if has_colors():
+            for y in range(len(self._header_lines)):
+                self._pad.chgat(y, 0, curses.color_pair(COLOR_LOGO))
 
 
 class RosterView(BaseView):
@@ -50,12 +69,8 @@ class RosterView(BaseView):
         self.screen.erase()
         self.screen.noutrefresh()
 
-        self.main_menu = Menu(
-            header=LOGO,
-            choices=self.choices,
-            active_choice=0,
-            scr_height=scr_height,
-            scr_width=scr_width,
+        self.main_menu = MainMenu(
+            choices=self.choices, scr_height=scr_height, scr_width=scr_width
         )
         self.main_menu.render()
 

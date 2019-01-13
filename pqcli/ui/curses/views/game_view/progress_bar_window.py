@@ -1,9 +1,9 @@
 import curses
 import typing as T
 
-from pqcli.ui.curses.views.game_view.focusable import Focusable
 from pqcli.ui.curses.widgets import (
     DataTable,
+    Focusable,
     ListBox,
     ProgressBar,
     WindowWrapper,
