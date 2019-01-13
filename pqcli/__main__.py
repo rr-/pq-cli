@@ -46,15 +46,6 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--no-config",
-        dest="use_config",
-        action="store_false",
-        help=(
-            "Don't load or save configuration files from $XDG_CONFIG_HOME "
-            "(player data will still be saved)"
-        ),
-    )
-    parser.add_argument(
         "--no-save",
         dest="use_saves",
         action="store_false",
