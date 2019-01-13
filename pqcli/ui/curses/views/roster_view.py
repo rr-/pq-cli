@@ -58,9 +58,7 @@ class RosterView(BaseView):
                 callback=self.on_delete,
             ),
             Choice(
-                keys=list(KEYS_CANCEL),
-                desc="[Q] Quit",
-                callback=self.on_quit,
+                keys=list(KEYS_CANCEL), desc="[Q] Quit", callback=self.on_quit
             ),
         ]
 
