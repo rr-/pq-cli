@@ -23,8 +23,12 @@ class Menu(Widget):
         self._scr_width = scr_width
         self._scr_height = scr_height
 
-        w = max(map(len, self._header_lines))
-        h = len(self._header_lines) + 1 + len(choices)
+        all_lines = self._header_lines + sum(
+            [choice.desc.splitlines() for choice in choices], []
+        )
+
+        w = max(map(len, all_lines)) + 1
+        h = len(all_lines) + 1
         self._pad: T.Optional[T.Any] = curses.newpad(h, w)
 
         for y, line in enumerate(self._header_lines):
@@ -72,10 +76,15 @@ class Menu(Widget):
         if not self._pad:
             return
 
-        for y, choice in enumerate(self._choices):
-            self._pad.move(len(self._header_lines) + 1 + y, 0)
-            with focus_standout(y == self._active_choice, self._pad):
-                self._pad.addstr(choice.desc)
+        y = len(self._header_lines) + 1
+        for i, choice in enumerate(self._choices):
+            self._pad.move(y, 0)
+            with focus_standout(i == self._active_choice, self._pad):
+                lines = choice.desc.splitlines()
+                max_len = max(map(len, lines))
+                lines = [line.ljust(max_len) for line in lines]
+                self._pad.addstr("\n".join(lines))
+            y += len(choice.desc.splitlines())
 
         self._pad.refresh(
             0,
