@@ -2,7 +2,7 @@ import typing as T
 
 import urwid
 
-from pqcli.ui.urwid.layout import NColumns, NPile
+from pqcli.ui.urwid.widgets.layout import NColumns, NPile
 
 
 class DataTable(NPile):

@@ -2,12 +2,10 @@ import typing as T
 
 import urwid
 
-from pqcli.ui.urwid.custom_button import CustomButton
-from pqcli.ui.urwid.custom_line_box import CustomLineBox
-from pqcli.ui.urwid.layout import NPile
+from pqcli.ui.urwid.widgets import CustomButton, CustomLineBox, NPile
 
 
-class ConfirmDialog(urwid.Overlay):
+class ConfirmView(urwid.Overlay):
     signals = ["confirm", "cancel"]
 
     def __init__(self, label: str, parent: urwid.Widget) -> None:

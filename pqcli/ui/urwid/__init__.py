@@ -9,10 +9,7 @@ import xdg
 from pqcli import lingo, random
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
-from pqcli.ui.urwid.confirm_dialog import ConfirmDialog
-from pqcli.ui.urwid.game_view import GameView
-from pqcli.ui.urwid.new_game_view import NewGameView
-from pqcli.ui.urwid.roster_view import RosterView
+from pqcli.ui.urwid.views import ConfirmView, GameView, NewGameView, RosterView
 
 from ..base import BaseUserInterface
 
@@ -50,7 +47,7 @@ def save_palette() -> None:
     PALETTE_PATH.write_text(json.dumps(PALETTE, indent=4))
 
 
-class ConfirmExitDialog(ConfirmDialog):
+class ConfirmExitDialog(ConfirmView):
     def __init__(self, old_view: urwid.Widget) -> None:
         super().__init__("Really quit?", old_view)
 
@@ -136,7 +133,7 @@ class UrwidUserInterface(BaseUserInterface):
         player_name = self.roster.players[player_idx].name
 
         self.old_views.append(self.loop.widget)
-        self.loop.widget = ConfirmDialog(
+        self.loop.widget = ConfirmView(
             lingo.terminate_message(player_name), self.old_views[-1]
         )
         self._connect("confirm", lambda: self.delete_player(player_idx))

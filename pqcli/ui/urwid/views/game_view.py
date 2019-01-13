@@ -15,13 +15,17 @@ from pqcli.mechanic import (
     Spell,
 )
 from pqcli.roster import Roster
-from pqcli.ui.urwid.custom_line_box import CustomLineBox
-from pqcli.ui.urwid.custom_progress_bar import CustomProgressBar
-from pqcli.ui.urwid.data_table import DataTable
-from pqcli.ui.urwid.double_line_box import DoubleLineBox
-from pqcli.ui.urwid.layout import NColumns, NPile
-from pqcli.ui.urwid.read_only_check_box import ReadOnlyCheckBox
-from pqcli.ui.urwid.scrollable import Scrollable, ScrollBar
+from pqcli.ui.urwid.widgets import (
+    CustomLineBox,
+    CustomProgressBar,
+    DataTable,
+    DoubleLineBox,
+    NColumns,
+    NPile,
+    ReadOnlyCheckBox,
+    Scrollable,
+    ScrollBar,
+)
 
 
 class CharacterSheetView(DoubleLineBox):

@@ -4,8 +4,7 @@ import urwid
 
 from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
-from pqcli.ui.urwid.custom_button import CustomButton
-from pqcli.ui.urwid.layout import NColumns, NPile
+from pqcli.ui.urwid.widgets import CustomButton, NColumns, NPile
 
 
 class RosterView(urwid.Filler):
