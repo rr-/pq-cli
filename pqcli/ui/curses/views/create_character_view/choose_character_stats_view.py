@@ -91,13 +91,13 @@ class ChooseCharacterStatsView(BaseView):
         self._win.erase()
         self._win.addstr(0, 0, "Roll character stats:")
         with focus_standout(self._active_widget == 0, self._win):
-            self._win.addstr(3 + stats_h + 0, 0, "[F5   ] roll")
+            self._win.addstr(3 + stats_h + 0, 0, "[F5   ] Roll")
         with focus_standout(self._active_widget == 1, self._win):
-            self._win.addstr(3 + stats_h + 1, 0, "[F6   ] unroll")
+            self._win.addstr(3 + stats_h + 1, 0, "[F6   ] Unroll")
         with focus_standout(self._active_widget == 2, self._win):
-            self._win.addstr(3 + stats_h + 2, 0, "[F10  ] continue")
+            self._win.addstr(3 + stats_h + 2, 0, "[F10  ] Continue")
         with focus_standout(self._active_widget == 3, self._win):
-            self._win.addstr(3 + stats_h + 3, 0, "[Esc  ] cancel")
+            self._win.addstr(3 + stats_h + 3, 0, "[Esc  ] Cancel")
         self._win.noutrefresh()
 
         self._stats_win.erase()

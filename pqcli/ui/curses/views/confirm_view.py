@@ -17,7 +17,7 @@ class ConfirmView(BaseView):
         self.choices: T.List[Choice] = [
             Choice(
                 keys=list(map(ord, "yY")),
-                desc=f"[y] Yes",
+                desc=f"[Y] Yes",
                 callback=self.on_confirm,
             ),
             Choice(

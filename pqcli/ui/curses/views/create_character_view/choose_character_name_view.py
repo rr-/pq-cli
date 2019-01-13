@@ -104,11 +104,11 @@ class ChooseCharacterNameView(BaseView):
         self._win.erase()
         self._win.addstr(0, 0, "Choose character name:")
         with focus_standout(self._active_widget == 1, self._win):
-            self._win.addstr(6, 0, "[F5   ] generate random name")
+            self._win.addstr(6, 0, "[F5   ] Generate random name")
         with focus_standout(self._active_widget == 2, self._win):
-            self._win.addstr(7, 0, "[F10  ] continue")
+            self._win.addstr(7, 0, "[F10  ] Continue")
         with focus_standout(self._active_widget == 3, self._win):
-            self._win.addstr(8, 0, "[Esc  ] cancel")
+            self._win.addstr(8, 0, "[Esc  ] Cancel")
         self._win.refresh()
 
         self._text_win.erase()
