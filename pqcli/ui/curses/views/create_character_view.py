@@ -29,16 +29,16 @@ class ChooseCharacterNameView(BaseView):
 
         scr_height, scr_width = self.screen.getmaxyx()
 
-        h = 1
+        h = 8
         w = 30
         y = (scr_height - h - 2) // 2
         x = (scr_width - w - 2) // 2
-        self._win = curses.newwin(h + 2, w + 2, y, x)
+        self._win = curses.newwin(3, w + 2, y + 2, x - 1)
         self._win.box()
-        self.screen.addstr(y - 1, x, "Choose character name:")
-        self.screen.addstr(y + h + 2, x, "[F5   ] generate random name")
-        self.screen.addstr(y + h + 3, x, "[Esc  ] cancel")
-        self.screen.addstr(y + h + 4, x, "[Enter] confirm")
+        self.screen.addstr(y, x, "Choose character name:")
+        self.screen.addstr(y + 6, x, "[F5   ] generate random name")
+        self.screen.addstr(y + 7, x, "[Esc  ] cancel")
+        self.screen.addstr(y + 8, x, "[Enter] confirm")
         self._win.refresh()
         self._render()
 
@@ -154,7 +154,7 @@ class ChooseCharacterStatsView(BaseView):
         scr_height, scr_width = self.screen.getmaxyx()
 
         h2 = len(PRIME_STATS) + 2
-        h = 5 + h2
+        h = 7 + h2
         w = 30
         y = (scr_height - h - 2) // 2
         x = (scr_width - w - 2) // 2
@@ -163,7 +163,7 @@ class ChooseCharacterStatsView(BaseView):
         self.screen.noutrefresh()
 
         self._win = curses.newwin(h, w, y, x)
-        self._stats_win = curses.newwin(h2, w, y + 1, x)
+        self._stats_win = curses.newwin(h2, w, y + 2, x - 1)
         self._render()
 
     def stop(self) -> None:
@@ -196,10 +196,10 @@ class ChooseCharacterStatsView(BaseView):
 
         self._win.erase()
         self._win.addstr(0, 0, "Roll character stats:")
-        self._win.addstr(1 + stats_h + 0, 0, "[F5   ] roll")
-        self._win.addstr(1 + stats_h + 1, 0, "[F6   ] unroll")
-        self._win.addstr(1 + stats_h + 2, 0, "[Esc  ] cancel")
-        self._win.addstr(1 + stats_h + 3, 0, "[Enter] confirm")
+        self._win.addstr(3 + stats_h + 0, 0, "[F5   ] roll")
+        self._win.addstr(3 + stats_h + 1, 0, "[F6   ] unroll")
+        self._win.addstr(3 + stats_h + 2, 0, "[Esc  ] cancel")
+        self._win.addstr(3 + stats_h + 3, 0, "[Enter] confirm")
         self._win.noutrefresh()
 
         self._stats_win.erase()
