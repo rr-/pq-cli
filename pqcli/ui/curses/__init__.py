@@ -53,8 +53,8 @@ class CursesUserInterface(BaseUserInterface):
             curses.use_default_colors()
             curses.init_pair(COLOR_LOGO, 10, -1)
             curses.init_pair(COLOR_FOCUSED, -1, 8)
-            curses.init_pair(COLOR_SCROLLBAR_THUMB, -1, 0)
-            curses.init_pair(COLOR_SCROLLBAR_TRACK, -1, -1)
+            curses.init_pair(COLOR_SCROLLBAR_THUMB, -1, 7)
+            curses.init_pair(COLOR_SCROLLBAR_TRACK, -1, 0)
             curses.init_pair(COLOR_PROGRESSBAR, 0, 9)
 
         def signal_handler(sig: T.Any, frame: T.Any) -> None:

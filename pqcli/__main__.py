@@ -15,7 +15,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pqcli")
 
     group = parser.add_mutually_exclusive_group()
-    group.set_defaults(ui=UrwidUserInterface)
+    group.set_defaults(ui=CursesUserInterface)
     group.add_argument(
         "--basic",
         dest="ui",
