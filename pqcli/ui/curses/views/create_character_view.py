@@ -36,8 +36,8 @@ class ChooseCharacterNameView(BaseView):
         self._win = curses.newwin(h + 2, w + 2, y, x)
         self._win.box()
         self.screen.addstr(y - 1, x, "Choose character name:")
-        self.screen.addstr(y + h + 2, x, "[ F5  ] generate random name")
-        self.screen.addstr(y + h + 3, x, "[ Esc ] cancel")
+        self.screen.addstr(y + h + 2, x, "[F5   ] generate random name")
+        self.screen.addstr(y + h + 3, x, "[Esc  ] cancel")
         self.screen.addstr(y + h + 4, x, "[Enter] confirm")
         self._win.refresh()
         self._render()
@@ -196,9 +196,9 @@ class ChooseCharacterStatsView(BaseView):
 
         self._win.erase()
         self._win.addstr(0, 0, "Roll character stats:")
-        self._win.addstr(1 + stats_h + 0, 0, "[ F5  ] roll")
-        self._win.addstr(1 + stats_h + 1, 0, "[ F6  ] unroll")
-        self._win.addstr(1 + stats_h + 2, 0, "[ Esc ] cancel")
+        self._win.addstr(1 + stats_h + 0, 0, "[F5   ] roll")
+        self._win.addstr(1 + stats_h + 1, 0, "[F6   ] unroll")
+        self._win.addstr(1 + stats_h + 2, 0, "[Esc  ] cancel")
         self._win.addstr(1 + stats_h + 3, 0, "[Enter] confirm")
         self._win.noutrefresh()
 
