@@ -13,7 +13,7 @@ from ..base import BaseUserInterface
 
 TICK_FREQ = 0.1
 SAVE_FREQ = 60.0
-PALETTE: T.List[T.Tuple[str, ...]] = [
+PALETTE_COLORS: T.List[T.Tuple[str, ...]] = [
     ("logo", "light green", ""),
     ("button", "", ""),
     ("button-focus", "light red", "black"),
@@ -28,6 +28,13 @@ PALETTE: T.List[T.Tuple[str, ...]] = [
     ("scrollbar-focus", "light red", "black"),
     ("scrollable", "", ""),
     ("scrollable-focus", "", ""),
+]
+PALETTE_NO_COLORS: T.List[T.Tuple[str, ...]] = [
+    ("button-focus", "", "", "standout"),
+    ("linebox-focus", "", "", "standout"),
+    ("progressbar-normal", "black", "white"),
+    ("progressbar-done", "black", "white", "standout"),
+    ("progressbar-smooth", "black", "white"),
 ]
 
 
@@ -54,8 +61,12 @@ class UrwidUserInterface(BaseUserInterface):
         bind_commands()
 
         self.loop = urwid.MainLoop(
-            None, PALETTE, unhandled_input=self.unhandled_input
+            None,
+            PALETTE_COLORS if args.colors else PALETTE_NO_COLORS,
+            unhandled_input=self.unhandled_input,
         )
+        if not args.colors:
+            self.loop.screen.set_terminal_properties(1)
         self.old_views: T.List[urwid.Widget] = []
 
         self.switch_to_roster_view()
