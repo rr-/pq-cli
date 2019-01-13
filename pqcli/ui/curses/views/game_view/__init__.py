@@ -3,7 +3,7 @@ import curses
 import datetime
 import typing as T
 
-from pqcli.mechanic import Player, Simulation
+from pqcli.mechanic import Player, SignalMixin, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
@@ -86,6 +86,22 @@ class GameView(BaseView):
                 self.focus(self._plot_win)
             elif focused == self._inventory_win:
                 self.focus(self._quest_book_win)
+
+        elif self._args.cheats and key == ord("t"):
+            self._simulation.tick()
+
+        elif self._args.cheats and key == ord("T"):
+            for _ in range(100):
+                self._simulation.tick()
+
+        elif self._args.cheats and key == curses.ascii.DC4:  # ^t
+            old = SignalMixin.emit
+            SignalMixin.emit = lambda *_: None
+            for _ in range(10000):
+                self._simulation.tick()
+            SignalMixin.emit = old
+            for child in self._children:
+                child.sync()
 
         else:
             super().keypress(key)

@@ -29,7 +29,7 @@ class CharacterSheetWindow(Focusable, DataTableProgressBarWindow):
         self._player.stats.connect("change", self._sync_traits)
         self._player.exp_bar.connect("change", self._sync_exp)
 
-        self._sync()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -38,7 +38,7 @@ class CharacterSheetWindow(Focusable, DataTableProgressBarWindow):
         self._player.stats.disconnect("change", self._sync_traits)
         self._player.exp_bar.disconnect("change", self._sync_exp)
 
-    def _sync(self) -> None:
+    def sync(self) -> None:
         self._sync_traits()
         self._sync_exp()
 

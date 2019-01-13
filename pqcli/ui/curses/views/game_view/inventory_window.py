@@ -39,7 +39,7 @@ class InventoryWindow(Focusable, DataTableProgressBarWindow):
             "change", self._sync_encumbrance
         )
 
-        self._sync()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -63,7 +63,7 @@ class InventoryWindow(Focusable, DataTableProgressBarWindow):
         self._data_table.scroll_page_down()
         self._render()
 
-    def _sync(self) -> None:
+    def sync(self) -> None:
         self._sync_gold()
         self._sync_items()
         self._sync_encumbrance()

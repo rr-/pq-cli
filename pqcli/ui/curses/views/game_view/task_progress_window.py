@@ -24,8 +24,7 @@ class TaskProgressWindow(Focusable, WindowWrapper):
         self._player.connect("new_task", self._sync_task_name)
         self._player.task_bar.connect("change", self._sync_position)
 
-        self._sync_task_name()
-        self._sync_position()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -35,6 +34,10 @@ class TaskProgressWindow(Focusable, WindowWrapper):
 
         self._player.disconnect("new_task", self._sync_task_name)
         self._player.task_bar.disconnect("change", self._sync_position)
+
+    def sync(self) -> None:
+        self._sync_task_name()
+        self._sync_position()
 
     def _sync_task_name(self) -> None:
         self._desc_win.set_text(

@@ -22,7 +22,7 @@ class PlotWindow(Focusable, ListBoxProgressBarWindow):
         self._player.quest_book.connect("start_act", self._sync_act_add)
         self._player.quest_book.plot_bar.connect("change", self._sync_position)
 
-        self._sync()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -41,7 +41,7 @@ class PlotWindow(Focusable, ListBoxProgressBarWindow):
         self._list_box.scroll_page_down()
         self._render()
 
-    def _sync(self) -> None:
+    def sync(self) -> None:
         self._sync_acts()
         self._sync_position()
 

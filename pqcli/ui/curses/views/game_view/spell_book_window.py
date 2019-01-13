@@ -20,7 +20,7 @@ class SpellBookWindow(Focusable, WindowWrapper):
         self._player.spell_book.connect("add", self._sync_spell_add)
         self._player.spell_book.connect("change", self._sync_spell_change)
 
-        self._sync()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -37,7 +37,7 @@ class SpellBookWindow(Focusable, WindowWrapper):
         self._data_table.scroll_page_down()
         self._render()
 
-    def _sync(self) -> None:
+    def sync(self) -> None:
         self._data_table.clear()
         for spell in self._player.spell_book:
             self._data_table.add(spell.name, to_roman(spell.level))

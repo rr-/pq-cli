@@ -18,7 +18,7 @@ class EquipmentWindow(Focusable, WindowWrapper):
         self._player = player
         self._player.equipment.connect("change", self.sync_equipment_change)
 
-        self._sync()
+        self.sync()
 
     def stop(self) -> None:
         super().stop()
@@ -26,7 +26,7 @@ class EquipmentWindow(Focusable, WindowWrapper):
 
         self._player.equipment.disconnect("change", self.sync_equipment_change)
 
-    def _sync(self) -> None:
+    def sync(self) -> None:
         self._data_table.clear()
         for equipment_type in EquipmentType:
             self._data_table.add(
