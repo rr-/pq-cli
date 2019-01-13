@@ -21,6 +21,7 @@ Relive the great adventure… this time in the terminal realm!
 
 Curses interface:
 
+![Screenshot](screen-curses-logo.png)
 ![Screenshot](screen-curses.png)
 
 Basic interface:
