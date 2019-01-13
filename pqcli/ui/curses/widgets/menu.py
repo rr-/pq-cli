@@ -2,7 +2,7 @@ import curses
 import curses.ascii
 import typing as T
 
-from pqcli.ui.curses.util import KEYS_DOWN, KEYS_UP
+from pqcli.ui.curses.util import KEYS_CYCLE, KEYS_DOWN, KEYS_UP
 from pqcli.ui.curses.widgets.focusable import focus_standout
 
 from ..util import Choice
@@ -54,6 +54,9 @@ class Menu(Widget):
     def prev(self) -> None:
         self._active_choice = max(0, self._active_choice - 1)
 
+    def cycle(self) -> None:
+        self._active_choice = (self._active_choice + 1) % len(self._choices)
+
     def keypress(self, key: int) -> None:
         for choice in self._choices:
             if key in choice.keys:
@@ -62,15 +65,12 @@ class Menu(Widget):
 
         if key == curses.ascii.NL:
             self._choices[self._active_choice].callback()
-            return
-
-        if key in KEYS_DOWN:
+        elif key in KEYS_DOWN:
             self.next()
-            return
-
-        if key in KEYS_UP:
+        elif key in KEYS_UP:
             self.prev()
-            return
+        elif key in KEYS_CYCLE:
+            self.cycle()
 
     def render(self) -> None:
         if not self._pad:

@@ -3,6 +3,7 @@ import curses.ascii
 import typing as T
 from dataclasses import dataclass
 
+KEYS_CYCLE = {curses.ascii.TAB}
 KEYS_DOWN = set(map(ord, "jJ")) | {curses.KEY_DOWN}
 KEYS_LEFT = set(map(ord, "hH")) | {curses.KEY_LEFT}
 KEYS_RIGHT = set(map(ord, "lL")) | {curses.KEY_RIGHT}

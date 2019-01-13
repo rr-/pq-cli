@@ -4,7 +4,7 @@ import typing as T
 
 from pqcli.mechanic import generate_name
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import KEYS_CANCEL, KEYS_DOWN, KEYS_UP
+from pqcli.ui.curses.util import KEYS_CANCEL, KEYS_CYCLE, KEYS_DOWN, KEYS_UP
 from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.widgets.focusable import focus_standout
 
@@ -50,6 +50,9 @@ class ChooseCharacterNameView(BaseView):
 
         elif key == curses.KEY_F10:
             self._finish()
+
+        elif key in KEYS_CYCLE:
+            self._active_widget = (self._active_widget + 1) % 4
 
         elif self._active_widget == 0:
             if key == curses.ascii.ESC:

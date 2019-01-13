@@ -8,6 +8,7 @@ from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import (
     KEYS_CANCEL,
+    KEYS_CYCLE,
     KEYS_DOWN,
     KEYS_LEFT,
     KEYS_RIGHT,
@@ -56,6 +57,20 @@ class GameView(BaseView):
         elif key in {curses.KEY_NPAGE}:
             if hasattr(focused, "scroll_page_down"):
                 focused.scroll_page_down()
+
+        elif key in KEYS_CYCLE:
+            if focused == self._char_sheet_win:
+                self.focus(self._spell_book_win)
+            elif focused == self._spell_book_win:
+                self.focus(self._equipment_win)
+            elif focused == self._equipment_win:
+                self.focus(self._inventory_win)
+            elif focused == self._inventory_win:
+                self.focus(self._plot_win)
+            elif focused == self._plot_win:
+                self.focus(self._quest_book_win)
+            elif focused == self._quest_book_win:
+                self.focus(self._char_sheet_win)
 
         elif key in KEYS_DOWN:
             if focused == self._char_sheet_win:
