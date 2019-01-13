@@ -6,7 +6,6 @@ import xdg
 from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.curses import CursesUserInterface
-from pqcli.ui.urwid import UrwidUserInterface
 
 SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
 
@@ -30,19 +29,12 @@ def parse_args() -> argparse.Namespace:
         const=CursesUserInterface,
         help="Use curses user interface (fast, but no colors output)",
     )
-    group.add_argument(
-        "--urwid",
-        dest="ui",
-        action="store_const",
-        const=UrwidUserInterface,
-        help="Use curses user interface (slow, but rich colors output)",
-    )
 
     parser.add_argument(
         "--no-colors",
         dest="colors",
         action="store_false",
-        help="Disable color highlighting in curses and urwid interface",
+        help="Disable color highlighting in curses interface",
     )
 
     parser.add_argument(
