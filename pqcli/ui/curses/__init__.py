@@ -12,6 +12,7 @@ from pqcli.roster import Roster
 from pqcli.ui.curses.colors import (
     COLOR_FOCUSED,
     COLOR_LOGO,
+    COLOR_LOGO_ALT,
     COLOR_PROGRESSBAR,
     COLOR_SCROLLBAR_THUMB,
     COLOR_SCROLLBAR_TRACK,
@@ -51,7 +52,8 @@ class CursesUserInterface(BaseUserInterface):
         if has_colors():
             curses.start_color()
             curses.use_default_colors()
-            curses.init_pair(COLOR_LOGO, 10, -1)
+            curses.init_pair(COLOR_LOGO, -1, -1)
+            curses.init_pair(COLOR_LOGO_ALT, -1, 9)
             curses.init_pair(COLOR_FOCUSED, -1, 8)
             curses.init_pair(COLOR_SCROLLBAR_THUMB, -1, 7)
             curses.init_pair(COLOR_SCROLLBAR_TRACK, -1, 0)

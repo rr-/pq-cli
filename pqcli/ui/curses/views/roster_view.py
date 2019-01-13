@@ -1,7 +1,7 @@
 import curses
 import typing as T
 
-from pqcli.ui.curses.colors import COLOR_LOGO, has_colors
+from pqcli.ui.curses.colors import COLOR_LOGO, COLOR_LOGO_ALT, has_colors
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.widgets import Menu
@@ -9,11 +9,22 @@ from pqcli.ui.curses.widgets import Menu
 from .base_view import BaseView
 
 LOGO = """
+                       █▀▀▄         ▄▀▀█
+                       ▀▄  ▀▄     ▄▀  ▄▀
+                         ▀▄  ▀▄ ▄▀  ▄▀
+                           ▀▄ ▄▀  ▄▀
+                            ▄▀  ▄▀▄
+                       ▄▄▄▄▀  ▄▀▄  ▀▄▄▄▄
+                       ▀▄ █▄▄▀   ▀▄▄█ ▄▀
+                       ▄▀█▄ █     █ ▄█▀▄
+                    ▄▄▀▄▀  ▀▀     ▀▀  ▀▄▀▄▄
+                    █▄█                 █▄█
+
 █▀▀▄                                    ▄▀▀▄                 █
 █▄▄▀ █▀▀ ▄▀▀▄ ▄▀▀▄ █▀▀ ▄▀▀▄ ▄▀▀▀ ▄▀▀▀   █  █ █  █ ▄▀▀▄ ▄▀▀▀ ▀█▀
 █    █   █  █ ▀▄▄█ █   █▀▀   ▀▀▄  ▀▀▄   █ ▌█ █  █ █▀▀   ▀▀▄  █
 ▀    ▀    ▀▀   ▄▄▀ ▀    ▀▀  ▀▀▀  ▀▀▀     ▀▀▌  ▀▀   ▀▀  ▀▀▀    ▀
-""".strip()
+""".strip("\n")
 
 
 class MainMenu(Menu):
@@ -30,6 +41,12 @@ class MainMenu(Menu):
         if has_colors():
             for y in range(len(self._header_lines)):
                 self._pad.chgat(y, 0, curses.color_pair(COLOR_LOGO))
+            self._pad.chgat(3, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
+            self._pad.chgat(4, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
+            self._pad.chgat(5, 32, 4, curses.color_pair(COLOR_LOGO_ALT))
+            self._pad.chgat(5, 27, 4, curses.color_pair(COLOR_LOGO_ALT))
+            self._pad.chgat(6, 34, 2, curses.color_pair(COLOR_LOGO_ALT))
+            self._pad.chgat(6, 27, 2, curses.color_pair(COLOR_LOGO_ALT))
 
 
 class RosterView(BaseView):
