@@ -6,7 +6,7 @@ import typing as T
 from pqcli.config import CLASSES, PRIME_STATS, RACES, Class, Race
 from pqcli.mechanic import StatsBuilder, generate_name
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import Choice
+from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.views.menu_view import MenuView
 
@@ -101,7 +101,7 @@ class ChooseCharacterRaceView(MenuView):
 
         self._choices.append(
             Choice(
-                keys=list(map(ord, "qQ\N{ESC}")),
+                keys=list(KEYS_CANCEL),
                 desc="[Q] Cancel",
                 callback=self.on_cancel,
             )
@@ -130,7 +130,7 @@ class ChooseCharacterClassView(MenuView):
 
         self._choices.append(
             Choice(
-                keys=list(map(ord, "qQ\N{ESC}")),
+                keys=list(KEYS_CANCEL),
                 desc="[Q] Cancel",
                 callback=self.on_cancel,
             )
@@ -173,7 +173,7 @@ class ChooseCharacterStatsView(BaseView):
         self._stats_win = None
 
     def keypress(self, key: int) -> None:
-        if key == curses.ascii.ESC or key in map(ord, "qQ"):
+        if key in KEYS_CANCEL:
             self.on_cancel()
 
         elif key == curses.ascii.NL:

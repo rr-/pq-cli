@@ -4,7 +4,7 @@ import typing as T
 from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import Choice
+from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.views.menu_view import MenuView
 from pqcli.ui.curses.widgets import Menu
 
@@ -48,7 +48,7 @@ class ChooseCharacterView(MenuView):
 
         self._choices.append(
             Choice(
-                keys=list(map(ord, "qQ\N{ESC}")),
+                keys=list(KEYS_CANCEL),
                 desc="[Q] Cancel",
                 callback=self.on_cancel,
             )

@@ -3,7 +3,7 @@ import typing as T
 
 from pqcli.ui.curses.colors import COLOR_LOGO, has_colors
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import Choice
+from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.widgets import Menu
 
 from .base_view import BaseView
@@ -58,7 +58,7 @@ class RosterView(BaseView):
                 callback=self.on_delete,
             ),
             Choice(
-                keys=list(map(ord, "qQ\N{ESC}")),
+                keys=list(KEYS_CANCEL),
                 desc="[Q] Quit",
                 callback=self.on_quit,
             ),

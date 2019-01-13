@@ -6,7 +6,13 @@ import typing as T
 from pqcli.mechanic import Player, SignalMixin, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
-from pqcli.ui.curses.util import KEYS_DOWN, KEYS_LEFT, KEYS_RIGHT, KEYS_UP
+from pqcli.ui.curses.util import (
+    KEYS_CANCEL,
+    KEYS_DOWN,
+    KEYS_LEFT,
+    KEYS_RIGHT,
+    KEYS_UP,
+)
 from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.widgets import Focusable, Scrollable, Widget
 
@@ -40,7 +46,7 @@ class GameView(BaseView):
     def keypress(self, key: int) -> None:
         focused = self.focused
 
-        if key in map(ord, "qQ"):
+        if key in KEYS_CANCEL:
             self.on_exit()
 
         elif key in {curses.KEY_PPAGE}:
