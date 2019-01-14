@@ -60,6 +60,7 @@ class PlotWindow(Focusable, ListBoxProgressBarWindow):
         if prev is not None:
             self._list_box.set(-1, "[X] " + prev[4:])
         self._list_box.add("[ ] " + act_name(act_number))
+        self._render_list_box()
 
     def _sync_position(self) -> None:
         self._cur_pos = self._player.quest_book.plot_bar.position
