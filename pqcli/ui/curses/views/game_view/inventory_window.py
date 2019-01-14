@@ -78,6 +78,7 @@ class InventoryWindow(Focusable, DataTableProgressBarWindow):
 
     def _sync_gold(self) -> None:
         self._data_table.set("Gold", str(self._player.inventory.gold))
+        self._data_table.select("Gold")
         self._render_data_table()
 
     def _sync_items(self) -> None:
@@ -86,18 +87,22 @@ class InventoryWindow(Focusable, DataTableProgressBarWindow):
         for item in self._player.inventory:
             self._data_table.add(item.name, str(item.quantity))
         self._data_table.scroll_to_item(0)
+        self._data_table.select(None)
         self._render_data_table()
 
     def _sync_item_add(self, item: InventoryItem) -> None:
         self._data_table.add(item.name, str(item.quantity))
+        self._data_table.select(item.name)
         self._render_data_table()
 
     def _sync_item_del(self, item: InventoryItem) -> None:
         self._data_table.delete(item.name)
+        self._data_table.select(None)
         self._render_data_table()
 
     def _sync_item_change(self, item: InventoryItem) -> None:
         self._data_table.set(item.name, str(item.quantity))
+        self._data_table.select(item.name)
         self._render_data_table()
 
     def _on_new_task(self) -> None:

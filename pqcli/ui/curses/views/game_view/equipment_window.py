@@ -16,7 +16,7 @@ class EquipmentWindow(Focusable, WindowWrapper):
         )
 
         self._player = player
-        self._player.equipment.connect("change", self.sync_equipment_change)
+        self._player.equipment.connect("change", self._sync_equipment_change)
 
         self.sync()
 
@@ -24,7 +24,9 @@ class EquipmentWindow(Focusable, WindowWrapper):
         super().stop()
         self._data_table.stop()
 
-        self._player.equipment.disconnect("change", self.sync_equipment_change)
+        self._player.equipment.disconnect(
+            "change", self._sync_equipment_change
+        )
 
     def sync(self) -> None:
         self._data_table.clear()
@@ -33,12 +35,14 @@ class EquipmentWindow(Focusable, WindowWrapper):
                 equipment_type.value.ljust(15),
                 self._player.equipment[equipment_type] or "",
             )
+        self._data_table.select(None)
         self._render()
 
-    def sync_equipment_change(
+    def _sync_equipment_change(
         self, equipment_type: EquipmentType, item_name: T.Optional[str]
     ) -> None:
         self._data_table.set(equipment_type.value, item_name or "")
+        self._data_table.select(equipment_type.value)
         self._render()
 
     def _render(self) -> None:

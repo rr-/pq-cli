@@ -48,6 +48,7 @@ class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
         self._list_box.clear()
         for quest_name in self._player.quest_book.quests[-self.cutoff :]:
             self._sync_quest_add(quest_name)
+        self._list_box.select(-1)
         self._render_list_box()
 
     def _sync_quest_add(self, quest_name: str) -> None:
@@ -56,6 +57,7 @@ class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
         if prev is not None:
             self._list_box.set(-1, "[X] " + prev[4:])
         self._list_box.add("[ ] " + quest_name)
+        self._list_box.select(-1)
         self._render_list_box()
 
     def _sync_position(self) -> None:

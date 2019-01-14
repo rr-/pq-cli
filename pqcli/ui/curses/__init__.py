@@ -12,6 +12,7 @@ from pqcli.roster import Roster
 from pqcli.ui.base import BaseUserInterface
 from pqcli.ui.curses.colors import (
     COLOR_FOCUSED,
+    COLOR_HIGHLIGHT,
     COLOR_LOGO,
     COLOR_LOGO_ALT,
     COLOR_PROGRESSBAR,
@@ -57,6 +58,7 @@ class CursesUserInterface(BaseUserInterface):
             curses.init_pair(COLOR_SCROLLBAR_THUMB, -1, 7)
             curses.init_pair(COLOR_SCROLLBAR_TRACK, -1, 0)
             curses.init_pair(COLOR_PROGRESSBAR, 0, 9)
+            curses.init_pair(COLOR_HIGHLIGHT, 3, -1)
 
         def signal_handler(sig: T.Any, frame: T.Any) -> None:
             if self.args.use_saves:
