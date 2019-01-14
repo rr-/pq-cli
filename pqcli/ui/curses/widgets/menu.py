@@ -2,10 +2,9 @@ import curses
 import curses.ascii
 import typing as T
 
-from pqcli.ui.curses.util import KEYS_CYCLE, KEYS_DOWN, KEYS_UP
+from pqcli.ui.curses.util import KEYS_CYCLE, KEYS_DOWN, KEYS_UP, Choice
 from pqcli.ui.curses.widgets.focusable import focus_standout
 
-from ..util import Choice
 from .base import Widget
 
 

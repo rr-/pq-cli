@@ -9,6 +9,7 @@ from pqcli import lingo
 from pqcli.config import Class, Race
 from pqcli.mechanic import Player, Stats, create_player
 from pqcli.roster import Roster
+from pqcli.ui.base import BaseUserInterface
 from pqcli.ui.curses.colors import (
     COLOR_FOCUSED,
     COLOR_LOGO,
@@ -30,8 +31,6 @@ from pqcli.ui.curses.views import (
     GameView,
     RosterView,
 )
-
-from ..base import BaseUserInterface
 
 
 class StopMainLoop(Exception):

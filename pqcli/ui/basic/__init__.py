@@ -11,8 +11,7 @@ from pqcli import lingo
 from pqcli.config import CLASSES, PRIME_STATS, RACES
 from pqcli.mechanic import Player, Simulation, StatsBuilder, create_player
 from pqcli.roster import Roster
-
-from ..base import BaseUserInterface
+from pqcli.ui.base import BaseUserInterface
 
 LOGO = """
  ____                                     ___                  _

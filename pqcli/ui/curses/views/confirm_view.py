@@ -1,8 +1,9 @@
 import typing as T
 
-from ..event_handler import EventHandler
-from ..util import Choice
-from ..widgets import Menu
+from pqcli.ui.curses.event_handler import EventHandler
+from pqcli.ui.curses.util import Choice
+from pqcli.ui.curses.widgets import Menu
+
 from .base_view import BaseView
 
 
