@@ -75,9 +75,10 @@ class Bar(SignalMixin):
         return self._position >= self.max_
 
     def reposition(self, new_pos: float) -> None:
+        old_pos = self._position
         new_pos = float(min(new_pos, self._max))
-        if not math.isclose(new_pos, self._position):
-            self._position = new_pos
+        self._position = new_pos
+        if not math.isclose(new_pos, old_pos):
             self.emit("change")
 
 
