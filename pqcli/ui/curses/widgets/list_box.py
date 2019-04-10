@@ -37,7 +37,7 @@ class ListBox(Scrollable):
         del self._items[idx : idx + count]
 
     def select(self, idx: T.Optional[int]) -> None:
-        if idx < 0:
+        if idx < 0 and len(self._items):
             idx %= len(self._items)
         self._selected = idx
 
