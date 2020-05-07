@@ -10,7 +10,12 @@ setup(
     packages=find_packages(),
     entry_points={"console_scripts": ["pqcli = pqcli.__main__:main"]},
     package_dir={"pqcli": "pqcli"},
-    install_requires=["xdg", "urwid", "urwid_readline"],
+    install_requires=[
+        "xdg",
+        "urwid",
+        "urwid_readline",
+        'windows-curses;platform_system=="Windows"',
+    ],
     classifiers=[
         "Environment :: Console",
         "Development Status :: 4 - Beta",
