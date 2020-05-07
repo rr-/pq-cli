@@ -25,7 +25,10 @@ class ProgressBar(WindowWrapper):
             return None
         time_then, pos_then = self._last_tick
         time_now, pos_now = datetime.datetime.now(), self._cur_pos
-        speed = (pos_now - pos_then) / (time_now - time_then).total_seconds()
+        div = (time_now - time_then).total_seconds()
+        if div == 0:
+            return None
+        speed = (pos_now - pos_then) / div
         if not speed:
             return None
         return datetime.timedelta(seconds=(self._max_pos - pos_now) / speed)
