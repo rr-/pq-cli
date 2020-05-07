@@ -30,8 +30,8 @@ class Roster:
         tmp_path.parent.mkdir(parents=True, exist_ok=True)
         tmp_path.write_bytes(pickle.dumps(self.players))
         if self.path.exists():
-            if os.path.exists(old_path):
-                os.remove(old_path)
+            if old_path.exists():
+                old_path.unlink()
             self.path.rename(old_path)
         tmp_path.rename(self.path)
 
