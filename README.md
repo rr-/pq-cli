@@ -41,3 +41,14 @@ $ git clone https://github.com/rr-/pq-cli.git
 $ cd pq-cli
 $ pip install --user .
 ```
+
+## Troubleshooting
+
+### `_curses.error: init_pair() returned ERR`
+
+If running on Linux and you get the error `_curses.error: init_pair() returned ERR`,
+try making sure that your `$TERM` variable is set to a value which supports
+256 colors, such as via the following:
+
+    TERM=xterm-256color pqcli
+
