@@ -1,5 +1,4 @@
 import curses
-import enum
 import typing as T
 
 from pqcli.ui.curses.colors import COLOR_HIGHLIGHT, has_colors

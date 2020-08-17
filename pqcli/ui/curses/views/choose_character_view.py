@@ -3,10 +3,8 @@ import typing as T
 
 from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
-from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.views.menu_view import MenuView
-from pqcli.ui.curses.widgets import Menu
 
 
 class ChooseCharacterView(MenuView):

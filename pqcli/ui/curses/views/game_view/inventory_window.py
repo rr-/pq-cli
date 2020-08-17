@@ -1,14 +1,7 @@
-import curses
 import typing as T
 
-from pqcli.lingo import to_roman
 from pqcli.mechanic import InventoryItem, Player
-from pqcli.ui.curses.widgets import (
-    DataTable,
-    Focusable,
-    ProgressBar,
-    WindowWrapper,
-)
+from pqcli.ui.curses.widgets import Focusable
 
 from .progress_bar_window import DataTableProgressBarWindow
 

@@ -1,4 +1,3 @@
-import functools
 import typing as T
 
 from pqcli.ui.curses.event_handler import EventHandler

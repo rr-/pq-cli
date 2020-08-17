@@ -2,7 +2,7 @@ import typing as T
 
 from pqcli.lingo import act_name
 from pqcli.mechanic import Player
-from pqcli.ui.curses.widgets import Focusable, ListBox, WindowWrapper
+from pqcli.ui.curses.widgets import Focusable
 
 from .progress_bar_window import ListBoxProgressBarWindow
 
