@@ -39,8 +39,10 @@ class StopMainLoop(Exception):
 
 
 class CursesUserInterface(BaseUserInterface):
-    def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
-        super().__init__(roster, args)
+    def __init__(
+        self, roster: Roster, player: Player, args: argparse.Namespace
+    ) -> None:
+        super().__init__(roster, player, args)
         os.environ.setdefault("ESCDELAY", "25")
         self._screen = curses.initscr()
         self._screen.nodelay(True)
@@ -77,7 +79,10 @@ class CursesUserInterface(BaseUserInterface):
 
     def run(self) -> None:
         try:
-            self._switch_to_roster_view()
+            if self.player:
+                self._switch_to_game_view(self.player)
+            else:
+                self._switch_to_roster_view()
 
             while True:
                 key = T.cast(int, self._screen.getch())
@@ -130,8 +135,10 @@ class CursesUserInterface(BaseUserInterface):
         view.on_cancel += lambda: self._switch_to_create_char_race_view(
             player_name, race
         )
-        view.on_confirm += lambda class_: self._switch_to_create_char_stats_view(
-            player_name, race, class_
+        view.on_confirm += (
+            lambda class_: self._switch_to_create_char_stats_view(
+                player_name, race, class_
+            )
         )
         self._switch_view(view)
 

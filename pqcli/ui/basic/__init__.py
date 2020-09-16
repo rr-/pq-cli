@@ -32,8 +32,13 @@ class MainMenu(enum.IntEnum):
 
 
 class BasicUserInterface(BaseUserInterface):
-    def __init__(self, roster: Roster, args: argparse.Namespace) -> None:
-        super().__init__(roster, args)
+    def __init__(
+        self,
+        roster: Roster,
+        player: T.Optional[Player],
+        args: argparse.Namespace,
+    ) -> None:
+        super().__init__(roster, player, args)
 
         def signal_handler(sig: T.Any, frame: T.Any) -> None:
             logging.info("Quitting")
@@ -51,7 +56,10 @@ class BasicUserInterface(BaseUserInterface):
         )
 
         self.logo()
-        self.main_menu()
+        if self.player:
+            self.play(self.player)
+        else:
+            self.main_menu()
 
     def logo(self) -> None:
         print(LOGO)
