@@ -1,8 +1,11 @@
 import argparse
+import sys
+import typing as T
 from pathlib import Path
 
 import xdg
 
+from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.curses import CursesUserInterface
@@ -44,15 +47,44 @@ def parse_args() -> argparse.Namespace:
         help=argparse.SUPPRESS,
     )
     parser.add_argument("--cheats", action="store_true", help="???")
+    parser.add_argument(
+        "--list-saves",
+        action="store_true",
+        help="list saved characters and exit",
+    )
+    parser.add_argument(
+        "--load-save",
+        type=int,
+        metavar="NUM",
+        help="play chosen character",
+    )
     return parser.parse_args()
+
+
+def list_players(roster: Roster, file: T.Optional[T.Any] = None) -> None:
+    for i, player in enumerate(roster.players, start=1):
+        print(f"{i}. {player.name}", file=file)
 
 
 def main() -> None:
     args = parse_args()
     roster = Roster.load(SAVE_PATH)
 
+    if args.list_saves:
+        list_players(roster)
+        exit(0)
+
+    player: T.Optional[Player] = None
+    if args.load_save:
+        try:
+            player = list(roster.players)[args.load_save - 1]
+        except IndexError:
+            print(f"Invalid player. Available players:", file=sys.stderr)
+            list_players(roster, file=sys.stderr)
+            exit(1)
+
     try:
-        ui = args.ui(roster, args)
+        ui = args.ui(roster, player, args)
         ui.run()
     finally:
         if args.use_saves:
