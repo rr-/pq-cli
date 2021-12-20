@@ -1,3 +1,44 @@
+[tool.poetry]
+name = "pqcli"
+version = "1.0.2"
+description = "Progress Quest: the CLI edition"
+authors = ["Marcin Kurczewski <rr-@sakuya.pl>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/rr-/pq-cli.git"
+classifiers = [
+    "Environment :: Console",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Games/Entertainment :: Role-Playing",
+    "Topic :: Games/Entertainment :: Simulation",
+]
+packages = [
+    { include = "pqcli" },
+]
+
+[tool.poetry.scripts]
+pqcli = 'pqcli.__main__:main'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+xdg = "^5.1.1"
+urwid = "^2.1.2"
+urwid-readline = "^0.13"
+windows-curses = {version = "^2.3.0", platform = "Windows"}
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.16.0"
+
 [tool.black]
 line-length = 79
 py36 = true

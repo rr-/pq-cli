@@ -42,6 +42,26 @@ $ cd pq-cli
 $ pip install --user .
 ```
 
+## Contributing
+
+```sh
+# Clone the repository:
+git clone https://github.com/rr-/pqcli.git
+cd pqcli
+
+# Install to a local venv:
+poetry install
+
+# Install pre-commit hooks:
+poetry run pre-commit install
+
+# Enter the venv:
+poetry shell
+```
+
+This project uses [poetry](https://python-poetry.org/) for packaging.
+Install instructions are available at [poetry#installation](https://python-poetry.org/docs/#installation).
+
 ## Troubleshooting
 
 ### `_curses.error: init_pair() returned ERR`
