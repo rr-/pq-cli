@@ -15,7 +15,7 @@ from pqcli.ui.curses.util import (
     KEYS_UP,
 )
 from pqcli.ui.curses.views.base_view import BaseView
-from pqcli.ui.curses.widgets import Focusable, Scrollable, Widget
+from pqcli.ui.curses.widgets import Focusable, Widget
 
 from .character_sheet_window import CharacterSheetWindow
 from .equipment_window import EquipmentWindow
