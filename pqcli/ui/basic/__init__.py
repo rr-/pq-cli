@@ -225,6 +225,6 @@ class BasicUserInterface(BaseUserInterface):
                 print("Not a number")
                 continue
             if num not in range(1, len(options) + 1):
-                print(f"Expected a number betwen 1..{len(options)}")
+                print(f"Expected a number between 1..{len(options)}")
                 continue
             return options[num - 1][0]
