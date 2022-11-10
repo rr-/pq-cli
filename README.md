@@ -33,8 +33,7 @@ Basic interface:
 If you have Python 3.7, just run `pip install --user pqcli` and you're good to go!
 Then type `pqcli` to run the game.
 
-In case if you want to use the git version, the process is just a little bit
-more complex:
+In case if you want to use the git version, the process is just a bit more complex:
 
 ```console
 $ git clone https://github.com/rr-/pq-cli.git
