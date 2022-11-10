@@ -714,7 +714,7 @@ class Simulation:
             enqueue(
                 RegularTask(
                     f"Victory! {nemesis} is slain! "
-                    "Exhausted, you lose conciousness",
+                    "Exhausted, you lose consciousness",
                     3000,
                 )
             )
@@ -736,7 +736,7 @@ class Simulation:
             enqueue(
                 RegularTask(
                     "There is rejoicing, "
-                    f"and an unnerving encouter with {nemesis} in private",
+                    f"and an unnerving encounter with {nemesis} in private",
                     3000,
                 )
             )
