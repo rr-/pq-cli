@@ -2,8 +2,8 @@ import random
 import typing as T
 
 
-def seed(source: T.Any) -> None:
-    random.seed(source)
+def seed(source: str) -> None:
+    random.seed(source.encode())
 
 
 def choice(source: T.Sequence[T.Any]) -> T.Any:
