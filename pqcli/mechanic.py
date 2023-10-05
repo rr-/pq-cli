@@ -922,7 +922,7 @@ def create_player(
     name: str, race: Race, class_: Class, stats: Stats
 ) -> Player:
     now = datetime.datetime.now()
-    random.seed(now)
+    random.seed(str(now))
     player = Player(
         birthday=now, name=name, race=race, class_=class_, stats=stats
     )
