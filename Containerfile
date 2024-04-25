@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-ENV TZ=America/Los_Angeles
 ENV debian_frontend=noninteractive
 
 
