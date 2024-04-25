@@ -13,12 +13,12 @@ from pqcli.mechanic import Player, Simulation, StatsBuilder, create_player
 from pqcli.roster import Roster
 from pqcli.ui.base import BaseUserInterface
 
-LOGO = """
+LOGO = r"""
  ____                                     ___                  _
 |  _ \ _ __ ___   __ _ _ __ ___  ___ ___ / _ \ _   _  ___  ___| |_
 | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __| | | | | | |/ _ \/ __| __|
 |  __/| | | (_) | (_| | | |  __/\__ \__ \ |_| | |_| |  __/\__ \ |_
-|_|   |_|  \___/ \__, |_|  \___||___/___/\__\_\\\\__,_|\___||___/\__|
+|_|   |_|  \___/ \__, |_|  \___||___/___/\__\_\\__,_|\___||___/\__|
                  |___/
 """
 
