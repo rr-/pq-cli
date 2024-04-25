@@ -17,6 +17,15 @@ Relive the great adventure… this time in the terminal realm!
     - Minimal, suitable for raw grind (`--basic`)
 - Ideal to run on your server
 
+### Container Run
+
+A Containerfile that wraps the python `pqcli` 
+
+- Build Container Image with `make build`
+- Run with `make run`
+- To save, create a directory named "saves" from where you will run
+  the container or you can update the volume mount in the Makefile.
+
 ## How it looks like
 
 Curses interface:
