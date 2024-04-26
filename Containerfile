@@ -26,12 +26,12 @@ RUN curl https://pyenv.run | bash
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
-# RUN pyenv install 3.7
-# RUN pyenv global 3.7
 RUN bash -c 'source $HOME/.bashrc; pyenv install 3.7; pyenv global 3.7'
 
 ENV PATH $HOME/.local/bin:$PATH
 ENV TERM xterm-256color
 RUN pip install --user pqcli
+
+ENV XDG_CONFIG_HOME /home/quester/.config
 
 CMD ["pqcli"]
