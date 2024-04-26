@@ -4,7 +4,7 @@ TAG := latest
 .PHONY: build run
 
 build:
-	docker build -t $(IMG_NAME):$(TAG) --file Containerfile .
+	docker build -t $(IMG_NAME):$(TAG) .
 
 run:
 	mkdir ./saves
