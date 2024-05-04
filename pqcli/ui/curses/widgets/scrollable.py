@@ -91,9 +91,11 @@ class Scrollable(WindowWrapper):
                     self._win.chgat(
                         win_y,
                         w - 1,
-                        attr_thumb
-                        if thumb_y1 <= win_y <= thumb_y2
-                        else attr_track,
+                        (
+                            attr_thumb
+                            if thumb_y1 <= win_y <= thumb_y2
+                            else attr_track
+                        ),
                     )
                 self._win.noutrefresh()
 

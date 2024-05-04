@@ -3,14 +3,14 @@ import sys
 import typing as T
 from pathlib import Path
 
-import xdg
+from xdg_base_dirs import xdg_config_home
 
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.curses import CursesUserInterface
 
-SAVE_PATH = Path(xdg.XDG_CONFIG_HOME) / "pqcli" / "save.dat"
+SAVE_PATH = Path(xdg_config_home) / "pqcli" / "save.dat"
 
 
 def parse_args() -> argparse.Namespace:

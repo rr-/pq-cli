@@ -347,7 +347,7 @@ class Player(SignalMixin):
         self.emit("new_task")
 
     def equip_price(self) -> int:
-        return 5 * (self.level ** 2) + 10 * self.level + 20
+        return 5 * (self.level**2) + 10 * self.level + 20
 
     def level_up(self) -> None:
         self.level += 1
@@ -373,12 +373,12 @@ class Player(SignalMixin):
             chosen_stat = random.choice(list(StatType))
         else:
             # favor the best stat so it will tend to clump
-            t = sum(value ** 2 for _stat, value in self.stats)
+            t = sum(value**2 for _stat, value in self.stats)
             t = random.below(t)
             chosen_stat = None
             for stat, value in self.stats:
                 chosen_stat = stat
-                t -= value ** 2
+                t -= value**2
                 if t < 0:
                     break
 

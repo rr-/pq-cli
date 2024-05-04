@@ -54,9 +54,11 @@ class ProgressBar(WindowWrapper):
             self._win.chgat(
                 0,
                 0,
-                curses.color_pair(COLOR_PROGRESSBAR)
-                if has_colors()
-                else curses.A_REVERSE,
+                (
+                    curses.color_pair(COLOR_PROGRESSBAR)
+                    if has_colors()
+                    else curses.A_REVERSE
+                ),
             )
             if x < self.getmaxyx()[1]:
                 self._win.chgat(0, x, curses.A_NORMAL)
