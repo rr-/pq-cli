@@ -10,7 +10,7 @@ from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.curses import CursesUserInterface
 
-SAVE_PATH = Path(xdg_config_home) / "pqcli" / "save.dat"
+SAVE_PATH = Path(xdg_config_home()) / "pqcli" / "save.dat"
 
 
 def parse_args() -> argparse.Namespace:
