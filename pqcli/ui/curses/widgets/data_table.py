@@ -69,10 +69,11 @@ class DataTable(Scrollable):
                 if y == self._selected and has_colors():
                     self._pad.attron(curses.color_pair(COLOR_HIGHLIGHT))
                 self._pad.addnstr(y, 0, row[0], min(len(row[0]), w))
-                if col2_x < w:
-                    self._pad.addnstr(
-                        y, col2_x, row[1], min(len(row[1]), w - col2_x)
-                    )
+                # Determine the number of characters to write
+                nwrite = min(len(row[1]), w - col2_x)
+                # Ensure we have enough columns, and we are writing more than zero
+                if col2_x < w and nwrite > 0:
+                    self._pad.addnstr(y, col2_x, row[1], nwrite)
                 if y == self._selected and has_colors():
                     self._pad.attroff(curses.color_pair(COLOR_HIGHLIGHT))
 
