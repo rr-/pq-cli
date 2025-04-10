@@ -65,13 +65,16 @@ class ProgressBarWindow(WindowWrapper):
 
             text = self._progress_title
             x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
-            self._progress_bar_win.addnstr(
-                0,
-                x,
-                text,
-                min(len(text), self._progress_bar_win.getmaxyx()[1]),
-            )
-
+            # Determine the number of characters to write
+            nwrite = min(len(text), self._progress_bar_win.getmaxyx()[1])
+            # The amount MUST be greater than zero to avoid linux errors
+            if nwrite > 0:
+                self._progress_bar_win.addnstr(
+                    0,
+                    x,
+                    text,
+                    nwrite,
+                )
         self._progress_bar.set_position(self._cur_pos, self._max_pos)
         self._progress_bar_win.noutrefresh()
 
