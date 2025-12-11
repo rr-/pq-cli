@@ -130,7 +130,6 @@ class BasicUserInterface(BaseUserInterface):
     def play(self, player: Player) -> None:
         print(f"Playing as {player.name}")
         simulation = Simulation(player)
-        last_save = datetime.now()
         last_tick = datetime.now()
         last_level = 0
         while True:

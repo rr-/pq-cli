@@ -1,10 +1,49 @@
+import datetime
 import itertools
 import logging
 import math
+import typing as T
 from collections import defaultdict
+from dataclasses import dataclass
 
-from pqcli.config import *
-from pqcli.lingo import *
+from pqcli import random
+from pqcli.config import (
+    ARMORS,
+    BORING_ITEMS,
+    CLASSES,
+    DEFENSE_ATTRIB,
+    DEFENSE_BAD,
+    IMPRESSIVE_TITLES,
+    ITEM_ATTRIB,
+    ITEM_OFS,
+    MONSTERS,
+    OFFENSE_ATTRIB,
+    OFFENSE_BAD,
+    PRIME_STATS,
+    RACES,
+    SHIELDS,
+    SPECIALS,
+    SPELLS,
+    TITLES,
+    WEAPONS,
+    Class,
+    EquipmentPreset,
+    EquipmentType,
+    Modifier,
+    Monster,
+    Race,
+    StatType,
+)
+from pqcli.lingo import (
+    act_name,
+    big,
+    definite,
+    generate_name,
+    indefinite,
+    sick,
+    special,
+    young,
+)
 
 logger = logging.getLogger(__name__)
 

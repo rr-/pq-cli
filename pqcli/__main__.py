@@ -79,7 +79,7 @@ def main() -> None:
         try:
             player = list(roster.players)[args.load_save - 1]
         except IndexError:
-            print(f"Invalid player. Available players:", file=sys.stderr)
+            print("Invalid player. Available players:", file=sys.stderr)
             list_players(roster, file=sys.stderr)
             exit(1)
 

@@ -9,3 +9,15 @@ from .create_character_view import (
 )
 from .game_view import GameView
 from .roster_view import RosterView
+
+__all__ = [
+    "BaseView",
+    "ChooseCharacterView",
+    "ConfirmView",
+    "ChooseCharacterClassView",
+    "ChooseCharacterNameView",
+    "ChooseCharacterRaceView",
+    "ChooseCharacterStatsView",
+    "GameView",
+    "RosterView",
+]
