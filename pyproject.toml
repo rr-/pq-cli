@@ -1,6 +1,6 @@
 [project]
 name = "pqcli"
-version = "1.0.2"
+version = "1.0.4"
 description = "Progress Quest: the CLI edition"
 authors = [{ name = "Laura Kurczewska", email = "dash@wind.garden" }]
 license = "MIT"

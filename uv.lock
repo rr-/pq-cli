@@ -58,7 +58,7 @@ wheels = [
 
 [[package]]
 name = "pqcli"
-version = "1.0.2"
+version = "1.0.4"
 source = { editable = "." }
 dependencies = [
     { name = "urwid" },
