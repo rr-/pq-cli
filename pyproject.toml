@@ -2,7 +2,7 @@
 name = "pqcli"
 version = "1.0.2"
 description = "Progress Quest: the CLI edition"
-authors = [{ name = "Marcin Kurczewski", email = "rr-@sakuya.pl" }]
+authors = [{ name = "Laura Kurczewska", email = "dash@wind.garden" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
