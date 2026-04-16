@@ -41,6 +41,37 @@ $ cd pq-cli
 $ pip install --user .
 ```
 
+## Docker / Docker Compose
+
+The repository includes a `Dockerfile` and `docker-compose.yml` that run the
+game with `--basic` and keep save data in a persistent named volume.
+
+```console
+# First run (interactive): create your character in the shared save volume
+docker compose run --rm pqcli-init
+
+# Later runs on a server (detached, default save slot 1):
+docker compose up -d pqcli
+
+# List existing saves in the same volume:
+docker compose run --rm pqcli-init pqcli --basic --list-saves
+
+# Change detached slot if needed (example: slot 2):
+PQCLI_SAVE_SLOT=2 docker compose up -d pqcli
+
+# Follow logs / stop detached container:
+docker compose logs -f pqcli
+docker compose stop pqcli
+```
+
+On first run, if no save data exists in the mounted volume, `pqcli` will
+automatically launch an interactive character-creation bootstrap in CLI mode
+before starting the normal interface.
+
+For server usage, run first-time setup without a forced slot (`pqcli-init`),
+then run the long-lived detached service (`pqcli`) that loads slot `1` by
+default.
+
 ## Contributing
 
 ```sh

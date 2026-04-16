@@ -1,0 +1,27 @@
+services:
+  pqcli-init:
+    build: .
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-local}/pq-cli:latest
+    stdin_open: true
+    tty: true
+    command: ["pqcli", "--basic"]
+    environment:
+      XDG_CONFIG_HOME: /data
+    volumes:
+      - pqcli-data:/data
+
+  pqcli:
+    build: .
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-local}/pq-cli:latest
+    stdin_open: true
+    tty: true
+    stop_signal: SIGINT
+    stop_grace_period: 30s
+    command: ["sh", "-c", "pqcli --basic --load-save ${PQCLI_SAVE_SLOT:-1}"]
+    environment:
+      XDG_CONFIG_HOME: /data
+    volumes:
+      - pqcli-data:/data
+
+volumes:
+  pqcli-data:

@@ -23,6 +23,7 @@ dependencies = [
     "xdg-base-dirs>=6.0.0,<7.0.0",
     "urwid>=2.1.2,<3.0.0",
     "urwid-readline>=0.13,<1.0.0",
+    "pre-commit>=4.5.0",
 ]
 
 [project.optional-dependencies]

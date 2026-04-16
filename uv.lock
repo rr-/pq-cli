@@ -61,6 +61,7 @@ name = "pqcli"
 version = "1.0.4"
 source = { editable = "." }
 dependencies = [
+    { name = "pre-commit" },
     { name = "urwid" },
     { name = "urwid-readline" },
     { name = "xdg-base-dirs" },
@@ -78,6 +79,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "pre-commit", specifier = ">=4.5.0" },
     { name = "urwid", specifier = ">=2.1.2,<3.0.0" },
     { name = "urwid-readline", specifier = ">=0.13,<1.0.0" },
     { name = "windows-curses", marker = "extra == 'windows'", specifier = ">=2.3.0,<3.0.0" },
