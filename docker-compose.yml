@@ -12,7 +12,6 @@ services:
 
   pqcli:
     build: .
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-local}/pq-cli:latest
     stdin_open: true
     tty: true
     stop_signal: SIGINT

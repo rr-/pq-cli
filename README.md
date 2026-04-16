@@ -46,7 +46,13 @@ $ pip install --user .
 The repository includes a `Dockerfile` and `docker-compose.yml` that run the
 game with `--basic` and keep save data in a persistent named volume.
 
+There is no registry pipeline required for this setup: build locally, then run
+with Compose.
+
 ```console
+# Build image locally from the Dockerfile
+docker compose build
+
 # First run (interactive): create your character in the shared save volume
 docker compose run --rm pqcli-init
 
