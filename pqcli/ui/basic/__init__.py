@@ -101,7 +101,7 @@ class BasicUserInterface(BaseUserInterface):
                 self.quit()
                 break
 
-    def create_player(self) -> T.Optional[Player]:
+    def create_player(self, *, auto_play: bool = True) -> T.Optional[Player]:
         name = input("Name your new character: ")
         if not name:
             print("Cancelled.")
@@ -123,7 +123,9 @@ class BasicUserInterface(BaseUserInterface):
             name=name, race=race, class_=class_, stats=stats
         )
         self.roster.players.append(player)
-        if self.confirm("Do you want to play as your new character?"):
+        if auto_play and self.confirm(
+            "Do you want to play as your new character?"
+        ):
             self.play(player)
         return player
 

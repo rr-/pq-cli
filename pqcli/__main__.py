@@ -66,6 +66,21 @@ def list_players(roster: Roster, file: T.Optional[T.Any] = None) -> None:
         print(f"{i}. {player.name}", file=file)
 
 
+def bootstrap_first_run(roster: Roster, args: argparse.Namespace) -> None:
+    if roster.players or args.list_saves or args.load_save:
+        return
+
+    print("No saved characters found. Starting first-run character creation.")
+    ui = BasicUserInterface(roster, None, args)
+    while not roster.players:
+        player = ui.create_player(auto_play=False)
+        if player:
+            return
+        if not ui.confirm("No character created. Do you want to try again?"):
+            print("A character is required for first run.", file=sys.stderr)
+            raise SystemExit(1)
+
+
 def main() -> None:
     args = parse_args()
     roster = Roster.load(SAVE_PATH)
@@ -82,6 +97,8 @@ def main() -> None:
             print("Invalid player. Available players:", file=sys.stderr)
             list_players(roster, file=sys.stderr)
             exit(1)
+
+    bootstrap_first_run(roster, args)
 
     try:
         ui = args.ui(roster, player, args)
