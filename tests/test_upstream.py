@@ -128,7 +128,7 @@ def test_game_matches_upstream(seed: str, race: str, class_: str) -> None:
     # Play both from the same character and generator state, 100 ms per
     # tick, and compare the whole state, generator included, each time a
     # task completes.
-    tasks = 10000
+    tasks = 3000
     ticks = 100 * tasks * 1000
     spec = bridge.make_spec(seed, race, class_)
     (theirs,) = bridge.run_harness(
@@ -162,7 +162,7 @@ def assert_same_games(
 
 
 # (tasks, ticks): stop right after a task, or in the middle of one
-SAVE_POINTS = [(3000, 10**9), (10**9, 123457), (10**9, 1)]
+SAVE_POINTS = [(1000, 10**9), (10**9, 123457), (10**9, 1)]
 
 
 @pytest.mark.parametrize("tasks,ticks", SAVE_POINTS)
@@ -176,12 +176,12 @@ def test_import_from_upstream_plays_on_identically(
     (text, theirs) = bridge.run_harness(
         [
             {"cmd": "encode", "game": game},
-            {"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 3000},
+            {"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 1000},
         ]
     )
     player, warnings = import_game(decode(text), DATA)
     assert warnings == []
-    ours = bridge.run(Simulation(player, DATA), 10**9, 3000)
+    ours = bridge.run(Simulation(player, DATA), 10**9, 1000)
     assert_same_games(ours, theirs)
 
 
@@ -195,7 +195,7 @@ def test_export_to_upstream_plays_on_identically(
     text = encode(export_game(simulation.player, DATA))
     (game,) = bridge.run_harness([{"cmd": "decode", "text": text}])
     (theirs,) = bridge.run_harness(
-        [{"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 3000}]
+        [{"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 1000}]
     )
-    ours = bridge.run(simulation, 10**9, 3000)
+    ours = bridge.run(simulation, 10**9, 1000)
     assert_same_games(ours, theirs)

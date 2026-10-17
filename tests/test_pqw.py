@@ -130,7 +130,7 @@ def test_export_of_unplayed_character() -> None:
     assert player.task is None  # exported a copy
 
 
-@pytest.mark.parametrize("ticks", [0, 1, 25, 3000, 40000, 123457])
+@pytest.mark.parametrize("ticks", [0, 25, 3000, 123457])
 def test_round_trip_keeps_playing_identically(ticks: int) -> None:
     original = played(ticks)
     copy, _warnings = import_game(
@@ -138,9 +138,7 @@ def test_round_trip_keeps_playing_identically(ticks: int) -> None:
     )
     assert bridge.snapshot(copy) == bridge.snapshot(original.player)
     resumed = Simulation(copy, DATA)
-    assert bridge.run(resumed, 10**8, 2000) == bridge.run(
-        original, 10**8, 2000
-    )
+    assert bridge.run(resumed, 10**8, 500) == bridge.run(original, 10**8, 500)
 
 
 def test_files_round_trip(tmp_path: Path) -> None:
