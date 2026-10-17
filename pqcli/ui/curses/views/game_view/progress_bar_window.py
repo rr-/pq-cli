@@ -10,7 +10,7 @@ from pqcli.ui.curses.widgets import (
 )
 
 
-class ProgressBarWindow(WindowWrapper):
+class ProgressBarWindow(Focusable, WindowWrapper):
     def __init__(
         self,
         parent: Any,
@@ -51,7 +51,7 @@ class ProgressBarWindow(WindowWrapper):
 
         self._progress_bar_win.erase()
 
-        with Focusable.focus_standout(self, self._progress_bar_win):
+        with self.focus_standout(self._progress_bar_win):
             self._progress_bar_win.border(
                 curses.ACS_VLINE,
                 curses.ACS_VLINE,
@@ -105,7 +105,7 @@ class DataTableProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        with Focusable.focus_standout(self, self._win):
+        with self.focus_standout(self._win):
             self._win.box()
             x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
             self._win.addnstr(
@@ -143,7 +143,7 @@ class ListBoxProgressBarWindow(ProgressBarWindow):
         if not self._win:
             return
 
-        with Focusable.focus_standout(self, self._win):
+        with self.focus_standout(self._win):
             self._win.box()
             x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
             self._win.addnstr(

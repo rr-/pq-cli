@@ -1,12 +1,11 @@
 from typing import Any
 
 from pqcli.mechanic import InventoryItem, Player
-from pqcli.ui.curses.widgets import Focusable
 
 from .progress_bar_window import DataTableProgressBarWindow
 
 
-class InventoryWindow(Focusable, DataTableProgressBarWindow):
+class InventoryWindow(DataTableProgressBarWindow):
     def __init__(
         self, player: Player, parent: Any, h: int, w: int, y: int, x: int
     ) -> None:

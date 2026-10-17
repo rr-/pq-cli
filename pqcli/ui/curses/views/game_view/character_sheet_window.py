@@ -1,12 +1,11 @@
 from typing import Any
 
 from pqcli.mechanic import Player, StatType
-from pqcli.ui.curses.widgets import Focusable
 
 from .progress_bar_window import DataTableProgressBarWindow
 
 
-class CharacterSheetWindow(Focusable, DataTableProgressBarWindow):
+class CharacterSheetWindow(DataTableProgressBarWindow):
     def __init__(
         self, player: Player, parent: Any, h: int, w: int, y: int, x: int
     ) -> None:

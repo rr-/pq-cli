@@ -1,7 +1,8 @@
 import argparse
 import curses
+import curses.ascii
 import datetime
-from typing import Any
+from typing import Any, Protocol, runtime_checkable
 
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, SignalMixin, Simulation
@@ -16,7 +17,7 @@ from pqcli.ui.curses.util import (
     KEYS_UP,
 )
 from pqcli.ui.curses.views.base_view import BaseView
-from pqcli.ui.curses.widgets import Focusable, Widget
+from pqcli.ui.curses.widgets import Focusable
 
 from .character_sheet_window import CharacterSheetWindow
 from .equipment_window import EquipmentWindow
@@ -25,6 +26,19 @@ from .plot_window import PlotWindow
 from .quest_book_window import QuestBookWindow
 from .spell_book_window import SpellBookWindow
 from .task_progress_window import TaskProgressWindow
+
+
+class GameWindow(Protocol):
+    def stop(self) -> None: ...
+
+    def sync(self) -> None: ...
+
+
+@runtime_checkable
+class PageScrollable(Protocol):
+    def scroll_page_up(self) -> None: ...
+
+    def scroll_page_down(self) -> None: ...
 
 
 class GameView(BaseView):
@@ -53,11 +67,11 @@ class GameView(BaseView):
             self.on_exit()
 
         elif key in {curses.KEY_PPAGE}:
-            if hasattr(focused, "scroll_page_up"):
+            if isinstance(focused, PageScrollable):
                 focused.scroll_page_up()
 
         elif key in {curses.KEY_NPAGE}:
-            if hasattr(focused, "scroll_page_down"):
+            if isinstance(focused, PageScrollable):
                 focused.scroll_page_down()
 
         elif key in KEYS_CYCLE:
@@ -118,11 +132,9 @@ class GameView(BaseView):
                 self._simulation.tick()
 
         elif self._args.cheats and key == curses.ascii.DC4:  # ^t
-            old = SignalMixin.emit
-            SignalMixin.emit = lambda *_: None
-            for _ in range(10000):
-                self._simulation.tick()
-            SignalMixin.emit = old
+            with SignalMixin.muted():
+                for _ in range(10000):
+                    self._simulation.tick()
             for child in self._children:
                 child.sync()
 
@@ -225,16 +237,18 @@ class GameView(BaseView):
             x=0,
         )
 
-        self._focusable_children: list[Focusable] = [
+        focusable_children = (
             self._char_sheet_win,
             self._spell_book_win,
             self._equipment_win,
             self._inventory_win,
             self._plot_win,
             self._quest_book_win,
-        ]
-        self._children: list[Widget] = self._focusable_children + [
-            self._task_win
+        )
+        self._focusable_children: list[Focusable] = list(focusable_children)
+        self._children: list[GameWindow] = [
+            *focusable_children,
+            self._task_win,
         ]
 
     def stop(self) -> None:

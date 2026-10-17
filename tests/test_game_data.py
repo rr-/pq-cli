@@ -179,4 +179,4 @@ def test_game_data_is_immutable() -> None:
     data = load_game_data()
     assert isinstance(data, GameData)
     with pytest.raises(AttributeError):
-        data.spells = ()  # type: ignore[misc]
+        setattr(data, "spells", ())

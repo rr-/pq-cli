@@ -38,15 +38,17 @@ class MainMenu(Menu):
             scr_height=scr_height,
             scr_width=scr_width,
         )
+        pad = self._pad
+        assert pad is not None
         if has_colors():
             for y in range(len(self._header_lines)):
-                self._pad.chgat(y, 0, curses.color_pair(COLOR_LOGO))
-            self._pad.chgat(3, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
-            self._pad.chgat(4, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
-            self._pad.chgat(5, 32, 4, curses.color_pair(COLOR_LOGO_ALT))
-            self._pad.chgat(5, 27, 4, curses.color_pair(COLOR_LOGO_ALT))
-            self._pad.chgat(6, 34, 2, curses.color_pair(COLOR_LOGO_ALT))
-            self._pad.chgat(6, 27, 2, curses.color_pair(COLOR_LOGO_ALT))
+                pad.chgat(y, 0, curses.color_pair(COLOR_LOGO))
+            pad.chgat(3, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
+            pad.chgat(4, 29, 5, curses.color_pair(COLOR_LOGO_ALT))
+            pad.chgat(5, 32, 4, curses.color_pair(COLOR_LOGO_ALT))
+            pad.chgat(5, 27, 4, curses.color_pair(COLOR_LOGO_ALT))
+            pad.chgat(6, 34, 2, curses.color_pair(COLOR_LOGO_ALT))
+            pad.chgat(6, 27, 2, curses.color_pair(COLOR_LOGO_ALT))
 
 
 class RosterView(BaseView):

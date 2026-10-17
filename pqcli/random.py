@@ -1,6 +1,6 @@
 import contextlib
 import time
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Callable, Generator, Sequence
 from typing import Any
 
 RngState = tuple[float, float, float, int]
@@ -91,7 +91,7 @@ def seed(source: str) -> None:
 
 
 @contextlib.contextmanager
-def using(rng: Alea) -> Iterator[None]:
+def using(rng: Alea) -> Generator[None, None, None]:
     """Draw from rng instead of the shared generator inside the block."""
     global _current
     previous = _current

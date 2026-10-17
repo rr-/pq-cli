@@ -3,7 +3,7 @@ import curses
 import os
 import signal
 import time
-from typing import Any, cast
+from typing import Any
 
 from pqcli import lingo
 from pqcli.config import Class, Race
@@ -91,7 +91,7 @@ class CursesUserInterface(BaseUserInterface):
                 self._switch_to_roster_view()
 
             while True:
-                key = cast(int, self._screen.getch())
+                key = self._screen.getch()
 
                 if key == curses.ERR:
                     time.sleep(0.1)

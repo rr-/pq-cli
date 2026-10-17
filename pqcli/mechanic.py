@@ -1,10 +1,11 @@
+import contextlib
 import datetime
 import functools
 import itertools
 import logging
 import math
 from collections import defaultdict
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Callable, Generator, Iterator, Sequence
 from dataclasses import dataclass
 from typing import Any, cast
 
@@ -42,7 +43,21 @@ _SIGNALS: dict[tuple["SignalMixin", str], list[Callable[..., Any]]] = (
 
 
 class SignalMixin:
+    _muted = 0
+
+    @staticmethod
+    @contextlib.contextmanager
+    def muted() -> Generator[None, None, None]:
+        """Suppress all signal emission for the duration of the block."""
+        SignalMixin._muted += 1
+        try:
+            yield
+        finally:
+            SignalMixin._muted -= 1
+
     def emit(self, signal_name: str, *user_data: Any) -> None:
+        if SignalMixin._muted:
+            return
         for callback in _SIGNALS[self, signal_name]:
             callback(*user_data)
 
@@ -683,12 +698,11 @@ class Simulation:
         caption = ""
         choice = random.below(5)
         if choice == 0:
-            self.player.quest_book.monster = unnamed_monster(
+            monster = unnamed_monster(
                 self.data, self.player.level, iterations=3
             )
-            caption = "Exterminate " + definite(
-                self.player.quest_book.monster.name, 2
-            )
+            self.player.quest_book.monster = monster
+            caption = "Exterminate " + definite(monster.name, 2)
         elif choice == 1:
             caption = "Seek " + definite(interesting_item(self.data), 1)
         elif choice == 2:

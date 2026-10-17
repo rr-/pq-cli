@@ -29,14 +29,14 @@ class ListBox(Scrollable):
             idx %= len(self._items)
         try:
             return self._items[idx]
-        except ValueError:
+        except IndexError:
             return None
 
     def delete(self, idx: int, count: int = 1) -> None:
         del self._items[idx : idx + count]
 
     def select(self, idx: int | None) -> None:
-        if idx < 0 and len(self._items):
+        if idx is not None and idx < 0 and self._items:
             idx %= len(self._items)
         self._selected = idx
 

@@ -34,10 +34,12 @@ def run_trace(seed: str, ticks: int = 3000) -> list[str]:
     simulation = Simulation(player, data)
 
     lines: list[str] = []
-    player.connect(
-        "new_task",
-        lambda: lines.append(f"task: {player.task.description}"),
-    )
+
+    def record_task() -> None:
+        assert player.task is not None
+        lines.append(f"task: {player.task.description}")
+
+    player.connect("new_task", record_task)
     for _ in range(ticks):
         simulation.tick(100000.0)
 

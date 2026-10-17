@@ -28,11 +28,12 @@ class Menu(Widget):
 
         w = max(map(len, all_lines)) + 1
         h = len(all_lines) + 1
-        self._pad: Any | None = curses.newpad(h, w)
+        pad = curses.newpad(h, w)
+        self._pad: Any | None = pad
 
         for y, line in enumerate(self._header_lines):
-            self._pad.move(y, 0)
-            self._pad.addstr(line)
+            pad.move(y, 0)
+            pad.addstr(line)
 
         self._active_choice = active_choice
 

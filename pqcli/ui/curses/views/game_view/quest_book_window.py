@@ -1,12 +1,11 @@
 from typing import Any
 
 from pqcli.mechanic import Player
-from pqcli.ui.curses.widgets import Focusable
 
 from .progress_bar_window import ListBoxProgressBarWindow
 
 
-class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
+class QuestBookWindow(ListBoxProgressBarWindow):
     cutoff = 100
 
     def __init__(
