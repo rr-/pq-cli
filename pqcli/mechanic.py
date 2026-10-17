@@ -25,6 +25,7 @@ from pqcli.lingo import (
     definite,
     generate_name,
     indefinite,
+    plural,
     sick,
     special,
     young,
@@ -768,7 +769,7 @@ class Simulation:
             enqueue(
                 RegularTask(
                     "Oh sweet relief! "
-                    f"You've reached the protection of the good {nemesis}",
+                    f"You've reached the kind protection of {nemesis}",
                     2000,
                 )
             )
@@ -796,7 +797,7 @@ class Simulation:
             )
             enqueue(
                 RegularTask(
-                    "Who can possibly be trusted with this news!? ... "
+                    "Who can possibly be trusted with this news!? -- "
                     "Oh yes, of course",
                     3000,
                 )
@@ -833,11 +834,12 @@ def boring_item(data: GameData) -> str:
 
 
 def impressive_guy(data: GameData) -> str:
-    return T.cast(str, random.choice(data.impressive_titles)) + (
-        " of the " + T.cast(Race, random.choice(data.races)).name
-        if random.below(2)
-        else " of " + generate_name()
-    )
+    if random.below(2):
+        title = T.cast(str, random.choice(data.impressive_titles))
+        race = T.cast(Race, random.choice(data.races))
+        return f"the {title} of the {plural(race.name)}"
+    title = T.cast(str, random.choice(data.impressive_titles))
+    return f"{title} {generate_name()} of {generate_name()}"
 
 
 def unnamed_monster(data: GameData, level: int, iterations: int) -> Monster:

@@ -1,11 +1,19 @@
 import datetime
+import re
 
 import pytest
 
 from pqcli import random
 from pqcli.config import PRIME_STATS, StatType
 from pqcli.game_data import load_game_data
-from pqcli.mechanic import Player, Simulation, Stats, level_up_time
+from pqcli.lingo import plural
+from pqcli.mechanic import (
+    Player,
+    Simulation,
+    Stats,
+    impressive_guy,
+    level_up_time,
+)
 
 
 def test_level_up_time_matches_upstream() -> None:
@@ -104,3 +112,37 @@ def test_win_item_past_cap_can_still_add_new_item(
     fake_below(monkeypatch, 301, 0, 0, 0)
     simulation.player.win_item(simulation.data)
     assert len(simulation.player.inventory) == 301
+
+
+def test_impressive_guy_formats() -> None:
+    # pq-web cea0d8c
+    data = load_game_data()
+    titles = "|".join(re.escape(title) for title in data.impressive_titles)
+    races = "|".join(re.escape(plural(race.name)) for race in data.races)
+    pattern = re.compile(
+        rf"the ({titles}) of the ({races})|({titles}) [A-Z][a-z]+ of [A-Z][a-z]+"
+    )
+    random.seed("guys")
+    guys = [impressive_guy(data) for _ in range(200)]
+    for guy in guys:
+        assert pattern.fullmatch(guy), guy
+    assert any(guy.startswith("the ") for guy in guys)
+    assert not all(guy.startswith("the ") for guy in guys)
+
+
+def test_impressive_titles_match_upstream() -> None:
+    assert load_game_data().impressive_titles[-3:] == (
+        "Chancellor",
+        "Baroness",
+        "Inquistor",  # sic, as upstream
+    )
+
+
+def test_cinematic_text_matches_upstream() -> None:
+    random.seed("cinematics")
+    simulation = make_simulation()
+    for _ in range(60):
+        simulation.interplot_cinematic()
+    texts = [task.description for task in simulation.player.queue]
+    assert any("You've reached the kind protection of " in t for t in texts)
+    assert any(t.endswith("news!? -- Oh yes, of course") for t in texts)

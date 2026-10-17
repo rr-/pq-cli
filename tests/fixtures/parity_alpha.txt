@@ -1509,12 +1509,12 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Viceroy of the Battle-Finch
-queued: There is rejoicing, and an unnerving encounter with Viceroy of the Battle-Finch in private
+queued: Oh sweet relief! You've reached the kind protection of the Princess of the Battle-Finches
+queued: There is rejoicing, and an unnerving encounter with the Princess of the Battle-Finches in private
 queued: You forget your cookie and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Viceroy of the Battle-Finch be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Could the Princess of the Battle-Finches be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
@@ -1526,12 +1526,12 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Chief of the Double Hobbit
-queued: There is rejoicing, and an unnerving encounter with Chief of the Double Hobbit in private
-queued: You forget your inkwell and go back to get it
+queued: Oh sweet relief! You've reached the kind protection of the Queen of the Enchanted Motorcycles
+queued: There is rejoicing, and an unnerving encounter with the Queen of the Enchanted Motorcycles in private
+queued: You forget your writ and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Chief of the Double Hobbit be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Could the Queen of the Enchanted Motorcycles be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
@@ -1549,60 +1549,67 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Mayor of Itag
-queued: There is rejoicing, and an unnerving encounter with Mayor of Itag in private
-queued: You forget your letter and go back to get it
+queued: Oh sweet relief! You've reached the kind protection of the Chancellor of the Dung Elves
+queued: There is rejoicing, and an unnerving encounter with the Chancellor of the Dung Elves in private
+queued: You forget your carrot and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Mayor of Itag be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Grouvan the Bone Devil
-queued: Locked in grim combat with Grouvan the Bone Devil
-queued: Grouvan the Bone Devil seems to have the upper hand
-queued: Victory! Grouvan the Bone Devil is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
+queued: Could the Chancellor of the Dung Elves be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Queen of Xickig
-queued: There is rejoicing, and an unnerving encounter with Queen of Xickig in private
+queued: Exhausted, you arrive at a friendly oasis in a hostile land
+queued: You greet old friends and meet new allies
+queued: You are privy to a council of powerful do-gooders
+queued: There is much to be done. You are chosen!
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the kind protection of Inquistor Zumyeck of Radshog
+queued: There is rejoicing, and an unnerving encounter with Inquistor Zumyeck of Radshog in private
 queued: You forget your egg and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Queen of Xickig be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Could Inquistor Zumyeck of Radshog be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
+queued: Loading Act II
+queued: Exhausted, you arrive at a friendly oasis in a hostile land
+queued: You greet old friends and meet new allies
+queued: You are privy to a council of powerful do-gooders
+queued: There is much to be done. You are chosen!
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Jangraet the Troll
-queued: Victory! Jangraet the Troll is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Lutok the Minotaur
+queued: Victory! Lutok the Minotaur is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
 queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Zuktrep the Spectre
-queued: Locked in grim combat with Zuktrep the Spectre
-queued: Victory! Zuktrep the Spectre is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Queen of the Crested Dwarf
-queued: There is rejoicing, and an unnerving encounter with Queen of the Crested Dwarf in private
-queued: You forget your towel and go back to get it
+queued: Oh sweet relief! You've reached the kind protection of King Prekkrux of Vingroud
+queued: There is rejoicing, and an unnerving encounter with King Prekkrux of Vingroud in private
+queued: You forget your planter box and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Queen of the Crested Dwarf be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Could King Prekkrux of Vingroud be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Bromzez the Tin Dragon
-queued: Victory! Bromzez the Tin Dragon is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
+queued: Oh sweet relief! You've reached the kind protection of the Chief of the Dung Elves
+queued: There is rejoicing, and an unnerving encounter with the Chief of the Dung Elves in private
+queued: You forget your trowel and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could the Chief of the Dung Elves be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Trubreb the Vampire
-queued: Trubreb the Vampire seems to have the upper hand
-queued: Victory! Trubreb the Vampire is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
+queued: Oh sweet relief! You've reached the kind protection of the Inquistor of the Skraelings
+queued: There is rejoicing, and an unnerving encounter with the Inquistor of the Skraelings in private
+queued: You forget your trinket and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could the Inquistor of the Skraelings be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the kind protection of Princess Prugzoux of Shookvux
+queued: There is rejoicing, and an unnerving encounter with Princess Prugzoux of Shookvux in private
+queued: You forget your credenza and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Princess Prugzoux of Shookvux be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
@@ -1615,9 +1622,21 @@ queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Driexfrex the Troll
-queued: Victory! Driexfrex the Troll is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Jackveck the Leucrotta
+queued: Victory! Jackveck the Leucrotta is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
+queued: Exhausted, you arrive at a friendly oasis in a hostile land
+queued: You greet old friends and meet new allies
+queued: You are privy to a council of powerful do-gooders
+queued: There is much to be done. You are chosen!
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the kind protection of the Queen of the Panda Men
+queued: There is rejoicing, and an unnerving encounter with the Queen of the Panda Men in private
+queued: You forget your toothpick and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could the Queen of the Panda Men be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
 queued: A desperate struggle commences with Brevug the Anhkheg
@@ -1636,162 +1655,144 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Chief of the Will o' the Wisp
-queued: There is rejoicing, and an unnerving encounter with Chief of the Will o' the Wisp in private
-queued: You forget your nosegay and go back to get it
+queued: Oh sweet relief! You've reached the kind protection of the Princess of the Demicanadians
+queued: There is rejoicing, and an unnerving encounter with the Princess of the Demicanadians in private
+queued: You forget your planter box and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Chief of the Will o' the Wisp be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Could the Princess of the Demicanadians be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Lord of Ripzez
-queued: There is rejoicing, and an unnerving encounter with Lord of Ripzez in private
-queued: You forget your teratoma and go back to get it
+queued: Oh sweet relief! You've reached the kind protection of Boss Gromshoox of Liemvad
+queued: There is rejoicing, and an unnerving encounter with Boss Gromshoox of Liemvad in private
+queued: You forget your coin and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Lord of Ripzez be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Xebnoob the Copper Dragon
-queued: Victory! Xebnoob the Copper Dragon is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
+queued: Could Boss Gromshoox of Liemvad be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? -- Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Whixcraez the Moakum
-queued: Locked in grim combat with Whixcraez the Moakum
-queued: Whixcraez the Moakum seems to have the upper hand
-queued: Victory! Whixcraez the Moakum is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Xixliet the Otyugh
-queued: You seem to gain the advantage over Xixliet the Otyugh
-queued: Victory! Xixliet the Otyugh is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-monster: Executing a Manes 6000
-monster: Executing an underage Blink Dog 9000
-monster: Executing a passing Eel Man Mage Illusioner 4000
-monster: Executing a greater Gargoyle 7500
-monster: Executing an underage Djinn 7200
-monster: Executing a Battle-Leucrotta 7000
-monster: Executing a greater Bone Devil 8571
-monster: Executing a Green Dragon 6000
-monster: Executing a sick Pentasaurus 6666
-monster: Executing an enormous Djinn 6000
-monster: Executing a demon Stone Giant 7636
-monster: Executing an Efreet 5000
-monster: Executing Mr. Brebloz the Skraeling 5076
-monster: Executing a titanic veteran Stone Giant 6428
-monster: Executing a titanic Beef Giant 6400
-monster: Executing a massive undead Treant 6000
-monster: Executing a cursed Quartz Giant 4235
-monster: Executing a comatose foetal Brontosaurus 7000
-monster: Executing a greater Purple Worm 5052
-monster: Executing an Oxygen Golem 5100
-monster: Executing 2 Humidity Giants 6857
-monster: Executing 2 veteran Cloud Giants 7090
-monster: Executing a titanic Battle-Roc 6260
-monster: Executing a titanic Battle-Stegosaurus 6000
-monster: Executing 2 teenage Storm Giants 6240
-monster: Executing a messianic Cardboard Golem 5538
-monster: Executing a giant undead Titan 6222
-monster: Executing 3 comatose Dragon Turtles 5785
-monster: Executing 3 massive Invisible Stalkers 6206
-monster: Executing 2 cursed Hair Elementals 7200
-monster: Executing 2 cursed Megalosauri 5419
-monster: Executing 2 Hair Elementals 6000
-monster: Executing 2 cursed Cheese Elementals 5818
-monster: Executing 4 Bone Devils 6352
-monster: Executing 3 preadolescent Baluchitheriums 5657
-monster: Executing 2 comatose Platinum Dragons 5666
-monster: Executing 2 cursed Beer Golems 5513
-monster: Executing 2 Elasmosauri 4736
-monster: Executing 3 Liches 5076
-monster: Executing 3 Humidity Giants 5400
-monster: Executing 4 undernourished Pentasauri 6439
-monster: Executing 3 massive Trappers 6000
-monster: Executing a messianic Geryon 6000
-monster: Executing 3 underage Rubber Golems 6136
-monster: Executing 6 undernourished Rice Giants 5600
-monster: Executing 2 Were-Rocs 5478
-monster: Executing 3 undernourished Rubber Golems 5744
-monster: Executing 4 Beef Giants 5500
-monster: Executing a massive undead Baalzebul 6000
-monster: Executing 4 greater Silver Dragons 5280
-monster: Executing 3 greater Chromatic Dragons 6000
-monster: Executing 3 dead preadolescent Yeenoghus 5884
-monster: Executing 4 underage Gorgosauri 5433
-monster: Executing 2 baby Brontosauri 5777
-monster: Executing 5 Ice Devils 6000
-monster: Executing 3 massive Leather Golems 5464
-monster: Executing 4 Cheese Elementals 5894
-monster: Executing 6 underage Ghosts 5586
-monster: Executing 2 giant Dispaters 6915
-monster: Executing a messianic Baalzebul 5300
-monster: Executing 7 teenage Efreets 5508
-monster: Executing 7 underage Efreets 6096
-monster: Executing 10 White Dragons 5714
-monster: Executing 6 underage Frost Giants 5062
-monster: Executing Mr. Fraetrub the Demicanadian 5353
-monster: Executing 4 sick Jubilexes 5454
-monster: Executing 5 undernourished Purple Worms 6268
-monster: Executing 6 Pentasauri 6352
-monster: Executing 2 giant Were-Yeenoghus 5565
-monster: Executing 3 preadolescent Diplodoci 5400
-monster: Executing 9 Sand Elementals 6084
-monster: Executing 6 Mastodons 6000
-monster: Executing 5 underage Gorgosauri 4931
-monster: Executing 5 Leather Golems 6081
-monster: Executing 5 veteran Cardboard Golems 6000
-monster: Executing 9 underage Stone Giants 5684
-monster: Executing 8 underage Nalfeshnees 6233
-monster: Executing 2 preadolescent Baalzebuls 6153
-monster: Executing 12 undernourished Monoclonii 6379
-monster: Executing 12 undernourished Brass Dragons 5400
-monster: Executing 2 messianic Dispaters 6074
-monster: Executing 6 undernourished Cheese Elementals 5707
-monster: Executing 2 imaginary Demogorgons 6216
-monster: Executing 11 Vampires 6285
-monster: Executing 6 greater Cardboard Golems 6352
-monster: Executing 18 Su-monsters 6279
-monster: Executing 11 Barbed Devils 6068
-monster: Executing a messianic Asmodeus 5113
-monster: Executing 6 underage Leather Golems 5662
-monster: Executing a passing Battle-Finch Birdrider 5933
-monster: Executing 10 underage Efreets 5934
-monster: Executing 10 Bacon Elementals 6521
-monster: Executing 10 undernourished Red Dragons 5806
-monster: Executing 7 Pit Fiends 5808
-monster: Executing 11 undernourished Silver Dragons 6252
-monster: Executing 9 Ice Devils 6187
-monster: Executing 4 teenage Yeenoghus 5690
-monster: Executing 12 Copper Dragons 5877
-monster: Executing 8 underage Dragon Turtles 5818
+monster: Executing an undernourished Octopus 6000
+monster: Executing a veteran Green Slime 9000
+monster: Executing an Octopus 4000
+monster: Executing a Boy Scout 4500
+monster: Executing a teenage Will-o'-the-Wisp 8400
+monster: Executing a veteran White Dragon 7000
+monster: Executing an underage Xorn 5142
+monster: Executing an underage Couatl 6000
+monster: Executing an Invisible Stalker 5333
+monster: Executing a massive Naga 6600
+monster: Executing a teenage Chromatic Dragon 7636
+monster: Executing a giant undead Brass Dragon 7500
+monster: Executing an enormous warrior Stone Giant 6923
+monster: Executing a comatose Stegosaurus 6000
+monster: Executing a Humidity Giant 4800
+monster: Executing a giant cursed Porcelain Giant 5625
+monster: Executing a titanic undead Shedu 6352
+monster: Executing a warrior Cloud Giant 5000
+monster: Executing 3 Black Dragons 6631
+monster: Executing a warrior Hair Elemental 5700
+monster: Executing 2 Bacon Elementals 5714
+monster: Executing an undead Platinum Dragon 6818
+monster: Executing an enormous undead Platinum Dragon 7304
+monster: Executing a giant undead Roc 6500
+monster: Executing a titanic undead Stegosaurus 6480
+monster: Executing 3 underage Lurkers 6230
+monster: Executing 2 baby Rocs 6222
+monster: Executing 3 Barbed Devils 5142
+monster: Executing 4 Copper Dragons 6620
+monster: Executing 2 massive Porn Elementals 5600
+monster: Executing 2 teenage Platinum Dragons 7354
+monster: Executing Saint Shixtrip the Will o' the Wisp 5437
+monster: Executing a cursed Geryon 5818
+monster: Executing 2 sick Stegosauri 5647
+monster: Executing 2 sick Platinum Dragons 6514
+monster: Executing an imaginary Asmodeus 6000
+monster: Executing 3 greater Neo-Otyughs 5837
+monster: Executing 2 Jubilexes 5368
+monster: Executing 5 Xorns 5384
+monster: Executing 3 underage Ghosts 4050
+monster: Executing 5 Jellyrocks 6585
+monster: Executing 5 Nagas 6428
+monster: Executing 3 underage Leather Golems 5860
+monster: Executing a titanic undead Geryon 5318
+monster: Executing 3 sick Chromatic Dragons 5600
+monster: Executing 4 Ice Devils 5739
+monster: Executing 6 underage Hill Giants 5361
+monster: Executing 5 Bronze Dragons 5625
+monster: Executing Ms. Drootnad the Gyrognome 5755
+monster: Executing 2 preadolescent Orci 5760
+monster: Executing 4 veteran Dragon Turtles 6588
+monster: Executing 5 Red Dragons 5769
+monster: Executing a passing Will o' the Wisp Ur-Paladin 5660
+monster: Executing 3 foetal Titans 5000
+monster: Executing a giant Asmodeus 6109
+monster: Executing a messianic Geryon 5250
+monster: Executing 3 warrior Hair Elementals 6000
+monster: Executing 6 Frost Giants 6206
+monster: Executing 5 Megalosauri 6101
+monster: Executing 5 greater Liches 6000
+monster: Executing 3 foetal Diplodoci 5606
+monster: Executing 5 underage Gorgosauri 5806
+monster: Executing 4 baby Platinum Dragons 6476
+monster: Executing 10 underage Anhkhegs 4687
+monster: Executing 6 underage Fire Giants 5538
+monster: Executing 3 preadolescent Diplodoci 5727
+monster: Executing a passing Trans-Kobold Voodoo Princess 5910
+monster: Executing 4 Jubilexes 6000
+monster: Executing 6 Cloud Giants 6260
+monster: Executing 4 dead Titans 5142
+monster: Executing a messianic Asmodeus 6338
+monster: Executing a messianic Demogorgon 5583
+monster: Executing 5 greater Mastodons 5342
+monster: Executing 3 underage Yeenoghus 5837
+monster: Executing 8 underage Nalfeshnees 6400
+monster: Executing Mrs. Grimzoz the Hob-Hobbit 5526
+monster: Executing 9 underage Silver Dragons 6311
+monster: Executing 2 imaginary Demogorgons 6461
+monster: Executing 11 underage Gold Dragons 5848
+monster: Executing 8 Silver Dragons 6000
+monster: Executing 9 underage Shedus 5333
+monster: Executing 6 greater Humidity Giants 5707
+monster: Executing a passing Low Elf Puma Burgular 6144
+monster: Executing 9 underage Silver Dragons 5785
+monster: Executing 3 imaginary Baalzebuls 6776
+monster: Executing 12 undernourished Vrocks 5860
+monster: Executing 7 sick Cardboard Golems 5793
+monster: Executing 7 underage Mastodons 5250
+monster: Executing 5 Hair Elementals 5393
+monster: Executing 3 underage Geryons 5800
+monster: Executing 8 undernourished Megalosauri 5802
+monster: Executing 7 greater Cloud Giants 5934
+monster: Executing 10 Efreets 6451
+monster: Executing 9 underage Porn Elementals 6319
+monster: Executing 2 crippled Demogorgons 6315
+monster: Executing 11 undernourished Mimics 5500
+monster: Executing 5 undernourished Stegosauri 5257
+monster: Executing 6 greater Storm Giants 5877
+monster: Executing 4 Diplodoci 5818
 level: 4
 act: 1
 gold: 142
-stat: STR 17
-stat: CON 16
-stat: DEX 13
-stat: INT 15
+stat: STR 18
+stat: CON 15
+stat: DEX 14
+stat: INT 16
 stat: WIS 21
-stat: CHA 12
-stat: HP Max 22
+stat: CHA 13
+stat: HP Max 23
 stat: MP Max 26
-equipment: Weapon Battleadze
+equipment: Weapon Tarnished Longiron
 equipment: Hauberk Canvas
-equipment: Brassairts -1 Flannel
+equipment: Brassairts Studded Macrame
 equipment: Gambeson +1 Burlap
 equipment: Helm Canvas
-equipment: Vambraces Burlap
+equipment: Vambraces -1 Flannel
 equipment: Greaves -1 Rusty Dented Bearskin
 equipment: Shield -1 Faded Scutum
-equipment: Gauntlets -2 Motheaten Bearskin
+equipment: Gauntlets Banded Macrame
 equipment: Sollerets +1 Macrame
 equipment: Cuisses Burlap
 inventory: otyugh organ 1
@@ -1804,29 +1805,27 @@ inventory: Astral Candelabra of Loyalty 1
 inventory: leprechaun wallet 1
 inventory: cockatrice wattle 1
 inventory: Benevolent Arrow of Diamonique 1
-inventory: Gilded Spangle of Foreboding 1
-inventory: Reverential Corset of Torpor 1
-inventory: Gleaming Vulpeculum of Awe 1
-inventory: Mythic Gimcrack of Guile 1
-inventory: One True Scabbard of Rapidity 1
+inventory: Lucky Hymnal of Rapidity 1
+inventory: Magnificent Sceptre of Invisibility 1
+inventory: Mythic Phial of Hurting 1
+inventory: Arcane Laurel of Hydragyrum 1
 inventory: Benevolent Laurel of Danger 1
-inventory: Grandiose Scabbard of the Bone 1
-inventory: Crafted Candelabra of Fear 1
-spell: Hastiness 1
-spell: Aqueous Humor 2
+inventory: Puissant Talisman of Fortune 1
+spell: Hastiness 2
+spell: Aqueous Humor 1
 spell: Slime Finger 3
 spell: Magnetic Orb 2
-spell: Sadness 5
-spell: Cone of Paste 1
-spell: Revolting Cloud 1
-spell: Seasick 2
-spell: Rabbit Punch 2
-spell: Cone of Annoyance 3
+spell: Sadness 4
+spell: Cone of Paste 2
+spell: Revolting Cloud 2
+spell: Seasick 3
+spell: Rabbit Punch 1
+spell: Cone of Annoyance 1
 spell: Lockjaw 1
-spell: Good Move 2
+spell: Good Move 1
 spell: Inoculate 1
+spell: Clever Fellow 1
 spell: Spectral Miasma 1
-spell: Invisible Hands 1
 quest: Fetch me a teratoma
 quest: Exterminate the Homunculi
 quest: Exterminate the Maneses
@@ -1878,24 +1877,24 @@ quest: Fetch me a pole
 quest: Exterminate the Mini Giants
 quest: Placate the Lizard Men
 quest: Placate the Bone Devils
-quest: Fetch me a tuppence
-quest: Fetch me a writ
-quest: Placate the Satyrs
-quest: Fetch me an inkwell
-quest: Seek the Fearsome Candelabra
+quest: Placate the Pixies
+quest: Deliver this lunchpail
+quest: Exterminate the Nymphs
+quest: Deliver this trinket
+quest: Exterminate the Plaid Dragons
+quest: Fetch me a letter
+quest: Placate the Wolves
+quest: Seek the Deadly Vulpeculum
 quest: Deliver this newspaper
-quest: Placate the Shedus
-quest: Seek the Gilded Tiara
-quest: Placate the Silkies
-quest: Exterminate the Xorns
-quest: Seek the Gleaming Phial
+quest: Deliver this newspaper
+quest: Seek the Golden Lens
+quest: Seek the One True Gemstone
+quest: Exterminate the Rot Grubs
+quest: Exterminate the Rust Monsters
 quest: Fetch me a vest
 quest: Deliver this sock
 quest: Deliver this lunchpail
 quest: Placate the Bats
 quest: Exterminate the Mummies
-quest: Fetch me a towel
-quest: Fetch me a bandage
-quest: Placate the Plaid Dragons
-quest: Exterminate the Poroids
-quest: Deliver this hat
+quest: Deliver this ladder
+quest: Placate the Hobgoblins
