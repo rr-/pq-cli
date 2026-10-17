@@ -53,3 +53,54 @@ def test_weighted_stat_gain_skips_hp_and_mp(
     assert player.stats[StatType.hp_max] == 1010
     assert player.stats[StatType.mp_max] == 10
     assert sum(player.stats[stat] for stat in PRIME_STATS) == 60 + 500
+
+
+def fake_below(monkeypatch: pytest.MonkeyPatch, *values: int) -> None:
+    queue = list(values)
+    monkeypatch.setattr(random, "below", lambda num: queue.pop(0) % num)
+
+
+def full_inventory(rows: int) -> Simulation:
+    simulation = make_simulation()
+    for i in range(rows):
+        simulation.player.inventory.add(f"item {i}", 1)
+    return simulation
+
+
+def test_win_item_adds_new_item_below_cap(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    simulation = full_inventory(10)
+    random.seed("items")
+    simulation.player.win_item(simulation.data)
+    assert len(simulation.player.inventory) == 11
+
+
+def test_win_item_repeats_existing_item_past_cap(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Max(250, Random(999)) < rows: add one of a random row, pq-web 3cbd386
+    simulation = full_inventory(300)
+    inventory = simulation.player.inventory
+    fake_below(monkeypatch, 260, 6)  # rows include Gold, so 6 is "item 5"
+    simulation.player.win_item(simulation.data)
+    assert len(inventory) == 300
+    assert inventory[5].quantity == 2
+
+
+def test_win_item_can_pick_gold_row(monkeypatch: pytest.MonkeyPatch) -> None:
+    simulation = full_inventory(300)
+    fake_below(monkeypatch, 0, 0)
+    simulation.player.win_item(simulation.data)
+    assert simulation.player.inventory.gold == 1
+    assert len(simulation.player.inventory) == 300
+
+
+def test_win_item_past_cap_can_still_add_new_item(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    simulation = full_inventory(300)
+    random.seed("items")
+    fake_below(monkeypatch, 301, 0, 0, 0)
+    simulation.player.win_item(simulation.data)
+    assert len(simulation.player.inventory) == 301

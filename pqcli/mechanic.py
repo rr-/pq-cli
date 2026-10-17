@@ -469,7 +469,17 @@ class Player(SignalMixin):
         self.equipment.put(choice, name)
 
     def win_item(self, data: GameData) -> None:
-        self.inventory.add(special_item(data), 1)
+        # Past 250 rows, sometimes add one more of something already carried.
+        # Upstream counts the Gold row too, and picking it yields 1 gold.
+        rows = len(self.inventory) + 1
+        if max(250, random.below(999)) < rows:
+            index = random.below(rows)
+            if index == 0:
+                self.inventory.add_gold(1)
+            else:
+                self.inventory.add(self.inventory[index - 1].name, 1)
+        else:
+            self.inventory.add(special_item(data), 1)
 
 
 class Simulation:
