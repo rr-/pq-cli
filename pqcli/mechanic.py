@@ -332,6 +332,10 @@ class PlotTask(RegularTask):
     pass
 
 
+class LoadingTask(RegularTask):
+    pass
+
+
 class Player(SignalMixin):
     signals = ["new_task", "level_up"]
 
@@ -493,7 +497,7 @@ class Simulation:
         self.player.elapsed += elapsed
 
         if self.player.task is None:
-            self.player.set_task(RegularTask("Loading", 2000))
+            self.player.set_task(LoadingTask("Loading", 2000))
             self.player.queue += [
                 RegularTask(
                     "Experiencing an enigmatic and foreboding night vision",
@@ -516,7 +520,7 @@ class Simulation:
                 ),
                 PlotTask(f"Loading {act_name(1)}", 2000),
             ]
-            self.player.quest_book.plot_bar.reset(28)
+            self.player.quest_book.plot_bar.reset(26)
             return
 
         if not self.player.task_bar.done:
@@ -551,6 +555,13 @@ class Simulation:
                 self.player.quest_book.plot_bar.increment(
                     self.player.task_bar.max_ / 1000
                 )
+        elif self.player.quest_book.act == 0 and not isinstance(
+            self.player.task, (LoadingTask, PlotTask)
+        ):
+            # the Prologue story tasks fill the plot bar
+            self.player.quest_book.plot_bar.increment(
+                self.player.task_bar.max_ / 1000
+            )
 
         self.dequeue()
 

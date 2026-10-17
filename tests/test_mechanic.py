@@ -154,3 +154,30 @@ def test_quest_log_keeps_100_quests() -> None:
         quest_book.add_quest(f"quest {i}")
     assert len(quest_book.quests) == 100
     assert quest_book.quests[-1] == "quest 149"
+
+
+def test_prologue_fills_plot_bar() -> None:
+    # upstream advances the plot bar on any task while act == 0
+    random.seed("prologue")
+    simulation = make_simulation()
+    player = simulation.player
+    positions = []
+    player.connect(
+        "new_task",
+        lambda: positions.append(
+            (player.task.description, player.quest_book.plot_bar.position)
+        ),
+    )
+    while player.quest_book.act == 0:
+        simulation.tick(100000.0)
+    assert player.quest_book.plot_bar.max_ != 26  # reset by act I
+    assert [position for _, position in positions[:6]] == [
+        0,
+        0,
+        10,
+        16,
+        22,
+        26,
+    ]
+    assert positions[5][0] == "Loading Act I"
+    assert positions[6][0] == "Heading to the killing fields"
