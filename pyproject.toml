@@ -37,7 +37,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = ["prek>=0.2", "pytest>=8.0", "ty>=0.0.89"]
+dev = ["prek>=0.2", "pyte>=0.8", "pytest>=8.0", "ty>=0.0.89"]
 
 [tool.ty.src]
 # Only the package and its tests; agent worktrees under .claude/ would
@@ -52,3 +52,8 @@ select = ["E", "F", "W", "I", "UP"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["pqcli"]
+
+[tool.coverage.run]
+# Also measure the pqcli processes the tests start, such as the curses
+# UI driven through a pseudo-terminal.
+patch = ["subprocess"]
