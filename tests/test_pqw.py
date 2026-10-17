@@ -1,6 +1,7 @@
 import base64
 import datetime
 import json
+from pathlib import Path
 
 import pytest
 from upstream import bridge
@@ -8,7 +9,16 @@ from upstream import bridge
 from pqcli.config import StatType
 from pqcli.game_data import load_game_data
 from pqcli.mechanic import Player, Simulation, Stats
-from pqcli.pqw import PqwError, decode, encode, export_game, import_game
+from pqcli.pqw import (
+    PqwError,
+    decode,
+    default_file_name,
+    encode,
+    export_game,
+    import_game,
+    read_file,
+    write_file,
+)
 from pqcli.random import Alea
 
 DATA = load_game_data()
@@ -131,3 +141,24 @@ def test_round_trip_keeps_playing_identically(ticks: int) -> None:
     assert bridge.run(resumed, 10**8, 2000) == bridge.run(
         original, 10**8, 2000
     )
+
+
+def test_files_round_trip(tmp_path: Path) -> None:
+    original = played(3000).player
+    path = tmp_path / default_file_name(original)
+    write_file(original, path, DATA)
+    copy, _warnings = read_file(path, DATA)
+    assert bridge.snapshot(copy) == bridge.snapshot(original)
+
+
+def test_write_file_never_overwrites(tmp_path: Path) -> None:
+    path = tmp_path / "taken.pqw"
+    path.write_text("mine")
+    with pytest.raises(PqwError, match="already exists"):
+        write_file(played(10).player, path, DATA)
+    assert path.read_text() == "mine"
+
+
+def test_read_file_reports_missing_file(tmp_path: Path) -> None:
+    with pytest.raises(PqwError, match="cannot read"):
+        read_file(tmp_path / "nope.pqw", DATA)

@@ -5,6 +5,7 @@ from typing import TextIO
 
 from xdg_base_dirs import xdg_config_home
 
+from pqcli import pqw
 from pqcli.game_data import (
     DataError,
     GameData,
@@ -81,6 +82,25 @@ def parse_args() -> argparse.Namespace:
         metavar="DIR",
         help="copy the built-in word lists to DIR for editing and exit",
     )
+    parser.add_argument(
+        "--import-save",
+        type=Path,
+        action="append",
+        metavar="FILE",
+        help=(
+            "add the character in a Progress Quest web save (.pqw) to the "
+            "roster and exit; can be given more than once"
+        ),
+    )
+    parser.add_argument(
+        "--export-save",
+        nargs=2,
+        metavar=("NUM", "FILE"),
+        help=(
+            "write the chosen character to a Progress Quest web save "
+            "(.pqw) and exit"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -106,6 +126,40 @@ def bootstrap_first_run(
             raise SystemExit(1)
 
 
+def import_saves(
+    roster: Roster, data: GameData, paths: list[Path], use_saves: bool
+) -> None:
+    imported = []
+    for path in paths:
+        try:
+            player, warnings = pqw.read_file(path, data)
+        except pqw.PqwError as ex:
+            print(f"pqcli: {ex}", file=sys.stderr)
+            exit(1)
+        for warning in warnings:
+            print(f"pqcli: {path}: {warning}", file=sys.stderr)
+        imported.append(player)
+    roster.players.extend(imported)
+    if use_saves:
+        roster.save()
+    for player in imported:
+        print(f"Imported {player.name}")
+
+
+def export_save(roster: Roster, data: GameData, num: str, file: str) -> None:
+    if not num.isdigit() or not 1 <= int(num) <= len(roster.players):
+        print("Invalid player. Available players:", file=sys.stderr)
+        list_players(roster, file=sys.stderr)
+        exit(1)
+    player = roster.players[int(num) - 1]
+    try:
+        pqw.write_file(player, Path(file), data)
+    except pqw.PqwError as ex:
+        print(f"pqcli: {ex}", file=sys.stderr)
+        exit(1)
+    print(f"Exported {player.name} to {file}")
+
+
 def main() -> None:
     args = parse_args()
 
@@ -128,6 +182,14 @@ def main() -> None:
 
     if args.list_saves:
         list_players(roster)
+        exit(0)
+
+    if args.import_save:
+        import_saves(roster, data, args.import_save, args.use_saves)
+        exit(0)
+
+    if args.export_save:
+        export_save(roster, data, *args.export_save)
         exit(0)
 
     player: Player | None = None

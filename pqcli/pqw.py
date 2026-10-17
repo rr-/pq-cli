@@ -10,6 +10,7 @@ import binascii
 import copy
 import datetime
 import json
+from pathlib import Path
 from typing import Any, cast
 
 from pqcli.config import Class, EquipmentType, Monster, Race, StatType
@@ -351,3 +352,29 @@ def export_game(player: Player, data: GameData) -> dict[str, Any]:
         "TaskBar": bar(player.task_bar.position, player.task_bar.max_),
         "queue": [_encode_queue_entry(task) for task in player.queue],
     }
+
+
+def read_file(path: Path, data: GameData) -> tuple[Player, list[str]]:
+    """Import the character in a .pqw file, plus any warnings."""
+    try:
+        text = path.read_text(encoding="ascii", errors="replace")
+    except OSError as ex:
+        raise PqwError(f"cannot read {path}: {ex.strerror}") from ex
+    return import_game(decode(text), data)
+
+
+def write_file(player: Player, path: Path, data: GameData) -> None:
+    """Export a character to a .pqw file, never overwriting one."""
+    text = encode(export_game(player, data))
+    try:
+        with path.open("x", encoding="ascii") as handle:
+            handle.write(text)
+    except FileExistsError as ex:
+        raise PqwError(f"{path} already exists") from ex
+    except OSError as ex:
+        raise PqwError(f"cannot write {path}: {ex.strerror}") from ex
+
+
+def default_file_name(player: Player) -> str:
+    # the web version names its downloads the same way
+    return f"{player.name}.pqw"
