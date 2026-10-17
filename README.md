@@ -78,6 +78,49 @@ For server usage, run first-time setup without a forced slot (`pqcli-init`),
 then run the long-lived detached service (`pqcli`) that loads slot `1` by
 default.
 
+## Customizing the adventure
+
+All word lists (monsters, spells, equipment, races, classes, titles and so on)
+live in JSON files. To change them, copy the built-in files somewhere and edit
+them:
+
+```console
+$ pqcli --dump-data ~/.config/pqcli/data
+```
+
+On startup, pqcli reads `$XDG_CONFIG_HOME/pqcli/data/` (or the directory
+given with `--data-dir DIR`). Each `NAME.json` there replaces the built-in
+list of the same name. Files you leave out fall back to the built-in lists,
+so you can delete the copies you don't change. If a file is malformed, pqcli
+prints what is wrong and refuses to start.
+
+The available files are `spells`, `offense_attrib`, `defense_attrib`,
+`offense_bad`, `defense_bad`, `shields`, `armors`, `weapons`, `specials`,
+`item_attrib`, `item_ofs`, `boring_items`, `monsters`, `races`, `classes`,
+`titles`, `impressive_titles` and `combat_verbs`.
+
+For example, to vary the combat descriptions, create `combat_verbs.json`.
+`{target}` is replaced with the enemy:
+
+```json
+[
+  "Executing {target}",
+  "In a fierce battle to thwart {target}",
+  "Fighting bravely against {target}",
+  "Kicking the butt of {target}"
+]
+```
+
+A few things to keep in mind:
+
+- Order matters in `spells.json`: spells are learned roughly from the top
+  down, so keep weaker spells first.
+- Titles near the top of `titles.json` show up more often.
+- Stats in `races.json` and `classes.json` are written as `STR`, `CON`,
+  `DEX`, `INT`, `WIS`, `CHA`, `HP Max` or `MP Max`.
+- Existing characters keep their race and class even if you remove them from
+  the lists.
+
 ## Contributing
 
 ```sh

@@ -5,12 +5,19 @@ from pathlib import Path
 
 from xdg_base_dirs import xdg_config_home
 
+from pqcli.game_data import (
+    DataError,
+    GameData,
+    dump_builtin_data,
+    load_game_data,
+)
 from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.basic import BasicUserInterface
 from pqcli.ui.curses import CursesUserInterface
 
 SAVE_PATH = Path(xdg_config_home()) / "pqcli" / "save.dat"
+DATA_PATH = Path(xdg_config_home()) / "pqcli" / "data"
 
 
 def parse_args() -> argparse.Namespace:
@@ -58,6 +65,22 @@ def parse_args() -> argparse.Namespace:
         metavar="NUM",
         help="play chosen character",
     )
+    parser.add_argument(
+        "--data-dir",
+        type=Path,
+        default=DATA_PATH,
+        metavar="DIR",
+        help=(
+            "directory with custom word lists; each NAME.json replaces "
+            f"the built-in list of that name (default: {DATA_PATH})"
+        ),
+    )
+    parser.add_argument(
+        "--dump-data",
+        type=Path,
+        metavar="DIR",
+        help="copy the built-in word lists to DIR for editing and exit",
+    )
     return parser.parse_args()
 
 
@@ -66,12 +89,14 @@ def list_players(roster: Roster, file: T.Optional[T.Any] = None) -> None:
         print(f"{i}. {player.name}", file=file)
 
 
-def bootstrap_first_run(roster: Roster, args: argparse.Namespace) -> None:
+def bootstrap_first_run(
+    roster: Roster, args: argparse.Namespace, data: GameData
+) -> None:
     if roster.players or args.list_saves or args.load_save:
         return
 
     print("No saved characters found. Starting first-run character creation.")
-    ui = BasicUserInterface(roster, None, args)
+    ui = BasicUserInterface(roster, None, args, data)
     while not roster.players:
         player = ui.create_player(auto_play=False)
         if player:
@@ -83,6 +108,22 @@ def bootstrap_first_run(roster: Roster, args: argparse.Namespace) -> None:
 
 def main() -> None:
     args = parse_args()
+
+    if args.dump_data:
+        try:
+            paths = dump_builtin_data(args.dump_data)
+        except DataError as ex:
+            print(f"pqcli: {ex}", file=sys.stderr)
+            exit(1)
+        print(f"Wrote {len(paths)} files to {args.dump_data}")
+        exit(0)
+
+    try:
+        data = load_game_data(args.data_dir)
+    except DataError as ex:
+        print(f"pqcli: {ex}", file=sys.stderr)
+        exit(1)
+
     roster = Roster.load(SAVE_PATH)
 
     if args.list_saves:
@@ -98,10 +139,10 @@ def main() -> None:
             list_players(roster, file=sys.stderr)
             exit(1)
 
-    bootstrap_first_run(roster, args)
+    bootstrap_first_run(roster, args, data)
 
     try:
-        ui = args.ui(roster, player, args)
+        ui = args.ui(roster, player, args, data)
         ui.run()
     finally:
         if args.use_saves:

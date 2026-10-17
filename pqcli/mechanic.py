@@ -1,4 +1,5 @@
 import datetime
+import functools
 import itertools
 import logging
 import math
@@ -8,24 +9,7 @@ from dataclasses import dataclass
 
 from pqcli import random
 from pqcli.config import (
-    ARMORS,
-    BORING_ITEMS,
-    CLASSES,
-    DEFENSE_ATTRIB,
-    DEFENSE_BAD,
-    IMPRESSIVE_TITLES,
-    ITEM_ATTRIB,
-    ITEM_OFS,
-    MONSTERS,
-    OFFENSE_ATTRIB,
-    OFFENSE_BAD,
     PRIME_STATS,
-    RACES,
-    SHIELDS,
-    SPECIALS,
-    SPELLS,
-    TITLES,
-    WEAPONS,
     Class,
     EquipmentPreset,
     EquipmentType,
@@ -34,6 +18,7 @@ from pqcli.config import (
     Race,
     StatType,
 )
+from pqcli.game_data import TARGET_PLACEHOLDER, GameData
 from pqcli.lingo import (
     act_name,
     big,
@@ -388,7 +373,7 @@ class Player(SignalMixin):
     def equip_price(self) -> int:
         return 5 * (self.level**2) + 10 * self.level + 20
 
-    def level_up(self) -> None:
+    def level_up(self, data: GameData) -> None:
         self.level += 1
         logger.info("Leveled up to level %d!", self.level)
         self.stats.increment(
@@ -401,7 +386,7 @@ class Player(SignalMixin):
         )
         self.win_stat()
         self.win_stat()
-        self.win_spell()
+        self.win_spell(data)
         self.exp_bar.reset(level_up_time(self.level))
         self.emit("level_up")
 
@@ -427,31 +412,34 @@ class Player(SignalMixin):
             self.inventory.set_capacity(10 + self.stats[StatType.strength])
         return True
 
-    def win_spell(self) -> None:
+    def win_spell(self, data: GameData) -> None:
+        spells = data.spells
         self.spell_book.add(
-            SPELLS[
+            spells[
                 random.below_low(
-                    min(self.stats[StatType.wisdom] + self.level, len(SPELLS))
+                    min(self.stats[StatType.wisdom] + self.level, len(spells))
                 )
             ],
             1,
         )
 
-    def win_equipment(self) -> None:
+    def win_equipment(self, data: GameData) -> None:
         choice = random.choice(list(EquipmentType))
 
-        stuff: T.List[EquipmentPreset]
-        better: T.List[Modifier]
-        worse: T.List[Modifier]
+        stuff: T.Sequence[EquipmentPreset]
+        better: T.Sequence[Modifier]
+        worse: T.Sequence[Modifier]
 
         if choice == EquipmentType.weapon:
-            stuff = WEAPONS
-            better = OFFENSE_ATTRIB
-            worse = OFFENSE_BAD
+            stuff = data.weapons
+            better = data.offense_attrib
+            worse = data.offense_bad
         else:
-            stuff = SHIELDS if choice == EquipmentType.shield else ARMORS
-            better = DEFENSE_ATTRIB
-            worse = DEFENSE_BAD
+            stuff = (
+                data.shields if choice == EquipmentType.shield else data.armors
+            )
+            better = data.defense_attrib
+            worse = data.defense_bad
 
         equipment = pick_equipment(stuff, self.level)
         name = equipment.name
@@ -479,13 +467,14 @@ class Player(SignalMixin):
         logger.info("Gained %s %s", name, choice.value)
         self.equipment.put(choice, name)
 
-    def win_item(self) -> None:
-        self.inventory.add(special_item(), 1)
+    def win_item(self, data: GameData) -> None:
+        self.inventory.add(special_item(data), 1)
 
 
 class Simulation:
-    def __init__(self, player: Player) -> None:
+    def __init__(self, player: Player, data: GameData) -> None:
         self.player = player
+        self.data = data
         self.last_tick = datetime.datetime.now()
 
     def tick(self, elapsed: float = 100.0) -> None:
@@ -526,7 +515,7 @@ class Simulation:
         gain = self.player.task and isinstance(self.player.task, KillTask)
         if gain:
             if self.player.exp_bar.done:
-                self.player.level_up()
+                self.player.level_up(self.data)
             else:
                 self.player.exp_bar.increment(self.player.task_bar.max_ / 1000)
 
@@ -561,7 +550,7 @@ class Simulation:
                     or self.player.task.monster.item is None
                 ):
                     # npc
-                    self.player.win_item()
+                    self.player.win_item(self.data)
                 elif self.player.task.monster.item:
                     self.player.inventory.add(
                         (
@@ -575,7 +564,7 @@ class Simulation:
             elif isinstance(self.player.task, BuyTask):
                 # buy some equipment
                 self.player.inventory.add_gold(-self.player.equip_price())
-                self.player.win_equipment()
+                self.player.win_equipment(self.data)
 
             elif isinstance(self.player.task, (HeadingToMarketTask, SellTask)):
                 if isinstance(self.player.task, SellTask):
@@ -623,7 +612,9 @@ class Simulation:
             else:
                 self.player.set_task(
                     monster_task(
-                        self.player.level, self.player.quest_book.monster
+                        self.data,
+                        self.player.level,
+                        self.player.quest_book.monster,
                     )
                 )
 
@@ -633,8 +624,8 @@ class Simulation:
             60 * 60 * (1 + 5 * self.player.quest_book.act)
         )
         if self.player.quest_book.act > 1:
-            self.player.win_item()
-            self.player.win_equipment()
+            self.player.win_item(self.data)
+            self.player.win_equipment(self.data)
 
     def complete_quest(self) -> None:
         self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))
@@ -644,10 +635,10 @@ class Simulation:
             )
             random.choice(
                 [
-                    self.player.win_spell,
-                    self.player.win_equipment,
+                    functools.partial(self.player.win_spell, self.data),
+                    functools.partial(self.player.win_equipment, self.data),
                     self.player.win_stat,
-                    self.player.win_item,
+                    functools.partial(self.player.win_item, self.data),
                 ]
             )()
 
@@ -656,19 +647,21 @@ class Simulation:
         choice = random.below(5)
         if choice == 0:
             self.player.quest_book.monster = unnamed_monster(
-                self.player.level, iterations=3
+                self.data, self.player.level, iterations=3
             )
             caption = "Exterminate " + definite(
                 self.player.quest_book.monster.name, 2
             )
         elif choice == 1:
-            caption = "Seek " + definite(interesting_item(), 1)
+            caption = "Seek " + definite(interesting_item(self.data), 1)
         elif choice == 2:
-            caption = "Deliver this " + boring_item()
+            caption = "Deliver this " + boring_item(self.data)
         elif choice == 3:
-            caption = "Fetch me " + indefinite(boring_item(), 1)
+            caption = "Fetch me " + indefinite(boring_item(self.data), 1)
         elif choice == 4:
-            monster = unnamed_monster(self.player.level, iterations=1)
+            monster = unnamed_monster(
+                self.data, self.player.level, iterations=1
+            )
             caption = "Placate " + definite(monster.name, 2)
         else:
             raise AssertionError
@@ -711,7 +704,7 @@ class Simulation:
                 )
             )
 
-            nemesis = named_monster(self.player.level + 3)
+            nemesis = named_monster(self.data, self.player.level + 3)
 
             enqueue(
                 RegularTask(
@@ -760,7 +753,7 @@ class Simulation:
             )
 
         elif choice == 2:
-            nemesis = impressive_guy()
+            nemesis = impressive_guy(self.data)
             enqueue(
                 RegularTask(
                     "Oh sweet relief! "
@@ -777,7 +770,8 @@ class Simulation:
             )
             enqueue(
                 RegularTask(
-                    f"You forget your {boring_item()} and go back to get it",
+                    f"You forget your {boring_item(self.data)} "
+                    "and go back to get it",
                     2000,
                 )
             )
@@ -807,46 +801,50 @@ class Simulation:
         )
 
 
-def special_item() -> str:
-    return interesting_item() + " of " + T.cast(str, random.choice(ITEM_OFS))
-
-
-def interesting_item() -> str:
+def special_item(data: GameData) -> str:
     return (
-        T.cast(str, random.choice(ITEM_ATTRIB))
-        + " "
-        + T.cast(str, random.choice(SPECIALS))
+        interesting_item(data)
+        + " of "
+        + T.cast(str, random.choice(data.item_ofs))
     )
 
 
-def boring_item() -> str:
-    return T.cast(str, random.choice(BORING_ITEMS))
+def interesting_item(data: GameData) -> str:
+    return (
+        T.cast(str, random.choice(data.item_attrib))
+        + " "
+        + T.cast(str, random.choice(data.specials))
+    )
 
 
-def impressive_guy() -> str:
-    return T.cast(str, random.choice(IMPRESSIVE_TITLES)) + (
-        " of the " + T.cast(Race, random.choice(RACES)).name
+def boring_item(data: GameData) -> str:
+    return T.cast(str, random.choice(data.boring_items))
+
+
+def impressive_guy(data: GameData) -> str:
+    return T.cast(str, random.choice(data.impressive_titles)) + (
+        " of the " + T.cast(Race, random.choice(data.races)).name
         if random.below(2)
         else " of " + generate_name()
     )
 
 
-def unnamed_monster(level: int, iterations: int) -> Monster:
-    result = T.cast(Monster, random.choice(MONSTERS))
+def unnamed_monster(data: GameData, level: int, iterations: int) -> Monster:
+    result = T.cast(Monster, random.choice(data.monsters))
     for _ in range(iterations):
-        alternative = T.cast(Monster, random.choice(MONSTERS))
+        alternative = T.cast(Monster, random.choice(data.monsters))
         if abs(level - alternative.level) < abs(level - result.level):
             result = alternative
     return result
 
 
-def named_monster(level: int) -> str:
-    monster = unnamed_monster(level, iterations=4)
+def named_monster(data: GameData, level: int) -> str:
+    monster = unnamed_monster(data, level, iterations=4)
     return generate_name() + " the " + monster.name
 
 
 def pick_equipment(
-    source: T.List[EquipmentPreset], goal: int
+    source: T.Sequence[EquipmentPreset], goal: int
 ) -> EquipmentPreset:
     result = T.cast(EquipmentPreset, random.choice(source))
     for _ in range(5):
@@ -857,7 +855,7 @@ def pick_equipment(
 
 
 def monster_task(
-    player_level: int, quest_monster: T.Optional[Monster]
+    data: GameData, player_level: int, quest_monster: T.Optional[Monster]
 ) -> KillTask:
     level = player_level
     for _ in range(level):
@@ -870,12 +868,14 @@ def monster_task(
     monster: T.Optional[Monster] = None
     if random.odds(1, 25):
         # use an NPC every once in a while
-        race = random.choice(RACES)
+        race = random.choice(data.races)
         if random.odds(1, 2):
-            result = "passing " + race.name + " " + random.choice(CLASSES).name
+            result = (
+                "passing " + race.name + " " + random.choice(data.classes).name
+            )
         else:
             result = (
-                random.choice_low(TITLES)
+                random.choice_low(data.titles)
                 + " "
                 + generate_name()
                 + " the "
@@ -890,7 +890,7 @@ def monster_task(
         lev = monster.level
     else:
         # pick the monster out of so many random ones closest to the level we want
-        monster = unnamed_monster(level, iterations=5)
+        monster = unnamed_monster(data, level, iterations=5)
         result = monster.name
         lev = monster.level
 
@@ -929,7 +929,14 @@ def monster_task(
         result = indefinite(result, qty)
 
     duration = (2 * 3 * level * 1000) // player_level
-    return KillTask(f"Executing {result}", duration, monster=monster)
+    # with a single verb, skip the roll so the stock RNG stream is unchanged
+    verb = (
+        data.combat_verbs[0]
+        if len(data.combat_verbs) == 1
+        else T.cast(str, random.choice(data.combat_verbs))
+    )
+    description = verb.replace(TARGET_PLACEHOLDER, result)
+    return KillTask(description, duration, monster=monster)
 
 
 class StatsBuilder:

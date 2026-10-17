@@ -1,0 +1,11 @@
+[
+  {"name": "Dull", "quality": -2},
+  {"name": "Tarnished", "quality": -1},
+  {"name": "Rusty", "quality": -3},
+  {"name": "Padded", "quality": -5},
+  {"name": "Bent", "quality": -4},
+  {"name": "Mini", "quality": -4},
+  {"name": "Rubber", "quality": -6},
+  {"name": "Nerf", "quality": -7},
+  {"name": "Unbalanced", "quality": -2}
+]

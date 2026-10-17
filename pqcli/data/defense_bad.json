@@ -1,0 +1,16 @@
+[
+  {"name": "Holey", "quality": -1},
+  {"name": "Patched", "quality": -1},
+  {"name": "Threadbare", "quality": -2},
+  {"name": "Faded", "quality": -1},
+  {"name": "Rusty", "quality": -3},
+  {"name": "Motheaten", "quality": -3},
+  {"name": "Mildewed", "quality": -2},
+  {"name": "Torn", "quality": -3},
+  {"name": "Dented", "quality": -3},
+  {"name": "Cursed", "quality": -5},
+  {"name": "Plastic", "quality": -4},
+  {"name": "Cracked", "quality": -4},
+  {"name": "Warped", "quality": -3},
+  {"name": "Corroded", "quality": -3}
+]

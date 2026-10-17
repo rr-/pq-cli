@@ -1,0 +1,13 @@
+[
+  {"name": "Polished", "quality": 1},
+  {"name": "Serrated", "quality": 1},
+  {"name": "Heavy", "quality": 1},
+  {"name": "Pronged", "quality": 2},
+  {"name": "Steely", "quality": 2},
+  {"name": "Vicious", "quality": 3},
+  {"name": "Venomed", "quality": 4},
+  {"name": "Stabbity", "quality": 4},
+  {"name": "Dancing", "quality": 5},
+  {"name": "Invisible", "quality": 6},
+  {"name": "Vorpal", "quality": 7}
+]

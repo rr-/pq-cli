@@ -1,0 +1,11 @@
+[
+  {"name": "Studded", "quality": 1},
+  {"name": "Banded", "quality": 2},
+  {"name": "Gilded", "quality": 2},
+  {"name": "Festooned", "quality": 3},
+  {"name": "Holy", "quality": 4},
+  {"name": "Cambric", "quality": 1},
+  {"name": "Fine", "quality": 4},
+  {"name": "Impressive", "quality": 5},
+  {"name": "Custom", "quality": 3}
+]

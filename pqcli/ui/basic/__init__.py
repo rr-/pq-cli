@@ -8,7 +8,8 @@ import typing as T
 from datetime import datetime, timedelta
 
 from pqcli import lingo
-from pqcli.config import CLASSES, PRIME_STATS, RACES
+from pqcli.config import PRIME_STATS
+from pqcli.game_data import GameData
 from pqcli.mechanic import Player, Simulation, StatsBuilder, create_player
 from pqcli.roster import Roster
 from pqcli.ui.base import BaseUserInterface
@@ -37,8 +38,9 @@ class BasicUserInterface(BaseUserInterface):
         roster: Roster,
         player: T.Optional[Player],
         args: argparse.Namespace,
+        data: GameData,
     ) -> None:
-        super().__init__(roster, player, args)
+        super().__init__(roster, player, args, data)
 
         def signal_handler(sig: T.Any, frame: T.Any) -> None:
             logging.info("Quitting")
@@ -107,8 +109,10 @@ class BasicUserInterface(BaseUserInterface):
             print("Cancelled.")
             return None
 
-        race = self.menu([(race, race.name) for race in RACES])
-        class_ = self.menu([(class_, class_.name) for class_ in CLASSES])
+        race = self.menu([(race, race.name) for race in self.data.races])
+        class_ = self.menu(
+            [(class_, class_.name) for class_ in self.data.classes]
+        )
 
         stats_builder = StatsBuilder()
         while True:
@@ -131,7 +135,7 @@ class BasicUserInterface(BaseUserInterface):
 
     def play(self, player: Player) -> None:
         print(f"Playing as {player.name}")
-        simulation = Simulation(player)
+        simulation = Simulation(player, self.data)
         last_tick = datetime.now()
         last_level = 0
         while True:

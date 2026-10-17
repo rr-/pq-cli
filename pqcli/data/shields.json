@@ -1,0 +1,18 @@
+[
+  {"name": "Parasol", "quality": 0},
+  {"name": "Pie Plate", "quality": 1},
+  {"name": "Garbage Can Lid", "quality": 2},
+  {"name": "Buckler", "quality": 3},
+  {"name": "Plexiglass", "quality": 4},
+  {"name": "Fender", "quality": 4},
+  {"name": "Round Shield", "quality": 5},
+  {"name": "Carapace", "quality": 5},
+  {"name": "Scutum", "quality": 6},
+  {"name": "Propugner", "quality": 6},
+  {"name": "Kite Shield", "quality": 7},
+  {"name": "Pavise", "quality": 8},
+  {"name": "Tower Shield", "quality": 9},
+  {"name": "Baroque Shield", "quality": 11},
+  {"name": "Aegis", "quality": 12},
+  {"name": "Magnetic Field", "quality": 18}
+]

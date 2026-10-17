@@ -1,0 +1,20 @@
+[
+  {"name": "Ur-Paladin", "attr": ["WIS", "CON"]},
+  {"name": "Voodoo Princess", "attr": ["INT", "CHA"]},
+  {"name": "Robot Monk", "attr": ["STR"]},
+  {"name": "Mu-Fu Monk", "attr": ["DEX"]},
+  {"name": "Mage Illusioner", "attr": ["INT", "MP Max"]},
+  {"name": "Shiv-Knight", "attr": ["DEX"]},
+  {"name": "Inner Mason", "attr": ["CON"]},
+  {"name": "Fighter/Organist", "attr": ["CHA", "STR"]},
+  {"name": "Puma Burgular", "attr": ["DEX"]},
+  {"name": "Runeloremaster", "attr": ["WIS"]},
+  {"name": "Hunter Strangler", "attr": ["DEX", "INT"]},
+  {"name": "Battle-Felon", "attr": ["STR"]},
+  {"name": "Tickle-Mimic", "attr": ["WIS", "INT"]},
+  {"name": "Slow Poisoner", "attr": ["CON"]},
+  {"name": "Bastard Lunatic", "attr": ["CON"]},
+  {"name": "Lowling", "attr": ["WIS"]},
+  {"name": "Birdrider", "attr": ["WIS"]},
+  {"name": "Vermineer", "attr": ["INT"]}
+]

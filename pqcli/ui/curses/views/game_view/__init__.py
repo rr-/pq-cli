@@ -3,6 +3,7 @@ import curses
 import datetime
 import typing as T
 
+from pqcli.game_data import GameData
 from pqcli.mechanic import Player, SignalMixin, Simulation
 from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
@@ -33,6 +34,7 @@ class GameView(BaseView):
         roster: Roster,
         player: Player,
         args: argparse.Namespace,
+        data: GameData,
     ) -> None:
         super().__init__(screen)
         self.on_exit = EventHandler()
@@ -41,7 +43,7 @@ class GameView(BaseView):
         self._player = player
         self._args = args
 
-        self._simulation = Simulation(player)
+        self._simulation = Simulation(player, data)
         self._last_tick = datetime.datetime.now()
 
     def keypress(self, key: int) -> None:

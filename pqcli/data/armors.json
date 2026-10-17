@@ -1,0 +1,22 @@
+[
+  {"name": "Lace", "quality": 1},
+  {"name": "Macrame", "quality": 2},
+  {"name": "Burlap", "quality": 3},
+  {"name": "Canvas", "quality": 4},
+  {"name": "Flannel", "quality": 5},
+  {"name": "Chamois", "quality": 6},
+  {"name": "Pleathers", "quality": 7},
+  {"name": "Leathers", "quality": 8},
+  {"name": "Bearskin", "quality": 9},
+  {"name": "Ringmail", "quality": 10},
+  {"name": "Scale Mail", "quality": 12},
+  {"name": "Chainmail", "quality": 14},
+  {"name": "Splint Mail", "quality": 15},
+  {"name": "Platemail", "quality": 16},
+  {"name": "ABS", "quality": 17},
+  {"name": "Kevlar", "quality": 18},
+  {"name": "Titanium", "quality": 19},
+  {"name": "Mithril Mail", "quality": 20},
+  {"name": "Diamond Mail", "quality": 25},
+  {"name": "Plasma", "quality": 30}
+]

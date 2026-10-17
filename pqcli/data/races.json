@@ -1,0 +1,23 @@
+[
+  {"name": "Half Orc", "attr": ["HP Max"]},
+  {"name": "Half Man", "attr": ["CHA"]},
+  {"name": "Half Halfling", "attr": ["DEX"]},
+  {"name": "Double Hobbit", "attr": ["STR"]},
+  {"name": "Hob-Hobbit", "attr": ["DEX", "CON"]},
+  {"name": "Low Elf", "attr": ["CON"]},
+  {"name": "Dung Elf", "attr": ["WIS"]},
+  {"name": "Talking Pony", "attr": ["MP Max", "INT"]},
+  {"name": "Gyrognome", "attr": ["DEX"]},
+  {"name": "Lesser Dwarf", "attr": ["CON"]},
+  {"name": "Crested Dwarf", "attr": ["CHA"]},
+  {"name": "Eel Man", "attr": ["DEX"]},
+  {"name": "Panda Man", "attr": ["CON", "STR"]},
+  {"name": "Trans-Kobold", "attr": ["WIS"]},
+  {"name": "Enchanted Motorcycle", "attr": ["MP Max"]},
+  {"name": "Will o' the Wisp", "attr": ["WIS"]},
+  {"name": "Battle-Finch", "attr": ["DEX", "INT"]},
+  {"name": "Double Wookiee", "attr": ["STR"]},
+  {"name": "Skraeling", "attr": ["WIS"]},
+  {"name": "Demicanadian", "attr": ["CON"]},
+  {"name": "Land Squid", "attr": ["STR", "HP Max"]}
+]

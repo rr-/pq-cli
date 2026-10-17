@@ -7,6 +7,7 @@ import typing as T
 
 from pqcli import lingo
 from pqcli.config import Class, Race
+from pqcli.game_data import GameData
 from pqcli.mechanic import Player, Stats, create_player
 from pqcli.roster import Roster
 from pqcli.ui.base import BaseUserInterface
@@ -40,9 +41,13 @@ class StopMainLoop(Exception):
 
 class CursesUserInterface(BaseUserInterface):
     def __init__(
-        self, roster: Roster, player: Player, args: argparse.Namespace
+        self,
+        roster: Roster,
+        player: Player,
+        args: argparse.Namespace,
+        data: GameData,
     ) -> None:
-        super().__init__(roster, player, args)
+        super().__init__(roster, player, args, data)
         os.environ.setdefault("ESCDELAY", "25")
         self._screen = curses.initscr()
         self._screen.nodelay(True)
@@ -119,7 +124,7 @@ class CursesUserInterface(BaseUserInterface):
     def _switch_to_create_char_race_view(
         self, player_name: str, race: T.Optional[Race] = None
     ) -> None:
-        view = ChooseCharacterRaceView(self._screen, race)
+        view = ChooseCharacterRaceView(self._screen, self.data.races, race)
         view.on_cancel += lambda: self._switch_to_create_char_name_view(
             player_name
         )
@@ -131,7 +136,9 @@ class CursesUserInterface(BaseUserInterface):
     def _switch_to_create_char_class_view(
         self, player_name: str, race: Race, class_: T.Optional[Class] = None
     ) -> None:
-        view = ChooseCharacterClassView(self._screen, class_)
+        view = ChooseCharacterClassView(
+            self._screen, self.data.classes, class_
+        )
         view.on_cancel += lambda: self._switch_to_create_char_race_view(
             player_name, race
         )
@@ -177,7 +184,9 @@ class CursesUserInterface(BaseUserInterface):
         self._switch_view(view)
 
     def _switch_to_game_view(self, player: Player) -> None:
-        view = GameView(self._screen, self.roster, player, self.args)
+        view = GameView(
+            self._screen, self.roster, player, self.args, self.data
+        )
         view.on_exit += self._switch_to_roster_view
         self._switch_view(view)
 
