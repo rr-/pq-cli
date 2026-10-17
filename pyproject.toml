@@ -40,7 +40,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = ["prek>=0.2", "pytest>=8.0"]
+dev = ["prek>=0.2", "pytest>=8.0", "ty>=0.0.89"]
+
+[tool.ty.src]
+# Only the package and its tests; agent worktrees under .claude/ would
+# otherwise be checked as duplicate copies of the project.
+include = ["pqcli", "tests"]
 
 [tool.ruff]
 line-length = 79
