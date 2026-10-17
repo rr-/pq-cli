@@ -90,19 +90,12 @@ def test_list_saves_when_there_are_none(
     assert not config.exists()
 
 
-BAD_LOAD_SAVE = "--load-save 0 and negative numbers are not rejected"
-
-
 @pytest.mark.parametrize(
     "num",
     [
         "3",
-        pytest.param(
-            "0", marks=pytest.mark.xfail(strict=True, reason=BAD_LOAD_SAVE)
-        ),
-        pytest.param(
-            "-1", marks=pytest.mark.xfail(strict=True, reason=BAD_LOAD_SAVE)
-        ),
+        "0",
+        "-1",
     ],
 )
 def test_load_save_rejects_unknown_character(
@@ -113,7 +106,6 @@ def test_load_save_rejects_unknown_character(
     num: str,
 ) -> None:
     write_roster(config, hero("Ann"), hero("Bob"))
-    # 0 falls through to the menu and -1 plays Bob; neither should
     feed(monkeypatch, ["7"])
     monkeypatch.setattr(BasicUserInterface, "play", lambda self, p: None)
     assert run("--basic", "--load-save", num) == 1

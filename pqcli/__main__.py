@@ -112,7 +112,7 @@ def list_players(roster: Roster, file: TextIO | None = None) -> None:
 def bootstrap_first_run(
     roster: Roster, args: argparse.Namespace, data: GameData
 ) -> None:
-    if roster.players or args.list_saves or args.load_save:
+    if roster.players or args.list_saves or args.load_save is not None:
         return
 
     print("No saved characters found. Starting first-run character creation.")
@@ -193,13 +193,12 @@ def main() -> None:
         exit(0)
 
     player: Player | None = None
-    if args.load_save:
-        try:
-            player = list(roster.players)[args.load_save - 1]
-        except IndexError:
+    if args.load_save is not None:
+        if not 1 <= args.load_save <= len(roster.players):
             print("Invalid player. Available players:", file=sys.stderr)
             list_players(roster, file=sys.stderr)
             exit(1)
+        player = roster.players[args.load_save - 1]
 
     bootstrap_first_run(roster, args, data)
 
