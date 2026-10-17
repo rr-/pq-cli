@@ -55,6 +55,11 @@ def to_roman(num: int) -> str:
         ret = "-"
         num = -num
 
+    while _rome(10000, "T"):
+        pass
+    _rome(9000, "MT")
+    _rome(5000, "A")
+    _rome(4000, "MA")
     while _rome(1000, "M"):
         pass
     _rome(900, "CM")
