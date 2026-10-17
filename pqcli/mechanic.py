@@ -629,7 +629,7 @@ class Simulation:
             self.player.win_equipment(self.data)
 
     def complete_quest(self) -> None:
-        self.player.quest_book.quest_bar.reset(50 + random.below_low(1000))
+        self.player.quest_book.quest_bar.reset(50 + random.below(100))
         if self.player.quest_book.current_quest:
             logger.info(
                 "Quest completed: %s", self.player.quest_book.current_quest
