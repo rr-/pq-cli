@@ -2,7 +2,6 @@ import argparse
 import curses
 import os
 import signal
-import time
 from pathlib import Path
 from types import FrameType
 
@@ -54,7 +53,6 @@ class CursesUserInterface(BaseUserInterface):
         super().__init__(roster, player, args, data)
         os.environ.setdefault("ESCDELAY", "25")
         self._screen = curses.initscr()
-        self._screen.nodelay(True)
         self._screen.keypad(True)
         curses.noecho()
         curses.curs_set(0)
@@ -87,6 +85,7 @@ class CursesUserInterface(BaseUserInterface):
         self._roster_view.on_quit += self._quit
         self._view: BaseView = self._roster_view
         self._view.start()
+        self._wait_for_keys()
 
     def run(self) -> None:
         try:
@@ -98,8 +97,7 @@ class CursesUserInterface(BaseUserInterface):
             while True:
                 key = self._screen.getch()
 
-                if key == curses.ERR:
-                    time.sleep(0.1)
+                if key == curses.ERR:  # the view's idle interval passed
                     self._view.idle()
                     continue
 
@@ -250,6 +248,13 @@ class CursesUserInterface(BaseUserInterface):
         self._view.stop()
         self._view = view
         self._view.start()
+        self._wait_for_keys()
+
+    def _wait_for_keys(self) -> None:
+        # getch() blocks until a key comes or the view's idle interval
+        # passes, so menus sit still and keys never wait for a tick.
+        interval = self._view.idle_interval
+        self._screen.timeout(-1 if interval is None else interval)
 
     def _create_character(
         self,

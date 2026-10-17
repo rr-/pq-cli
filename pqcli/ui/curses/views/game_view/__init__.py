@@ -42,6 +42,8 @@ class PageScrollable(Protocol):
 
 
 class GameView(BaseView):
+    idle_interval = 100
+
     def __init__(
         self,
         screen: curses.window,

@@ -2,6 +2,9 @@ import curses
 
 
 class BaseView:
+    # How often idle() runs, in milliseconds; None waits for a key.
+    idle_interval: int | None = None
+
     def __init__(self, screen: curses.window) -> None:
         self.screen = screen
 
