@@ -57,6 +57,8 @@ class RosterView(BaseView):
         self.on_create = EventHandler[[]]()
         self.on_play = EventHandler[[]]()
         self.on_delete = EventHandler[[]]()
+        self.on_import = EventHandler[[]]()
+        self.on_export = EventHandler[[]]()
         self.on_quit = EventHandler[[]]()
 
         self.choices: list[Choice] = [
@@ -74,6 +76,16 @@ class RosterView(BaseView):
                 keys=list(map(ord, "dD")),
                 desc="[D] Delete character",
                 callback=self.on_delete,
+            ),
+            Choice(
+                keys=list(map(ord, "iI")),
+                desc="[I] Import character (.pqw)",
+                callback=self.on_import,
+            ),
+            Choice(
+                keys=list(map(ord, "eE")),
+                desc="[E] Export character (.pqw)",
+                callback=self.on_export,
             ),
             Choice(
                 keys=list(KEYS_CANCEL), desc="[Q] Quit", callback=self.on_quit

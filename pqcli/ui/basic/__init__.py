@@ -6,10 +6,11 @@ import sys
 import time
 from collections.abc import Sequence
 from datetime import datetime, timedelta
+from pathlib import Path
 from types import FrameType
 from typing import TypeVar
 
-from pqcli import lingo
+from pqcli import lingo, pqw
 from pqcli.config import PRIME_STATS
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, Simulation, StatsBuilder, create_player
@@ -34,7 +35,9 @@ class MainMenu(enum.IntEnum):
     play = 2
     info = 3
     delete = 4
-    quit = 5
+    import_ = 5
+    export = 6
+    quit = 7
 
 
 class BasicUserInterface(BaseUserInterface):
@@ -79,6 +82,8 @@ class BasicUserInterface(BaseUserInterface):
                     (MainMenu.play, "Play as character"),
                     (MainMenu.info, "Query character info"),
                     (MainMenu.delete, "Delete a character"),
+                    (MainMenu.import_, "Import a character (.pqw)"),
+                    (MainMenu.export, "Export a character (.pqw)"),
                     (MainMenu.quit, "Quit"),
                 ]
             )
@@ -103,6 +108,15 @@ class BasicUserInterface(BaseUserInterface):
                 if not player:
                     continue
                 self.delete_player(player)
+
+            elif choice == MainMenu.import_:
+                self.import_player()
+
+            elif choice == MainMenu.export:
+                player = self.choose_player()
+                if not player:
+                    continue
+                self.export_player(player)
 
             elif choice == MainMenu.quit:
                 self.quit()
@@ -200,6 +214,35 @@ class BasicUserInterface(BaseUserInterface):
     def quit(self) -> None:
         if self.args.use_saves:
             self.roster.save()
+
+    def import_player(self) -> None:
+        path = input("Import from .pqw file: ").strip()
+        if not path:
+            print("Cancelled.")
+            return
+        try:
+            player, warnings = pqw.read_file(
+                Path(path).expanduser(), self.data
+            )
+        except pqw.PqwError as ex:
+            print(f"Cannot import: {ex}")
+            return
+        for warning in warnings:
+            print(f"Warning: {warning}")
+        self.roster.players.append(player)
+        if self.args.use_saves:
+            self.roster.save()
+        print(f"Imported {player.name}.")
+
+    def export_player(self, player: Player) -> None:
+        default = pqw.default_file_name(player)
+        path = input(f"Export to .pqw file [{default}]: ").strip() or default
+        try:
+            pqw.write_file(player, Path(path).expanduser(), self.data)
+        except pqw.PqwError as ex:
+            print(f"Cannot export: {ex}")
+            return
+        print(f"Exported {player.name} to {path}.")
 
     def choose_player(self) -> Player | None:
         if not self.roster.players:

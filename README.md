@@ -121,6 +121,27 @@ A few things to keep in mind:
 - Existing characters keep their race and class even if you remove them from
   the lists.
 
+## Moving characters to and from the web version
+
+pqcli reads and writes the `.pqw` files that the
+[web version](http://progressquest.com/play/)'s roster page saves and
+loads. A character keeps its random number generator state either way, so
+it carries on exactly as it would have where it came from.
+
+- In either interface, pick *Import* or *Export* from the main menu.
+- From the command line:
+
+  ```console
+  $ pqcli --import-save Grumdrig.pqw
+  $ pqcli --list-saves
+  1. Grumdrig
+  $ pqcli --export-save 1 Grumdrig.pqw
+  ```
+
+Export never overwrites an existing file. pqcli plays offline only, so
+online realm, guild and motto settings are dropped on import, with a
+warning.
+
 ## Contributing
 
 ```sh

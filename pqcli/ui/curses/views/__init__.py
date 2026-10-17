@@ -8,7 +8,9 @@ from .create_character_view import (
     ChooseCharacterStatsView,
 )
 from .game_view import GameView
+from .message_view import MessageView
 from .roster_view import RosterView
+from .text_input_view import TextInputView
 
 __all__ = [
     "BaseView",
@@ -19,5 +21,7 @@ __all__ = [
     "ChooseCharacterRaceView",
     "ChooseCharacterStatsView",
     "GameView",
+    "MessageView",
     "RosterView",
+    "TextInputView",
 ]

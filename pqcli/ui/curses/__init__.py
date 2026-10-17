@@ -3,9 +3,10 @@ import curses
 import os
 import signal
 import time
+from pathlib import Path
 from types import FrameType
 
-from pqcli import lingo
+from pqcli import lingo, pqw
 from pqcli.config import Class, Race
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, Stats, create_player
@@ -32,7 +33,9 @@ from pqcli.ui.curses.views import (
     ChooseCharacterView,
     ConfirmView,
     GameView,
+    MessageView,
     RosterView,
+    TextInputView,
 )
 
 
@@ -79,6 +82,8 @@ class CursesUserInterface(BaseUserInterface):
         self._roster_view.on_create += self._switch_to_create_char_name_view
         self._roster_view.on_delete += self._switch_to_delete_char_view
         self._roster_view.on_play += self._switch_to_play_view
+        self._roster_view.on_import += self._switch_to_import_view
+        self._roster_view.on_export += self._switch_to_export_char_view
         self._roster_view.on_quit += self._quit
         self._view: BaseView = self._roster_view
         self._view.start()
@@ -181,6 +186,58 @@ class CursesUserInterface(BaseUserInterface):
         view.on_cancel += self._switch_to_roster_view
         view.on_confirm += self._switch_to_game_view
         self._switch_view(view)
+
+    def _switch_to_import_view(self) -> None:
+        view = TextInputView(self._screen, "Import from .pqw file:", "")
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += self._import_character
+        self._switch_view(view)
+
+    def _switch_to_export_char_view(self) -> None:
+        view = ChooseCharacterView(
+            self._screen, self.roster, "Choose character to export"
+        )
+        view.on_cancel += self._switch_to_roster_view
+        view.on_confirm += self._switch_to_export_file_view
+        self._switch_view(view)
+
+    def _switch_to_export_file_view(self, player: Player) -> None:
+        view = TextInputView(
+            self._screen,
+            f"Export {player.name} to .pqw file:",
+            pqw.default_file_name(player),
+        )
+        view.on_cancel += self._switch_to_export_char_view
+        view.on_confirm += lambda path: self._export_character(player, path)
+        self._switch_view(view)
+
+    def _switch_to_message_view(self, message: str) -> None:
+        view = MessageView(self._screen, message)
+        view.on_close += self._switch_to_roster_view
+        self._switch_view(view)
+
+    def _import_character(self, path: str) -> None:
+        try:
+            player, warnings = pqw.read_file(
+                Path(path).expanduser(), self.data
+            )
+        except pqw.PqwError as ex:
+            self._switch_to_message_view(f"Cannot import: {ex}")
+            return
+        self.roster.players.append(player)
+        if self.args.use_saves:
+            self.roster.save()
+        self._switch_to_message_view(
+            "\n".join([f"Imported {player.name}.", *warnings])
+        )
+
+    def _export_character(self, player: Player, path: str) -> None:
+        try:
+            pqw.write_file(player, Path(path).expanduser(), self.data)
+        except pqw.PqwError as ex:
+            self._switch_to_message_view(f"Cannot export: {ex}")
+            return
+        self._switch_to_message_view(f"Exported {player.name} to {path}.")
 
     def _switch_to_game_view(self, player: Player) -> None:
         view = GameView(
