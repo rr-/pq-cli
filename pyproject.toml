@@ -40,7 +40,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = ["pre-commit>=2.16.0", "pytest>=8.0"]
+dev = ["prek>=0.2", "pytest>=8.0"]
 
 [tool.ruff]
 line-length = 79

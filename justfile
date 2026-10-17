@@ -12,6 +12,10 @@ curses *args:
 basic *args:
     uv run pqcli --basic {{args}}
 
+# Run the formatters and linters on all files
+lint:
+    uv run prek run -a
+
 # Run the test suite; extra arguments go to pytest
 test *args:
     uv run pytest {{args}}

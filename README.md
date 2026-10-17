@@ -131,8 +131,8 @@ cd pq-cli
 # Install to a local venv:
 uv sync
 
-# Install pre-commit hooks:
-uv run pre-commit install
+# Install the git hooks (formatting, linting, commit messages):
+uv run prek install
 
 # Run the game and the tests:
 just run
