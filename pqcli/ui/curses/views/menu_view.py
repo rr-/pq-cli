@@ -1,19 +1,22 @@
-from typing import Any
+import curses
+from typing import Generic, TypeVar
 
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import Choice
 from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.widgets import Menu
 
+ItemT = TypeVar("ItemT")
 
-class MenuView(BaseView):
+
+class MenuView(BaseView, Generic[ItemT]):
     def __init__(
-        self, screen: Any, title: str, active_choice: int = 0
+        self, screen: curses.window, title: str, active_choice: int = 0
     ) -> None:
         super().__init__(screen)
 
-        self.on_cancel = EventHandler()
-        self.on_confirm = EventHandler()
+        self.on_cancel = EventHandler[[]]()
+        self.on_confirm = EventHandler[[ItemT]]()
 
         self._title = f"{title}:"
         self._choices: list[Choice] = []

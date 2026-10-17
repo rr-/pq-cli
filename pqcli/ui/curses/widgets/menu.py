@@ -1,6 +1,5 @@
 import curses
 import curses.ascii
-from typing import Any
 
 from pqcli.ui.curses.util import KEYS_CYCLE, KEYS_DOWN, KEYS_UP, Choice
 from pqcli.ui.curses.widgets.focusable import focus_standout
@@ -29,7 +28,7 @@ class Menu(Widget):
         w = max(map(len, all_lines)) + 1
         h = len(all_lines) + 1
         pad = curses.newpad(h, w)
-        self._pad: Any | None = pad
+        self._pad: curses.window | None = pad
 
         for y, line in enumerate(self._header_lines):
             pad.move(y, 0)

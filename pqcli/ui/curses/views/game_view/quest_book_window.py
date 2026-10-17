@@ -1,4 +1,4 @@
-from typing import Any
+import curses
 
 from pqcli.mechanic import Player
 
@@ -9,7 +9,13 @@ class QuestBookWindow(ListBoxProgressBarWindow):
     cutoff = 100
 
     def __init__(
-        self, player: Player, parent: Any, h: int, w: int, y: int, x: int
+        self,
+        player: Player,
+        parent: curses.window,
+        h: int,
+        w: int,
+        y: int,
+        x: int,
     ) -> None:
         super().__init__(parent, h, w, y, x, " Quests ", show_time=True)
         self._on_focus_change += self._render

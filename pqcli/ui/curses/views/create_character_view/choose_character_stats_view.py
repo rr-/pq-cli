@@ -1,8 +1,9 @@
+import curses
 import curses.ascii
-from typing import Any
 
 from pqcli.config import PRIME_STATS
-from pqcli.mechanic import StatsBuilder
+from pqcli.mechanic import Stats, StatsBuilder
+from pqcli.random import RngState
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import KEYS_CANCEL, KEYS_CYCLE, KEYS_DOWN, KEYS_UP
 from pqcli.ui.curses.views.base_view import BaseView
@@ -10,15 +11,15 @@ from pqcli.ui.curses.widgets.focusable import focus_standout
 
 
 class ChooseCharacterStatsView(BaseView):
-    def __init__(self, screen: Any) -> None:
+    def __init__(self, screen: curses.window) -> None:
         super().__init__(screen)
 
-        self.on_cancel = EventHandler()
-        self.on_confirm = EventHandler()
+        self.on_cancel = EventHandler[[]]()
+        self.on_confirm = EventHandler[[Stats, RngState]]()
 
         self._active_widget = 0
-        self._win: Any | None = None
-        self._stats_win: Any | None = None
+        self._win: curses.window | None = None
+        self._stats_win: curses.window | None = None
 
         self._stats_builder = StatsBuilder()
         self._stats = self._stats_builder.roll()

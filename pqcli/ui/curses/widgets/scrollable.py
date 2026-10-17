@@ -1,5 +1,5 @@
 import curses
-from typing import Any
+from typing import Generic, TypeVar
 
 from pqcli.ui.curses.colors import (
     COLOR_SCROLLBAR_THUMB,
@@ -9,13 +9,17 @@ from pqcli.ui.curses.colors import (
 
 from .base import WindowWrapper
 
+ItemT = TypeVar("ItemT")
 
-class Scrollable(WindowWrapper):
-    def __init__(self, parent: Any, h: int, w: int, y: int, x: int) -> None:
+
+class Scrollable(WindowWrapper, Generic[ItemT]):
+    def __init__(
+        self, parent: curses.window | None, h: int, w: int, y: int, x: int
+    ) -> None:
         super().__init__(parent, h, w, y, x)
         self._scroll_pos = 0
-        self._pad: Any | None = curses.newpad(1, 1)
-        self._items: list[Any] = []
+        self._pad: curses.window | None = curses.newpad(1, 1)
+        self._items: list[ItemT] = []
 
     def clear(self) -> None:
         self._items = []

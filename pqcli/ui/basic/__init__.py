@@ -6,7 +6,8 @@ import sys
 import time
 from collections.abc import Sequence
 from datetime import datetime, timedelta
-from typing import Any
+from types import FrameType
+from typing import TypeVar
 
 from pqcli import lingo
 from pqcli.config import PRIME_STATS
@@ -23,6 +24,9 @@ LOGO = r"""
 |_|   |_|  \___/ \__, |_|  \___||___/___/\__\_\\__,_|\___||___/\__|
                  |___/
 """
+
+
+T = TypeVar("T")
 
 
 class MainMenu(enum.IntEnum):
@@ -43,7 +47,7 @@ class BasicUserInterface(BaseUserInterface):
     ) -> None:
         super().__init__(roster, player, args, data)
 
-        def signal_handler(sig: Any, frame: Any) -> None:
+        def signal_handler(sig: int, frame: FrameType | None) -> None:
             logging.info("Quitting")
             if self.args.use_saves:
                 self.roster.save()
@@ -217,9 +221,9 @@ class BasicUserInterface(BaseUserInterface):
 
     def menu(
         self,
-        options: Sequence[tuple[Any, str]],
+        options: Sequence[tuple[T, str]],
         title: str | None = None,
-    ) -> Any:
+    ) -> T:
         print()
         if title:
             print(f"{title}:")

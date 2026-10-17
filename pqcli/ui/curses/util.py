@@ -2,7 +2,7 @@ import curses
 import curses.ascii
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, TypeVar, overload
+from typing import TypeVar, overload
 
 KEYS_CYCLE = {curses.ascii.TAB}
 KEYS_DOWN = set(map(ord, "jJ")) | {curses.KEY_DOWN}
@@ -16,7 +16,7 @@ KEYS_CANCEL = set(map(ord, "qQ")) | {curses.ascii.ESC}
 class Choice:
     keys: list[int]
     desc: str
-    callback: Callable[..., Any]
+    callback: Callable[[], object]
 
 
 ItemT = TypeVar("ItemT")
@@ -31,5 +31,7 @@ def first(source: Iterable[ItemT]) -> ItemT | None: ...
 def first(source: Iterable[ItemT], default: DefaultT) -> ItemT | DefaultT: ...
 
 
-def first(source: Iterable[Any], default: Any = None) -> Any:
+def first(
+    source: Iterable[ItemT], default: DefaultT | None = None
+) -> ItemT | DefaultT | None:
     return next(iter(source), default)

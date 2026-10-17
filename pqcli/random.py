@@ -1,9 +1,11 @@
 import contextlib
 import time
 from collections.abc import Callable, Generator, Sequence
-from typing import Any
+from typing import TypeVar
 
 RngState = tuple[float, float, float, int]
+
+T = TypeVar("T")
 
 _2_POW_32 = 0x100000000
 _2_POW_MINUS_32 = 2.3283064365386963e-10
@@ -102,11 +104,11 @@ def using(rng: Alea) -> Generator[None, None, None]:
         _current = previous
 
 
-def choice(source: Sequence[Any]) -> Any:
+def choice(source: Sequence[T]) -> T:
     return source[below(len(source))]
 
 
-def choice_low(source: Sequence[Any]) -> Any:
+def choice_low(source: Sequence[T]) -> T:
     return source[below_low(len(source))]
 
 

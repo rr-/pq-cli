@@ -1,6 +1,5 @@
 import curses
 import curses.ascii
-from typing import Any
 
 from pqcli.mechanic import generate_name
 from pqcli.ui.curses.event_handler import EventHandler
@@ -10,15 +9,17 @@ from pqcli.ui.curses.widgets.focusable import focus_standout
 
 
 class ChooseCharacterNameView(BaseView):
-    def __init__(self, screen: Any, character_name: str | None = None) -> None:
+    def __init__(
+        self, screen: curses.window, character_name: str | None = None
+    ) -> None:
         super().__init__(screen)
 
-        self.on_cancel = EventHandler()
-        self.on_confirm = EventHandler()
+        self.on_cancel = EventHandler[[]]()
+        self.on_confirm = EventHandler[[str]]()
 
         self._active_widget = 0
-        self._win: Any | None = None
-        self._text_win: Any | None = None
+        self._win: curses.window | None = None
+        self._text_win: curses.window | None = None
         self._text = character_name or generate_name()
 
     def start(self) -> None:

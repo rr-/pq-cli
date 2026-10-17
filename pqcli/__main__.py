@@ -1,7 +1,7 @@
 import argparse
 import sys
 from pathlib import Path
-from typing import Any
+from typing import TextIO
 
 from xdg_base_dirs import xdg_config_home
 
@@ -84,7 +84,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def list_players(roster: Roster, file: Any | None = None) -> None:
+def list_players(roster: Roster, file: TextIO | None = None) -> None:
     for i, player in enumerate(roster.players, start=1):
         print(f"{i}. {player.name}", file=file)
 

@@ -1,4 +1,4 @@
-from typing import Any
+import curses
 
 from pqcli.lingo import to_roman
 from pqcli.mechanic import Player, Spell
@@ -7,7 +7,13 @@ from pqcli.ui.curses.widgets import DataTable, Focusable, WindowWrapper
 
 class SpellBookWindow(Focusable, WindowWrapper):
     def __init__(
-        self, player: Player, parent: Any, h: int, w: int, y: int, x: int
+        self,
+        player: Player,
+        parent: curses.window,
+        h: int,
+        w: int,
+        y: int,
+        x: int,
     ) -> None:
         super().__init__(parent, h, w, y, x)
         self._on_focus_change += self._render

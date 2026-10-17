@@ -1,5 +1,4 @@
 import curses
-from typing import Any
 
 
 class Widget:
@@ -12,10 +11,10 @@ class Widget:
 
 class WindowWrapper(Widget):
     def __init__(
-        self, parent: Any | None, h: int, w: int, y: int, x: int
+        self, parent: curses.window | None, h: int, w: int, y: int, x: int
     ) -> None:
         self._parent = parent
-        self._win: Any | None
+        self._win: curses.window | None
 
         if not parent:
             self._win = None

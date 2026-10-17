@@ -4,7 +4,7 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass, fields
 from importlib import resources
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 from pqcli.config import (
     Class,
@@ -14,6 +14,11 @@ from pqcli.config import (
     Race,
     StatType,
 )
+
+if sys.version_info >= (3, 11):
+    from importlib.resources.abc import Traversable
+else:
+    from importlib.abc import Traversable
 
 TARGET_PLACEHOLDER = "{target}"
 
@@ -56,8 +61,8 @@ class _Context:
 
 
 def _check_keys(
-    ctx: _Context, where: str, obj: Any, keys: Sequence[str]
-) -> dict[str, Any]:
+    ctx: _Context, where: str, obj: object, keys: Sequence[str]
+) -> dict[str, object]:
     if not isinstance(obj, dict):
         raise ctx.error(f"{where} must be an object")
     missing = [key for key in keys if key not in obj]
@@ -69,39 +74,39 @@ def _check_keys(
     return obj
 
 
-def _str(ctx: _Context, where: str, value: Any) -> str:
+def _str(ctx: _Context, where: str, value: object) -> str:
     if not isinstance(value, str):
         raise ctx.error(f"{where} must be a string")
     return value
 
 
-def _int(ctx: _Context, where: str, value: Any) -> int:
+def _int(ctx: _Context, where: str, value: object) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise ctx.error(f"{where} must be an integer")
     return value
 
 
-def _stat(ctx: _Context, where: str, value: Any) -> StatType:
-    _str(ctx, where, value)
+def _stat(ctx: _Context, where: str, value: object) -> StatType:
+    name = _str(ctx, where, value)
     for stat in StatType:
-        if value.lower() in (stat.value.lower(), stat.name):
+        if name.lower() in (stat.value.lower(), stat.name):
             return stat
     allowed = ", ".join(stat.value for stat in StatType)
     raise ctx.error(f"{where}: unknown stat {value!r} (use one of {allowed})")
 
 
-def _parse_str(ctx: _Context, where: str, item: Any) -> str:
+def _parse_str(ctx: _Context, where: str, item: object) -> str:
     return _str(ctx, where, item)
 
 
-def _parse_verb(ctx: _Context, where: str, item: Any) -> str:
+def _parse_verb(ctx: _Context, where: str, item: object) -> str:
     verb = _str(ctx, where, item)
     if TARGET_PLACEHOLDER not in verb:
         raise ctx.error(f"{where} must contain {TARGET_PLACEHOLDER}")
     return verb
 
 
-def _parse_modifier(ctx: _Context, where: str, item: Any) -> Modifier:
+def _parse_modifier(ctx: _Context, where: str, item: object) -> Modifier:
     obj = _check_keys(ctx, where, item, ["name", "quality"])
     return Modifier(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -109,7 +114,7 @@ def _parse_modifier(ctx: _Context, where: str, item: Any) -> Modifier:
     )
 
 
-def _parse_preset(ctx: _Context, where: str, item: Any) -> EquipmentPreset:
+def _parse_preset(ctx: _Context, where: str, item: object) -> EquipmentPreset:
     obj = _check_keys(ctx, where, item, ["name", "quality"])
     return EquipmentPreset(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -117,7 +122,7 @@ def _parse_preset(ctx: _Context, where: str, item: Any) -> EquipmentPreset:
     )
 
 
-def _parse_monster(ctx: _Context, where: str, item: Any) -> Monster:
+def _parse_monster(ctx: _Context, where: str, item: object) -> Monster:
     obj = _check_keys(ctx, where, item, ["name", "level", "item"])
     loot = obj["item"]
     return Monster(
@@ -127,13 +132,13 @@ def _parse_monster(ctx: _Context, where: str, item: Any) -> Monster:
     )
 
 
-def _parse_attrs(ctx: _Context, where: str, value: Any) -> list[StatType]:
+def _parse_attrs(ctx: _Context, where: str, value: object) -> list[StatType]:
     if not isinstance(value, list):
         raise ctx.error(f"{where} must be a list of stats")
     return [_stat(ctx, f"{where}[{i}]", stat) for i, stat in enumerate(value)]
 
 
-def _parse_race(ctx: _Context, where: str, item: Any) -> Race:
+def _parse_race(ctx: _Context, where: str, item: object) -> Race:
     obj = _check_keys(ctx, where, item, ["name", "attr"])
     return Race(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -141,7 +146,7 @@ def _parse_race(ctx: _Context, where: str, item: Any) -> Race:
     )
 
 
-def _parse_class(ctx: _Context, where: str, item: Any) -> Class:
+def _parse_class(ctx: _Context, where: str, item: object) -> Class:
     obj = _check_keys(ctx, where, item, ["name", "attr"])
     return Class(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -149,7 +154,7 @@ def _parse_class(ctx: _Context, where: str, item: Any) -> Class:
     )
 
 
-_PARSERS: dict[str, Callable[[_Context, str, Any], Any]] = {
+_PARSERS: dict[str, Callable[[_Context, str, object], object]] = {
     "spells": _parse_str,
     "offense_attrib": _parse_modifier,
     "defense_attrib": _parse_modifier,
@@ -172,7 +177,7 @@ _PARSERS: dict[str, Callable[[_Context, str, Any], Any]] = {
 assert set(_PARSERS) == set(DATA_FILES)
 
 
-def _parse(name: str, path: str, text: str) -> tuple[Any, ...]:
+def _parse(name: str, path: str, text: str) -> tuple[object, ...]:
     ctx = _Context(path)
     try:
         value = json.loads(text)
@@ -186,13 +191,13 @@ def _parse(name: str, path: str, text: str) -> tuple[Any, ...]:
     return tuple(parser(ctx, f"[{i}]", item) for i, item in enumerate(value))
 
 
-def _builtin_dir() -> Any:
+def _builtin_dir() -> Traversable:
     return resources.files("pqcli") / "data"
 
 
-def _read_text(path: Any, display: str) -> str:
+def _read_text(path: Traversable, display: str) -> str:
     try:
-        return cast(str, path.read_text(encoding="utf-8"))
+        return path.read_text(encoding="utf-8")
     except UnicodeDecodeError as ex:
         raise DataError(f"{display}: not valid UTF-8: {ex}") from ex
     except OSError as ex:
@@ -219,11 +224,13 @@ def load_game_data(override_dir: Path | None = None) -> GameData:
                     file=sys.stderr,
                 )
 
+    # The element type of each tuple depends on the GameData field it
+    # fills, so it is only checked when GameData receives it.
     values: dict[str, tuple[Any, ...]] = {}
     for name in DATA_FILES:
         if name in overrides:
             assert override_dir is not None
-            source: Any = override_dir / f"{name}.json"
+            source: Traversable = override_dir / f"{name}.json"
             display = str(source)
         else:
             source = _builtin_dir() / f"{name}.json"

@@ -3,7 +3,7 @@ import curses
 import os
 import signal
 import time
-from typing import Any
+from types import FrameType
 
 from pqcli import lingo
 from pqcli.config import Class, Race
@@ -68,7 +68,7 @@ class CursesUserInterface(BaseUserInterface):
             curses.init_pair(COLOR_PROGRESSBAR, 0, 9)
             curses.init_pair(COLOR_HIGHLIGHT, 3, -1)
 
-        def signal_handler(sig: Any, frame: Any) -> None:
+        def signal_handler(sig: int, frame: FrameType | None) -> None:
             if self.args.use_saves:
                 self.roster.save()
             exit(0)

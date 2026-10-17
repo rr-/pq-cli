@@ -1,6 +1,5 @@
 import curses
 import datetime
-from typing import Any
 
 from pqcli.lingo import format_timespan
 from pqcli.ui.curses.colors import COLOR_PROGRESSBAR, has_colors
@@ -9,7 +8,13 @@ from pqcli.ui.curses.widgets.base import WindowWrapper
 
 class ProgressBar(WindowWrapper):
     def __init__(
-        self, parent: Any, h: int, w: int, y: int, x: int, show_time: bool
+        self,
+        parent: curses.window | None,
+        h: int,
+        w: int,
+        y: int,
+        x: int,
+        show_time: bool,
     ) -> None:
         super().__init__(parent, h, w, y, x)
 

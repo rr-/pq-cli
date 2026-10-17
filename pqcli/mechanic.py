@@ -7,7 +7,7 @@ import math
 from collections import defaultdict
 from collections.abc import Callable, Generator, Iterator, Sequence
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import Any
 
 from pqcli import random
 from pqcli.config import (
@@ -37,7 +37,7 @@ from pqcli.random import Alea, RngState
 logger = logging.getLogger(__name__)
 
 
-_SIGNALS: dict[tuple["SignalMixin", str], list[Callable[..., Any]]] = (
+_SIGNALS: dict[tuple["SignalMixin", str], list[Callable[..., object]]] = (
     defaultdict(list)
 )
 
@@ -55,17 +55,19 @@ class SignalMixin:
         finally:
             SignalMixin._muted -= 1
 
-    def emit(self, signal_name: str, *user_data: Any) -> None:
+    def emit(self, signal_name: str, *user_data: object) -> None:
         if SignalMixin._muted:
             return
         for callback in _SIGNALS[self, signal_name]:
             callback(*user_data)
 
-    def connect(self, signal_name: str, callback: Callable[..., Any]) -> None:
+    def connect(
+        self, signal_name: str, callback: Callable[..., object]
+    ) -> None:
         _SIGNALS[self, signal_name].append(callback)
 
     def disconnect(
-        self, signal_name: str, callback: Callable[..., Any]
+        self, signal_name: str, callback: Callable[..., object]
     ) -> None:
         try:
             idx = _SIGNALS[self, signal_name].index(callback)
@@ -383,7 +385,7 @@ class Player(SignalMixin):
         self.task: BaseTask | None = None
         self.queue: list[BaseTask] = []
 
-    def __setstate__(self, obj: Any) -> None:
+    def __setstate__(self, obj: dict[str, Any]) -> None:
         self.__dict__.update(obj)
         self.elapsed = obj.get("elapsed", 0.0)
         if "rng" not in obj:
@@ -853,38 +855,30 @@ class Simulation:
 
 
 def special_item(data: GameData) -> str:
-    return (
-        interesting_item(data)
-        + " of "
-        + cast(str, random.choice(data.item_ofs))
-    )
+    return interesting_item(data) + " of " + random.choice(data.item_ofs)
 
 
 def interesting_item(data: GameData) -> str:
-    return (
-        cast(str, random.choice(data.item_attrib))
-        + " "
-        + cast(str, random.choice(data.specials))
-    )
+    return random.choice(data.item_attrib) + " " + random.choice(data.specials)
 
 
 def boring_item(data: GameData) -> str:
-    return cast(str, random.choice(data.boring_items))
+    return random.choice(data.boring_items)
 
 
 def impressive_guy(data: GameData) -> str:
     if random.below(2):
-        title = cast(str, random.choice(data.impressive_titles))
-        race = cast(Race, random.choice(data.races))
+        title = random.choice(data.impressive_titles)
+        race = random.choice(data.races)
         return f"the {title} of the {plural(race.name)}"
-    title = cast(str, random.choice(data.impressive_titles))
+    title = random.choice(data.impressive_titles)
     return f"{title} {generate_name()} of {generate_name()}"
 
 
 def unnamed_monster(data: GameData, level: int, iterations: int) -> Monster:
-    result = cast(Monster, random.choice(data.monsters))
+    result = random.choice(data.monsters)
     for _ in range(iterations):
-        alternative = cast(Monster, random.choice(data.monsters))
+        alternative = random.choice(data.monsters)
         if abs(level - alternative.level) < abs(level - result.level):
             result = alternative
     return result
@@ -898,9 +892,9 @@ def named_monster(data: GameData, level: int) -> str:
 def pick_equipment(
     source: Sequence[EquipmentPreset], goal: int
 ) -> EquipmentPreset:
-    result = cast(EquipmentPreset, random.choice(source))
+    result = random.choice(source)
     for _ in range(5):
-        alternative = cast(EquipmentPreset, random.choice(source))
+        alternative = random.choice(source)
         if abs(goal - alternative.quality) < abs(goal - result.quality):
             result = alternative
     return result
@@ -986,7 +980,7 @@ def monster_task(
     verb = (
         data.combat_verbs[0]
         if len(data.combat_verbs) == 1
-        else cast(str, random.choice(data.combat_verbs))
+        else random.choice(data.combat_verbs)
     )
     description = verb.replace(TARGET_PLACEHOLDER, result)
     return KillTask(description, duration, monster=monster)

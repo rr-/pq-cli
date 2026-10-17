@@ -1,5 +1,4 @@
 import curses
-from typing import Any
 
 from pqcli.ui.curses.widgets import (
     DataTable,
@@ -13,7 +12,7 @@ from pqcli.ui.curses.widgets import (
 class ProgressBarWindow(Focusable, WindowWrapper):
     def __init__(
         self,
-        parent: Any,
+        parent: curses.window,
         h: int,
         w: int,
         y: int,
@@ -82,7 +81,7 @@ class ProgressBarWindow(Focusable, WindowWrapper):
 class DataTableProgressBarWindow(ProgressBarWindow):
     def __init__(
         self,
-        parent: Any,
+        parent: curses.window,
         h: int,
         w: int,
         y: int,
@@ -123,7 +122,7 @@ class DataTableProgressBarWindow(ProgressBarWindow):
 class ListBoxProgressBarWindow(ProgressBarWindow):
     def __init__(
         self,
-        parent: Any,
+        parent: curses.window,
         h: int,
         w: int,
         y: int,

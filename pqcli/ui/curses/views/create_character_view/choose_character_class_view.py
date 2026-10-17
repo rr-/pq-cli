@@ -1,16 +1,16 @@
+import curses
 import functools
 from collections.abc import Sequence
-from typing import Any
 
 from pqcli.config import Class
 from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.views.menu_view import MenuView
 
 
-class ChooseCharacterClassView(MenuView):
+class ChooseCharacterClassView(MenuView[Class]):
     def __init__(
         self,
-        screen: Any,
+        screen: curses.window,
         classes: Sequence[Class],
         class_: Class | None = None,
     ) -> None:

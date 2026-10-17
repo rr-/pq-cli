@@ -2,7 +2,7 @@ import argparse
 import curses
 import curses.ascii
 import datetime
-from typing import Any, Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable
 
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, SignalMixin, Simulation
@@ -44,14 +44,14 @@ class PageScrollable(Protocol):
 class GameView(BaseView):
     def __init__(
         self,
-        screen: Any,
+        screen: curses.window,
         roster: Roster,
         player: Player,
         args: argparse.Namespace,
         data: GameData,
     ) -> None:
         super().__init__(screen)
-        self.on_exit = EventHandler()
+        self.on_exit = EventHandler[[]]()
 
         self._roster = roster
         self._player = player

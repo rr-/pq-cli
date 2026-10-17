@@ -1,5 +1,4 @@
 import curses
-from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_LOGO, COLOR_LOGO_ALT, has_colors
 from pqcli.ui.curses.event_handler import EventHandler
@@ -52,13 +51,13 @@ class MainMenu(Menu):
 
 
 class RosterView(BaseView):
-    def __init__(self, screen: Any) -> None:
+    def __init__(self, screen: curses.window) -> None:
         super().__init__(screen)
 
-        self.on_create = EventHandler()
-        self.on_play = EventHandler()
-        self.on_delete = EventHandler()
-        self.on_quit = EventHandler()
+        self.on_create = EventHandler[[]]()
+        self.on_play = EventHandler[[]]()
+        self.on_delete = EventHandler[[]]()
+        self.on_quit = EventHandler[[]]()
 
         self.choices: list[Choice] = [
             Choice(

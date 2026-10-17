@@ -1,15 +1,14 @@
 import curses
-from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_HIGHLIGHT, has_colors
 
 from .scrollable import Scrollable
 
 
-class ListBox(Scrollable):
-    _items: list[str]
-
-    def __init__(self, parent: Any, h: int, w: int, y: int, x: int) -> None:
+class ListBox(Scrollable[str]):
+    def __init__(
+        self, parent: curses.window | None, h: int, w: int, y: int, x: int
+    ) -> None:
         super().__init__(parent, h, w, y, x)
         self._selected: int | None = None
 

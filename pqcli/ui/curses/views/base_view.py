@@ -1,8 +1,8 @@
-from typing import Any
+import curses
 
 
 class BaseView:
-    def __init__(self, screen: Any) -> None:
+    def __init__(self, screen: curses.window) -> None:
         self.screen = screen
 
     def start(self) -> None:

@@ -1,15 +1,14 @@
 import curses
-from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_HIGHLIGHT, has_colors
 
 from .scrollable import Scrollable
 
 
-class DataTable(Scrollable):
+class DataTable(Scrollable[tuple[str, str]]):
     def __init__(
         self,
-        parent: Any,
+        parent: curses.window | None,
         h: int,
         w: int,
         y: int,
@@ -19,7 +18,6 @@ class DataTable(Scrollable):
         super().__init__(parent, h, w, y, x)
 
         self._align_right = align_right
-        self._items: list[tuple[str, str]]
         self._selected: int | None = None
 
     def add(self, text: str, value: str) -> None:

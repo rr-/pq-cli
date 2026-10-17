@@ -1,14 +1,17 @@
+import curses
 import functools
-from typing import Any
 
 from pqcli.lingo import act_name, to_roman
+from pqcli.mechanic import Player
 from pqcli.roster import Roster
 from pqcli.ui.curses.util import KEYS_CANCEL, Choice
 from pqcli.ui.curses.views.menu_view import MenuView
 
 
-class ChooseCharacterView(MenuView):
-    def __init__(self, screen: Any, roster: Roster, title: str) -> None:
+class ChooseCharacterView(MenuView[Player]):
+    def __init__(
+        self, screen: curses.window, roster: Roster, title: str
+    ) -> None:
         super().__init__(screen, title)
 
         for y, player in enumerate(roster.players, 1):
