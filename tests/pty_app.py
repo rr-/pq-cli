@@ -1,14 +1,14 @@
 """Run pqcli in a pseudo-terminal and read its screen through pyte.
 
-Only works on POSIX: it needs pty.fork and the termios ioctls.
+Only works on POSIX: it needs a pty and the termios ioctls.
 """
 
 import fcntl
 import os
-import pty
 import select
 import signal
 import struct
+import subprocess
 import sys
 import termios
 import time
@@ -75,18 +75,33 @@ class PtyApp:
         # LINES/COLUMNS would override the pty size seen by curses.
         env.pop("LINES", None)
         env.pop("COLUMNS", None)
-        argv = [sys.executable, "-m", "pqcli", *args]
+        # The child makes the pty its controlling terminal, so that ^C
+        # raises SIGINT as in a real terminal, then becomes pqcli.
+        argv = [
+            sys.executable,
+            "-c",
+            "import fcntl, sys, termios, runpy; "
+            "fcntl.ioctl(0, termios.TIOCSCTTY, 0); "
+            "sys.argv[0] = 'pqcli'; "
+            "runpy.run_module('pqcli', run_name='__main__')",
+            *args,
+        ]
 
-        pid, fd = pty.fork()
-        if pid == 0:  # pragma: no cover - runs in the child
-            try:
-                _set_size(0, rows, cols)
-                if cwd is not None:
-                    os.chdir(cwd)
-                os.execve(sys.executable, argv, env)
-            finally:
-                os._exit(127)
-        self.pid = pid
+        # Popen forks and execs in C, which is safe in the threaded
+        # pytest-xdist workers, unlike pty.fork().
+        fd, child_fd = os.openpty()
+        _set_size(child_fd, rows, cols)
+        self._process = subprocess.Popen(
+            argv,
+            stdin=child_fd,
+            stdout=child_fd,
+            stderr=child_fd,
+            env=env,
+            cwd=cwd,
+            start_new_session=True,
+        )
+        os.close(child_fd)
+        self.pid = self._process.pid
         self.fd = fd
 
     # reading ---------------------------------------------------------
@@ -202,9 +217,9 @@ class PtyApp:
         while self.exit_status is None:
             # keep draining so the child never blocks on a full pty
             self._pump(0.02)
-            pid, status = os.waitpid(self.pid, os.WNOHANG)
-            if pid:
-                self.exit_status = os.waitstatus_to_exitcode(status)
+            status = self._process.poll()
+            if status is not None:
+                self.exit_status = status
                 break
             if time.monotonic() > deadline:
                 raise AssertionError(
