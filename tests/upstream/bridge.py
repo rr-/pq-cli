@@ -11,9 +11,9 @@ from pqcli.config import EquipmentType, Monster, StatType
 from pqcli.game_data import GameData
 from pqcli.lingo import to_roman
 from pqcli.mechanic import (
+    BaseTask,
     Player,
     PlotTask,
-    RegularTask,
     Simulation,
     Stats,
 )
@@ -106,7 +106,7 @@ def make_spec(seed: str, race: str, class_: str) -> dict[str, Any]:
     }
 
 
-def _queue_entry(task: RegularTask) -> str:
+def _queue_entry(task: BaseTask) -> str:
     kind = "plot" if isinstance(task, PlotTask) else "task"
     text = "Loading" if isinstance(task, PlotTask) else task.description
     return f"{kind}|{task.duration // 1000}|{text}"
