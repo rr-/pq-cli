@@ -173,6 +173,11 @@ class QuestBook(SignalMixin):
             return self._quests[-1]
         return None
 
+    def restore(self, act: int, quests: list[str]) -> None:
+        """Set the act and quest log wholesale, as when importing a save."""
+        self._act = act
+        self._quests = list(quests)
+
     def increment_act(self) -> None:
         self._act += 1
         self.emit("start_act", self._act)
@@ -209,6 +214,14 @@ class Inventory(SignalMixin):
 
     def __getitem__(self, idx: int) -> InventoryItem:
         return self._items[idx]
+
+    def restore(self, gold: int, items: list[InventoryItem]) -> None:
+        """Set the gold and items wholesale, as when importing a save.
+
+        The encumbrance bar is left alone, so callers can restore it too.
+        """
+        self._gold = gold
+        self._items = list(items)
 
     def add_gold(self, quantity: int) -> None:
         logger.info(
@@ -293,6 +306,10 @@ class SpellBook(SignalMixin):
 
     def __len__(self) -> int:
         return len(self._spells)
+
+    def restore(self, spells: list[Spell]) -> None:
+        """Set the spells wholesale, as when importing a save."""
+        self._spells = list(spells)
 
     def add(self, spell_name: str, level: int) -> None:
         for spell in self._spells:

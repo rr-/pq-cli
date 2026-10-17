@@ -241,8 +241,9 @@ def import_game(
     player.quest_book.plot_bar.reset(*_bar(game, "PlotBar"))
     player.quest_book.quest_bar.reset(*_bar(game, "QuestBar"))
 
-    player.quest_book._act = _int(game, "act")
-    player.quest_book._quests = [str(q) for q in _field(game, "Quests")]
+    player.quest_book.restore(
+        _int(game, "act"), [str(q) for q in _field(game, "Quests")]
+    )
     player.quest_book.monster = _parse_monster(
         str(game.get("questmonster", ""))
     )
@@ -256,13 +257,13 @@ def import_game(
     rows = _field(game, "Inventory")
     if not rows or rows[0][0] != "Gold":
         raise PqwError("field Inventory does not start with Gold")
-    player.inventory._gold = _int(game, "Inventory", 0, 1)
-    player.inventory._items = [
-        InventoryItem(str(row[0]), int(row[1])) for row in rows[1:]
-    ]
+    player.inventory.restore(
+        _int(game, "Inventory", 0, 1),
+        [InventoryItem(str(row[0]), int(row[1])) for row in rows[1:]],
+    )
     player.inventory.encum_bar.reset(*_bar(game, "EncumBar"))
 
-    player.spell_book._spells = _parse_spells(game)
+    player.spell_book.restore(_parse_spells(game))
 
     player.task = _parse_task(game)
     player.queue = [_parse_queue_entry(e) for e in _field(game, "queue")]
