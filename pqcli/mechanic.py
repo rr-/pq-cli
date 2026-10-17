@@ -398,12 +398,12 @@ class Player(SignalMixin):
             chosen_stat = random.choice(list(StatType))
         else:
             # favor the best stat so it will tend to clump
-            t = sum(value**2 for _stat, value in self.stats)
+            t = sum(self.stats[stat] ** 2 for stat in PRIME_STATS)
             t = random.below(t)
             chosen_stat = None
-            for stat, value in self.stats:
+            for stat in PRIME_STATS:
                 chosen_stat = stat
-                t -= value**2
+                t -= self.stats[stat] ** 2
                 if t < 0:
                     break
 
