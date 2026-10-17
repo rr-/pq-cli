@@ -162,7 +162,7 @@ class QuestBook(SignalMixin):
 
     def add_quest(self, name: str) -> None:
         logger.info("Commencing quest: %s", name)
-        self._quests = self._quests[-100:]
+        self._quests = self._quests[-99:]
         self._quests.append(name)
 
 

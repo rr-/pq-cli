@@ -146,3 +146,11 @@ def test_cinematic_text_matches_upstream() -> None:
     texts = [task.description for task in simulation.player.queue]
     assert any("You've reached the kind protection of " in t for t in texts)
     assert any(t.endswith("news!? -- Oh yes, of course") for t in texts)
+
+
+def test_quest_log_keeps_100_quests() -> None:
+    quest_book = make_simulation().player.quest_book
+    for i in range(150):
+        quest_book.add_quest(f"quest {i}")
+    assert len(quest_book.quests) == 100
+    assert quest_book.quests[-1] == "quest 149"
