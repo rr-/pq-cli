@@ -143,10 +143,8 @@ class CursesUserInterface(BaseUserInterface):
         view.on_cancel += lambda: self._switch_to_create_char_race_view(
             player_name, race
         )
-        view.on_confirm += (
-            lambda class_: self._switch_to_create_char_stats_view(
-                player_name, race, class_
-            )
+        view.on_confirm += lambda class_: (
+            self._switch_to_create_char_stats_view(player_name, race, class_)
         )
         self._switch_view(view)
 

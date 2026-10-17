@@ -923,7 +923,8 @@ def monster_task(
         result = monster.name
         lev = monster.level
     else:
-        # pick the monster out of so many random ones closest to the level we want
+        # pick the monster out of so many random ones closest to the level
+        # we want
         monster = unnamed_monster(data, level, iterations=5)
         result = monster.name
         lev = monster.level

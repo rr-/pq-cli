@@ -129,7 +129,8 @@ def test_impressive_guy_formats() -> None:
     titles = "|".join(re.escape(title) for title in data.impressive_titles)
     races = "|".join(re.escape(plural(race.name)) for race in data.races)
     pattern = re.compile(
-        rf"the ({titles}) of the ({races})|({titles}) [A-Z][a-z]+ of [A-Z][a-z]+"
+        rf"the ({titles}) of the ({races})"
+        rf"|({titles}) [A-Z][a-z]+ of [A-Z][a-z]+"
     )
     random.seed("guys")
     guys = [impressive_guy(data) for _ in range(200)]

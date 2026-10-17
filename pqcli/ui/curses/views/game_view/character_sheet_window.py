@@ -61,6 +61,6 @@ class CharacterSheetWindow(Focusable, DataTableProgressBarWindow):
         self._cur_pos = self._player.exp_bar.position
         self._max_pos = self._player.exp_bar.max_
         self._progress_title = (
-            f"Experience ({self._max_pos-self._cur_pos:.0f} XP to go)"
+            f"Experience ({self._max_pos - self._cur_pos:.0f} XP to go)"
         )
         self._render_progress_bar()

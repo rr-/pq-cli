@@ -71,7 +71,8 @@ class DataTable(Scrollable):
                 self._pad.addnstr(y, 0, row[0], min(len(row[0]), w))
                 # Determine the number of characters to write
                 nwrite = min(len(row[1]), w - col2_x)
-                # Ensure we have enough columns, and we are writing more than zero
+                # Ensure we have enough columns, and we are writing more
+                # than zero
                 if col2_x < w and nwrite > 0:
                     self._pad.addnstr(y, col2_x, row[1], nwrite)
                 if y == self._selected and has_colors():
