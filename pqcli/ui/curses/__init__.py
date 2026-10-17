@@ -9,6 +9,7 @@ from pqcli import lingo
 from pqcli.config import Class, Race
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, Stats, create_player
+from pqcli.random import RngState
 from pqcli.roster import Roster
 from pqcli.ui.base import BaseUserInterface
 from pqcli.ui.curses.colors import (
@@ -156,8 +157,8 @@ class CursesUserInterface(BaseUserInterface):
         view.on_cancel += lambda: self._switch_to_create_char_class_view(
             player_name, race, class_
         )
-        view.on_confirm += lambda stats: self._create_character(
-            player_name, race, class_, stats
+        view.on_confirm += lambda stats, seed: self._create_character(
+            player_name, race, class_, stats, seed
         )
         self._switch_view(view)
 
@@ -196,9 +197,14 @@ class CursesUserInterface(BaseUserInterface):
         self._view.start()
 
     def _create_character(
-        self, name: str, race: Race, class_: Class, stats: Stats
+        self,
+        name: str,
+        race: Race,
+        class_: Class,
+        stats: Stats,
+        seed: RngState,
     ) -> None:
-        player = create_player(name, race, class_, stats)
+        player = create_player(name, race, class_, stats, seed)
         self.roster.players.append(player)
         if self.args.use_saves:
             self.roster.save()

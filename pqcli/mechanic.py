@@ -30,6 +30,7 @@ from pqcli.lingo import (
     special,
     young,
 )
+from pqcli.random import Alea, RngState
 
 logger = logging.getLogger(__name__)
 
@@ -346,12 +347,14 @@ class Player(SignalMixin):
         race: Race,
         class_: Class,
         stats: Stats,
+        rng: T.Optional[Alea] = None,
     ) -> None:
         self.name: str = name
         self.birthday: datetime.datetime = birthday
         self.race: Race = race
         self.class_: Class = class_
         self.stats: Stats = stats
+        self.rng: Alea = rng or Alea()
         self.elapsed = 0.0
 
         self.exp_bar = Bar(max_=level_up_time(1))
@@ -369,6 +372,8 @@ class Player(SignalMixin):
     def __setstate__(self, obj: T.Any) -> None:
         self.__dict__.update(obj)
         self.elapsed = obj.get("elapsed", 0.0)
+        if "rng" not in obj:
+            self.rng = Alea()
 
     def set_task(self, task: BaseTask) -> None:
         self.task = task
@@ -494,6 +499,11 @@ class Simulation:
         self.last_tick = datetime.datetime.now()
 
     def tick(self, elapsed: float = 100.0) -> None:
+        # each character plays on its own generator, saved along with it
+        with random.using(self.player.rng):
+            self._tick(elapsed)
+
+    def _tick(self, elapsed: float) -> None:
         self.player.elapsed += elapsed
 
         if self.player.task is None:
@@ -963,37 +973,64 @@ def monster_task(
     return KillTask(description, duration, monster=monster)
 
 
+@dataclass
+class _Roll:
+    stats: Stats
+    seed: RngState  # generator state before the roll
+    after: RngState
+
+
 class StatsBuilder:
-    def __init__(self) -> None:
-        self.history: T.List[Stats] = []
+    def __init__(self, rng: T.Optional[Alea] = None) -> None:
+        self._rng = rng or Alea()
+        self.history: T.List[_Roll] = []
+
+    @property
+    def seed(self) -> RngState:
+        """Generator state the current stats were rolled from.
+
+        Like upstream, a new character's game continues from this state,
+        so its first rolls replay the stat roll's numbers.
+        """
+        return self.history[-1].seed
 
     def roll(self) -> Stats:
-        values: T.Dict[StatType, int] = {
-            stat: 3 + random.below(6) + random.below(6) + random.below(6)
-            for stat in PRIME_STATS
-        }
-        values[StatType.hp_max] = (
-            random.below(8) + values[StatType.condition] // 6
-        )
-        values[StatType.mp_max] = (
-            random.below(8) + values[StatType.intelligence] // 6
-        )
+        seed = self._rng.state()
+        with random.using(self._rng):
+            values: T.Dict[StatType, int] = {
+                stat: 3 + random.below(6) + random.below(6) + random.below(6)
+                for stat in PRIME_STATS
+            }
+            values[StatType.hp_max] = (
+                random.below(8) + values[StatType.condition] // 6
+            )
+            values[StatType.mp_max] = (
+                random.below(8) + values[StatType.intelligence] // 6
+            )
         stats = Stats(values)
-        self.history.append(stats)
+        self.history.append(_Roll(stats, seed, self._rng.state()))
         return stats
 
     def unroll(self) -> Stats:
         if len(self.history) > 1:
             self.history.pop()
-        return self.history[-1]
+        self._rng = Alea.from_state(self.history[-1].after)
+        return self.history[-1].stats
 
 
 def create_player(
-    name: str, race: Race, class_: Class, stats: Stats
+    name: str,
+    race: Race,
+    class_: Class,
+    stats: Stats,
+    seed: T.Optional[RngState] = None,
 ) -> Player:
-    now = datetime.datetime.now()
-    random.seed(str(now))
     player = Player(
-        birthday=now, name=name, race=race, class_=class_, stats=stats
+        birthday=datetime.datetime.now(),
+        name=name,
+        race=race,
+        class_=class_,
+        stats=stats,
+        rng=Alea.from_state(seed) if seed is not None else None,
     )
     return player

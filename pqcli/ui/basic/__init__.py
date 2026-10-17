@@ -124,7 +124,11 @@ class BasicUserInterface(BaseUserInterface):
                 break
 
         player = create_player(
-            name=name, race=race, class_=class_, stats=stats
+            name=name,
+            race=race,
+            class_=class_,
+            stats=stats,
+            seed=stats_builder.seed,
         )
         self.roster.players.append(player)
         if auto_play and self.confirm(

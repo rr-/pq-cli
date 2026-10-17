@@ -6,6 +6,7 @@ from pqcli import random
 from pqcli.config import StatType
 from pqcli.game_data import load_game_data
 from pqcli.mechanic import Player, Simulation, Stats, monster_task
+from pqcli.random import Alea
 
 STATS = {
     StatType.strength: 12,
@@ -28,6 +29,7 @@ def run_trace(seed: str, ticks: int = 3000) -> T.List[str]:
         race=data.races[0],
         class_=data.classes[0],
         stats=Stats(dict(STATS)),
+        rng=Alea(seed),
     )
     random.seed(seed)
     simulation = Simulation(player, data)
@@ -40,17 +42,18 @@ def run_trace(seed: str, ticks: int = 3000) -> T.List[str]:
     for _ in range(ticks):
         simulation.tick(100000.0)
 
-    # plot cinematics and quests are rare in a short run, so force them
-    for _ in range(30):
-        simulation.interplot_cinematic()
-        simulation.complete_quest()
-    lines.extend(f"queued: {task.description}" for task in player.queue)
-    player.queue.clear()
+    with random.using(player.rng):
+        # plot cinematics and quests are rare in a short run, so force them
+        for _ in range(30):
+            simulation.interplot_cinematic()
+            simulation.complete_quest()
+        lines.extend(f"queued: {task.description}" for task in player.queue)
+        player.queue.clear()
 
-    # high level monsters are unreachable in a short run
-    for level in range(1, 100):
-        task = monster_task(data, level, player.quest_book.monster)
-        lines.append(f"monster: {task.description} {task.duration}")
+        # high level monsters are unreachable in a short run
+        for level in range(1, 100):
+            task = monster_task(data, level, player.quest_book.monster)
+            lines.append(f"monster: {task.description} {task.duration}")
 
     lines.append(f"level: {player.level}")
     lines.append(f"act: {player.quest_book.act}")

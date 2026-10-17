@@ -1,4 +1,5 @@
 import datetime
+import pickle
 import re
 
 import pytest
@@ -11,9 +12,12 @@ from pqcli.mechanic import (
     Player,
     Simulation,
     Stats,
+    StatsBuilder,
+    create_player,
     impressive_guy,
     level_up_time,
 )
+from pqcli.random import Alea
 
 
 def test_level_up_time_matches_upstream() -> None:
@@ -24,6 +28,10 @@ def test_level_up_time_matches_upstream() -> None:
     assert level_up_time(100) == 70460007
 
 
+RACE = load_game_data().races[0]
+CLASS = load_game_data().classes[0]
+
+
 def make_simulation() -> Simulation:
     data = load_game_data()
     player = Player(
@@ -32,6 +40,7 @@ def make_simulation() -> Simulation:
         race=data.races[0],
         class_=data.classes[0],
         stats=Stats({stat: 10 for stat in StatType}),
+        rng=Alea("test"),
     )
     return Simulation(player, data)
 
@@ -181,3 +190,53 @@ def test_prologue_fills_plot_bar() -> None:
     ]
     assert positions[5][0] == "Loading Act I"
     assert positions[6][0] == "Heading to the killing fields"
+
+
+def test_player_rng_survives_save_and_load() -> None:
+    simulation = make_simulation()
+    for _ in range(50):
+        simulation.tick(100000.0)
+    restored = pickle.loads(pickle.dumps(simulation.player))
+    assert restored.rng.state() == simulation.player.rng.state()
+
+
+def test_old_save_without_rng_gets_one() -> None:
+    player = make_simulation().player
+    state = player.__dict__.copy()
+    del state["rng"]
+    restored = Player.__new__(Player)
+    restored.__setstate__(state)
+    assert isinstance(restored.rng, Alea)
+
+
+def test_tick_draws_from_player_rng_only() -> None:
+    random.seed("global")
+    expected = Alea("global").uint32() % 1000
+    simulation = make_simulation()
+    before = simulation.player.rng.state()
+    for _ in range(50):
+        simulation.tick(100000.0)
+    assert simulation.player.rng.state() != before
+    assert random.below(1000) == expected
+
+
+def test_new_game_replays_stat_roll_numbers() -> None:
+    # upstream seeds the game with the state from before the stat roll
+    builder = StatsBuilder(Alea("roll"))
+    builder.roll()
+    stats = builder.roll()
+    player = create_player("New", RACE, CLASS, stats, builder.seed)
+    assert player.rng.state() == builder.history[-1].seed
+    with random.using(player.rng):
+        rerolled = StatsBuilder(player.rng).roll()
+    assert dict(rerolled) == dict(stats)
+
+
+def test_unroll_restores_previous_stats_and_generator() -> None:
+    builder = StatsBuilder(Alea("roll"))
+    first = builder.roll()
+    after_first = builder.history[-1].after
+    builder.roll()
+    assert builder.unroll() is first
+    assert builder.seed == builder.history[-1].seed
+    assert builder._rng.state() == after_first

@@ -55,7 +55,7 @@ class ChooseCharacterStatsView(BaseView):
             elif self._active_widget == 1:
                 self._stats = self._stats_builder.unroll()
             elif self._active_widget == 2:
-                self.on_confirm(self._stats)
+                self.on_confirm(self._stats, self._stats_builder.seed)
             elif self._active_widget == 3:
                 self.on_cancel()
             else:
@@ -68,7 +68,7 @@ class ChooseCharacterStatsView(BaseView):
             self._stats = self._stats_builder.unroll()
 
         elif key == curses.KEY_F10:
-            self.on_confirm(self._stats)
+            self.on_confirm(self._stats, self._stats_builder.seed)
 
         elif key in KEYS_CYCLE:
             self._active_widget = (self._active_widget + 1) % 4
