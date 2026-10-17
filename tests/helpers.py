@@ -1,7 +1,9 @@
-"""Characters, rosters and .pqw files for the UI and CLI tests."""
+"""Characters, saves and prompts shared by the UI and CLI tests."""
 
+from collections.abc import Iterable
 from pathlib import Path
 
+import pytest
 from test_pqw import played
 
 from pqcli import pqw
@@ -41,3 +43,21 @@ def write_pqw(path: Path, player: Player, *, online: bool = False) -> Path:
         game["online"] = {"realm": "Alpaquil", "passkey": 1}
     path.write_text(pqw.encode(game), encoding="ascii")
     return path
+
+
+def feed(monkeypatch: pytest.MonkeyPatch, answers: Iterable[str]) -> None:
+    """Answer input() prompts in order; running out is a test failure.
+
+    Prompts are echoed so captured output reads like a session.
+    """
+    it = iter(answers)
+
+    def fake_input(prompt: str = "") -> str:
+        try:
+            answer = next(it)
+        except StopIteration:
+            raise AssertionError(f"unexpected prompt {prompt!r}") from None
+        print(f"{prompt}{answer}")
+        return answer
+
+    monkeypatch.setattr("builtins.input", fake_input)

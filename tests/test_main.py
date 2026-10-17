@@ -1,11 +1,19 @@
 """pqcli's command line, run in-process so coverage sees it."""
 
 import json
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
-from saves import DATA, hero, read_names, save_path, write_pqw, write_roster
+from helpers import (
+    DATA,
+    feed,
+    hero,
+    read_names,
+    save_path,
+    write_pqw,
+    write_roster,
+)
 
 import pqcli.__main__ as cli
 from pqcli import pqw
@@ -53,20 +61,6 @@ def run(config: Path, monkeypatch: pytest.MonkeyPatch) -> Run:
         return 0
 
     return run
-
-
-def feed(monkeypatch: pytest.MonkeyPatch, answers: Iterable[str]) -> None:
-    """Answer input() prompts in order; running out is a test failure."""
-    it = iter(answers)
-
-    def fake_input(prompt: str = "") -> str:
-        print(prompt)
-        try:
-            return next(it)
-        except StopIteration:
-            raise AssertionError(f"unexpected prompt {prompt!r}") from None
-
-    monkeypatch.setattr("builtins.input", fake_input)
 
 
 def test_defaults_to_the_curses_ui(monkeypatch: pytest.MonkeyPatch) -> None:
