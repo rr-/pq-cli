@@ -15,3 +15,7 @@ basic *args:
 # Run the test suite; extra arguments go to pytest
 test *args:
     uv run pytest {{args}}
+
+# Re-record the gameplay parity fixtures (only when gameplay should change)
+record-traces:
+    uv run python tests/game_trace.py

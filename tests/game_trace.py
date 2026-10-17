@@ -1,5 +1,6 @@
 import datetime
 import typing as T
+from pathlib import Path
 
 from pqcli import random
 from pqcli.config import StatType
@@ -67,3 +68,15 @@ def run_trace(seed: str, ticks: int = 3000) -> T.List[str]:
     for quest in player.quest_book.quests:
         lines.append(f"quest: {quest}")
     return lines
+
+
+SEEDS = ["alpha", "beta", "gamma"]
+FIXTURES = Path(__file__).parent / "fixtures"
+
+
+if __name__ == "__main__":
+    # Re-record the parity fixtures. Only do this on purpose, when a change
+    # is meant to alter gameplay.
+    for seed in SEEDS:
+        lines = run_trace(seed)
+        (FIXTURES / f"parity_{seed}.txt").write_text("\n".join(lines) + "\n")
