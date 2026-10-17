@@ -30,7 +30,7 @@ Basic interface:
 
 ## How to install
 
-If you have Python 3.7, just run `pip install --user pqcli` and you're good to go!
+If you have Python 3.10 or newer, just run `pip install --user pqcli` and you're good to go!
 Then type `pqcli` to run the game.
 
 In case if you want to use the git version, the process is just a bit more complex:
@@ -125,21 +125,24 @@ A few things to keep in mind:
 
 ```sh
 # Clone the repository:
-git clone https://github.com/rr-/pqcli.git
-cd pqcli
+git clone https://github.com/rr-/pq-cli.git
+cd pq-cli
 
 # Install to a local venv:
-poetry install
+uv sync
 
 # Install pre-commit hooks:
-poetry run pre-commit install
+uv run pre-commit install
 
-# Enter the venv:
-poetry shell
+# Run the game and the tests:
+just run
+just test
 ```
 
-This project uses [poetry](https://python-poetry.org/) for packaging.
-Install instructions are available at [poetry#installation](https://python-poetry.org/docs/#installation).
+This project uses [uv](https://docs.astral.sh/uv/) for packaging.
+Install instructions are available at [uv#installation](https://docs.astral.sh/uv/getting-started/installation/).
+The `justfile` needs [just](https://github.com/casey/just); without it, use
+`uv run pqcli` and `uv run pytest`.
 
 ## Troubleshooting
 
