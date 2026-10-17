@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/rr-/pq-cli/compare/1.0.4...main) - ××××-××-××
+## [Unreleased](https://github.com/rr-/pq-cli/compare/1.1.0...main) - ××××-××-××
+
+## [1.1.0](https://github.com/rr-/pq-cli/compare/1.0.4...1.1.0) - 2026-10-17
 
 **Gameplay**
 - Changed the game mechanics to match the current web version of Progress Quest, which pqcli now plays exactly like, random rolls included (#21):
