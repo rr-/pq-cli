@@ -2,6 +2,18 @@
 
 ## [Unreleased](https://github.com/rr-/pq-cli/compare/1.1.0...main) - ××××-××-××
 
+**Interface**
+- Improved the curses interface to react to keys at once, and to stop waking up ten times a second while in menus
+- Fixed `--load-save 0` opening the menu and negative numbers playing characters counted from the end of the roster
+
+**Installation**
+- Removed the unused urwid and urwid-readline dependencies
+
+**Development**
+- Added tests for both interfaces, the roster and the command line
+- Added continuous integration on GitHub Actions, running the hooks and the tests on Python 3.10 to 3.14
+- Changed the tests to run in parallel
+
 ## [1.1.0](https://github.com/rr-/pq-cli/compare/1.0.4...1.1.0) - 2026-10-17
 
 **Gameplay**
