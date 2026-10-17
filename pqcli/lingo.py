@@ -79,6 +79,43 @@ def to_roman(num: int) -> str:
     return ret
 
 
+def to_arabic(roman: str) -> int:
+    num = 0
+    rest = roman.upper()
+
+    def _arab(ds: str, dn: int) -> bool:
+        nonlocal num, rest
+        if not rest.startswith(ds):
+            return False
+        rest = rest[len(ds) :]
+        num += dn
+        return True
+
+    while _arab("T", 10000):
+        pass
+    _arab("MT", 9000)
+    _arab("A", 5000)
+    _arab("MA", 4000)
+    while _arab("M", 1000):
+        pass
+    _arab("CM", 900)
+    _arab("D", 500)
+    _arab("CD", 400)
+    while _arab("C", 100):
+        pass
+    _arab("XC", 90)
+    _arab("L", 50)
+    _arab("XL", 40)
+    while _arab("X", 10):
+        pass
+    _arab("IX", 9)
+    _arab("V", 5)
+    _arab("IV", 4)
+    while _arab("I", 1):
+        pass
+    return num
+
+
 def act_name(act: int) -> str:
     if act == 0:
         return "Prologue"

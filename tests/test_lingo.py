@@ -1,4 +1,4 @@
-from pqcli.lingo import indefinite, to_roman
+from pqcli.lingo import indefinite, to_arabic, to_roman
 
 
 def test_indefinite_article() -> None:
@@ -19,3 +19,10 @@ def test_to_roman() -> None:
     assert to_roman(9000) == "MT"
     assert to_roman(14999) == "TMACMXCIX"
     assert to_roman(23456) == "TTMMMCDLVI"
+
+
+def test_to_arabic_inverts_to_roman() -> None:
+    for num in [*range(1, 5000), 9000, 9999, 14999, 23456]:
+        assert to_arabic(to_roman(num)) == num
+    assert to_arabic("N") == 0
+    assert to_arabic("iv") == 4
