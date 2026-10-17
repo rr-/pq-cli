@@ -59,8 +59,9 @@ class SignalMixin:
 
 
 def level_up_time(level: int) -> int:
-    # seconds
-    return 20 * level * 60
+    # seconds: 20 minutes for level 1, exponential increase after that.
+    # floor(x + 0.5) mirrors JS Math.round, unlike Python's round().
+    return math.floor((20 + 1.15**level) * 60 + 0.5)
 
 
 class Bar(SignalMixin):

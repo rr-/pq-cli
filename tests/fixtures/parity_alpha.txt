@@ -336,7 +336,7 @@ task: Executing an underage Quasit
 task: Executing a baby Owlbear
 task: Executing a Dervish
 task: Executing a Brown Elf
-task: Executing a greater Gnome
+task: Executing a Billy Goat
 task: Heading to market to sell loot
 task: Selling a stun worm trode
 task: Selling a bunny ear
@@ -359,18 +359,22 @@ task: Selling a quasit tail
 task: Selling an owlbear feather
 task: Selling a dervish robe
 task: Selling a brown elf tusk
-task: Selling a gnome hat
+task: Selling a billy goat beard
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a greater Cub Scout
-task: Executing a teenage Peryton
-task: Executing an undernourished Multicell
-task: Executing an undernourished Ogre
-task: Executing a Hippogriff
-task: Executing a Battle-Stirge
-task: Executing a greater Beagle
-task: Executing Mrs. Liexdrok the Panda Man
-task: Executing an undernourished Eel
+task: Executing a greater Wasp
+task: Executing a passing Battle-Finch Mage Illusioner
+task: Executing a Swamp Elf
+task: Executing a Cub Scout
+task: Executing an underage Imp
+task: Executing an underage Imp
+task: Executing an underage Homunculus
+task: Executing a Hobgoblin
+task: Executing a Mermaid
+task: Executing an underage Stun Worm
+task: Executing a Battle-Hobgoblin
+task: Executing a teenage Iron Peasant
+task: Executing a greater Green Slime
 task: Executing a greater Billy Goat
 task: Executing an Octopus
 task: Executing a cursed Imp
@@ -381,126 +385,122 @@ task: Executing an undernourished Wolog
 task: Executing an undernourished Violet Fungi
 task: Executing a Battle-Midge
 task: Executing a massive Midge
-task: Executing a veteran Sea Elf
-task: Executing an underage Dryad
-task: Executing a Man-o-war
 task: Heading to market to sell loot
+task: Selling a wasp stinger
+task: Selling a Crafted Vulpeculum of Worry
+task: Selling a swamp elf lilypad
 task: Selling a cub scout neckerchief
-task: Selling a peryton antler
-task: Selling a multicell dendrite
-task: Selling an ogre talon
-task: Selling 2 hippogriff eggs
-task: Selling a stirge proboscis
-task: Selling a beagle collar
-task: Selling a Puissant Amethyst of Chaos
-task: Selling an eel sashimi
+task: Selling 3 imp tails
+task: Selling a homunculus fluid
+task: Selling 2 hobgoblin patellas
+task: Selling a mermaid gills
+task: Selling a stun worm trode
+task: Selling an iron peasant chaff
+task: Selling a green slime sample
 task: Selling a billy goat beard
 task: Selling an octopus beak
-task: Selling an imp tail
+task: Selling a hippogriff egg
 task: Selling a zombie forehead
 task: Selling an eagle scout merit badge
 task: Selling a wolog lemma
 task: Selling a violet fungi spore
 task: Selling 2 midge corpses
-task: Selling a sea elf jerkin
-task: Selling a dryad acorn
-task: Selling a man-o-war tentacle
+task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing an undernourished Nymph
+task: Executing an undernourished Koala
+task: Executing an Imp
+task: Executing an undernourished Ghoul
 task: Executing a Troglodyte
 task: Executing a Green Slime
 task: Executing a Wight
 task: Executing a Troglodyte
 task: Executing a greater Harpy
-task: Executing a passing Hob-Hobbit Birdrider
-task: Executing a cursed Imp
-task: Executing an Iron Peasant
-task: Executing a dead underage Umber Hulk
-task: Executing a Battle-Bat
-task: Executing a Girl Scout
-task: Executing an undernourished Sylph
-task: Executing a Caveman
-task: Executing a greater Hobgoblin
-task: Executing a veteran Grid Bug
+task: Executing a Ghoul
+task: Executing a Battle-Manes
+task: Executing an underage Koala
+task: Executing an Imp
+task: Executing an undernourished Boy Scout
+task: Executing an undernourished Unicorn
+task: Executing a Goblin
+task: Executing a teenage Owlbear
+task: Executing a greater Sprite
+task: Executing a Whippet
 task: Executing a massive Frog
 task: Executing a Battle-Orc
 task: Executing a teenage Wight
 task: Executing an undernourished Hogbird
 task: Executing a sick Unicorn
-task: Executing a cursed Swamp Elf
 task: Heading to market to sell loot
-task: Selling a nymph hanky
+task: Selling 2 koala hearts
+task: Selling 2 imp tails
+task: Selling 2 ghoul muscles
 task: Selling 2 troglodyte tails
 task: Selling a green slime sample
 task: Selling 2 wight lungs
 task: Selling a harpy mascara
-task: Selling a Blessed Hood of Envy
-task: Selling an imp tail
-task: Selling an iron peasant chaff
-task: Selling an umber hulk claw
-task: Selling a bat wing
-task: Selling a girl scout cookie
-task: Selling a sylph thigh
-task: Selling a caveman club
-task: Selling a hobgoblin patella
-task: Selling a grid bug carapace
+task: Selling a manes tooth
+task: Selling a boy scout merit badge
+task: Selling 2 unicorn bloods
+task: Selling a goblin ear
+task: Selling an owlbear feather
+task: Selling a sprite can
+task: Selling a whippet collar
 task: Selling a frog leg
 task: Selling an orc snout
 task: Selling a hogbird curl
-task: Selling an unicorn blood
-task: Selling a swamp elf lilypad
-task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a Multicell
-task: Executing a Boogie
-task: Executing an undernourished Imp
-task: Executing Mr. Xavgrum the Gyrognome
-task: Executing a sick Sylph
-task: Executing an underage Harpy
-task: Executing a crippled Ape
-task: Executing an undernourished Owlbear
-task: Executing a Billy Goat
-task: Executing an underage Gelatinous Cube
+task: Executing a cursed Swamp Elf
+task: Executing a Skeleton
+task: Executing an underage Multicell
 task: Executing an Eel
-task: Executing a Sea Elf
-task: Executing a greater Gray Ooze
-task: Executing a Sea Elf
-task: Executing a Merman
-task: Executing a greater Sea Elf
-task: Executing a Green Slime
-task: Executing a greater Imp
-task: Executing a cursed Uruk
-task: Executing a Zombie
-task: Executing a foetal Hydra
-task: Executing a Jumpskin
+task: Executing an Imp
+task: Executing a Battle-Koala
+task: Executing a Wolf
+task: Executing a Boy Scout
+task: Executing a Harpy
+task: Executing an undernourished Iron Peasant
+task: Executing Sgt. Zepouk the Low Elf
+task: Executing a greater Billy Goat
+task: Executing an enormous Fly
+task: Executing an Iron Peasant
+task: Executing a Koala
+task: Executing a Gray Ooze
+task: Executing an undernourished Bugboar
+task: Executing Chief Whedwhuck the Half Man
+task: Executing a teenage Owlbear
+task: Executing a veteran Girl Scout
+task: Executing a Lemure
+task: Executing Ms. Jounfrun the Low Elf
+task: Executing a dead Balor
 task: Heading to market to sell loot
+task: Selling a swamp elf lilypad
+task: Selling a skeleton clavicle
 task: Selling a multicell dendrite
-task: Selling a boogie slime
-task: Selling 2 imp tails
-task: Selling a Fearsome Hymnal of Patience
-task: Selling a sylph thigh
-task: Selling a harpy mascara
-task: Selling an ape ass
-task: Selling an owlbear feather
-task: Selling a billy goat beard
-task: Selling a gelatinous cube jam
 task: Selling an eel sashimi
-task: Selling 3 sea elf jerkins
+task: Selling an imp tail
+task: Selling 2 koala hearts
+task: Selling a wolf paw
+task: Selling a boy scout merit badge
+task: Selling a harpy mascara
+task: Selling 2 iron peasant chafves
+task: Selling a Precious Hymnal of Extroversion
+task: Selling a billy goat beard
+task: Selling a Reverential Vulpeculum of Efficiency
 task: Selling a gray ooze gravy
-task: Selling a merman trident
-task: Selling a green slime sample
-task: Selling an uruk boot
-task: Selling a zombie forehead
-task: Selling a hydra gyrum
-task: Selling a jumpskin shin
+task: Selling a bugboar tusk
+task: Selling a Deadly Candelabra of Prurience
+task: Selling an owlbear feather
+task: Selling a girl scout cookie
+task: Selling a lemure blob
+task: Selling a Puissant Fleece of Internment
+task: Selling a balor whip
+task: Negotiating purchase of better equipment
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a greater Yellow Mold
-task: Executing a Battle-Midge
-task: Executing a Battle-Kobold
-task: Executing a greater Yellow Mold
+task: Executing an underage Gray Ooze
+task: Executing a Sea Elf
 task: Executing a Wolf
-task: Executing an underage Blink Dog
+task: Executing an underage Quasit
 task: Executing a Troglodyte
 task: Executing a greater Girl Scout
 task: Executing a Boy Scout
@@ -517,28 +517,32 @@ task: Executing an Octopus
 task: Executing a Nebbish
 task: Executing a Battle-Eel
 task: Executing a Gnome
+task: Executing a Shadow
+task: Executing an Uruk
+task: Executing an Uruk
 task: Heading to market to sell loot
-task: Selling 3 yellow mold spores
-task: Selling a midge corpse
-task: Selling 2 kobold penises
+task: Selling a gray ooze gravy
+task: Selling a sea elf jerkin
 task: Selling 3 wolf paws
-task: Selling a blink dog eyelid
+task: Selling a quasit tail
 task: Selling a troglodyte tail
 task: Selling a girl scout cookie
 task: Selling a boy scout merit badge
 task: Selling a spider web
 task: Selling a Dual Bijou of Torpor
 task: Selling a stirge proboscis
+task: Selling a kobold penis
 task: Selling a nixie webbing
 task: Selling a carrion crawler egg
+task: Selling a yellow mold spore
 task: Selling an octopus beak
 task: Selling a nebbish belly
 task: Selling an eel sashimi
 task: Selling a gnome hat
+task: Selling a shadow silhouette
+task: Selling 2 uruk boots
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a Battle-Uruk
-task: Executing Captain Yikyaek the Gyrognome
 task: Executing a Mermaid
 task: Executing a Girl Scout
 task: Executing a Man-o-war
@@ -559,9 +563,10 @@ task: Executing a Green Slime
 task: Executing a teenage Malebranche
 task: Executing a Hobgoblin
 task: Executing a greater Merman
+task: Executing an underage Imp
+task: Executing a Rat
+task: Executing a Whippet
 task: Heading to market to sell loot
-task: Selling an uruk boot
-task: Selling an Unearthly Scabbard of Submission
 task: Selling a mermaid gills
 task: Selling a girl scout cookie
 task: Selling a man-o-war tentacle
@@ -578,105 +583,109 @@ task: Selling a rot grub eggsac
 task: Selling a green slime sample
 task: Selling a malebranche fork
 task: Selling a merman trident
+task: Selling an imp tail
+task: Selling a rat tail
+task: Selling a whippet collar
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a Yellow Mold
-task: Executing a Mermaid
-task: Executing a Sprite
-task: Executing a Leprechaun
-task: Executing a Hogbird
-task: Executing a Rot Grub
-task: Executing a Hobgoblin
-task: Executing a Battle-Leprechaun
-task: Executing a Wolog
+task: Executing a Piercer
+task: Executing a greater Spider
+task: Executing an undernourished Poroid
+task: Executing a teenage Piercer
+task: Executing a passing Hob-Hobbit Slow Poisoner
+task: Executing an underage Nymph
+task: Executing a Troglodyte
+task: Executing an Iron Peasant
 task: Executing a Merman
-task: Executing an underage Green Slime
-task: Executing an underage Imp
-task: Executing a massive Manes
-task: Executing a Jumpskin
+task: Executing an underage Shrieker
+task: Executing an Imp
+task: Executing a Manes
+task: Executing a Bugbear
+task: Executing an undernourished Jumpskin
 task: Executing a greater Centipede
 task: Executing an undernourished Man-o-war
-task: Executing a teenage Harpy
+task: Executing a Gnome
 task: Executing a passing Double Hobbit Vermineer
-task: Executing a Carrion Crawler
+task: Executing a cursed Rat
+task: Executing an Ostrich
 task: Executing a Wolf
-task: Executing a Boy Scout
-task: Executing an underage Sylph
+task: Executing an undernourished Gray Ooze
+task: Executing a Brown Elf
 task: Heading to market to sell loot
-task: Selling a yellow mold spore
-task: Selling a mermaid gills
-task: Selling a sprite can
-task: Selling 2 leprechaun wallets
-task: Selling a hogbird curl
-task: Selling a rot grub eggsac
-task: Selling a hobgoblin patella
-task: Selling a wolog lemma
+task: Selling 2 piercer tips
+task: Selling a spider web
+task: Selling a poroid node
+task: Selling an One True Galoon of Sisu
+task: Selling a nymph hanky
+task: Selling a troglodyte tail
+task: Selling an iron peasant chaff
 task: Selling a merman trident
-task: Selling a green slime sample
+task: Selling a shrieker stalk
 task: Selling an imp tail
 task: Selling a manes tooth
+task: Selling a bugbear skin
 task: Selling a jumpskin shin
 task: Selling a centipede leg
 task: Selling a man-o-war tentacle
-task: Selling a harpy mascara
-task: Selling a Puissant Sceptre of Comfort
-task: Selling a carrion crawler egg
-task: Selling a wolf paw
-task: Selling a boy scout merit badge
-task: Selling a sylph thigh
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Bat
-task: Executing a massive Green Slime
-task: Executing a Green Slime
-task: Executing an underage Hippogriff
-task: Executing an undernourished Violet Fungi
-task: Executing a greater Rot Grub
-task: Executing a Green Slime
-task: Executing a greater Green Slime
-task: Executing an Octopus
-task: Executing an undernourished Mini Giant
-task: Executing a greater Lizard Man
-task: Executing an underage Peryton
-task: Executing a Stun Worm
-task: Executing a sick Gargoyle
-task: Executing an undernourished Hippogriff
-task: Executing Saint Predcroup the Lesser Dwarf
-task: Executing an Eel
-task: Executing a Boy Scout
-task: Executing a baby Leucrotta
-task: Executing an undernourished Piercer
-task: Executing an Orc
-task: Executing an Ostrich
-task: Heading to market to sell loot
-task: Selling a bat wing
-task: Selling 4 green slime samples
-task: Selling 2 hippogriff eggs
-task: Selling a violet fungi spore
-task: Selling a rot grub eggsac
-task: Selling an octopus beak
-task: Selling a mini giant pompadour
-task: Selling a lizard man tail
-task: Selling a peryton antler
-task: Selling a stun worm trode
-task: Selling a gargoyle gravel
-task: Selling an One True Ankh of Nervousness
-task: Selling an eel sashimi
-task: Selling a boy scout merit badge
-task: Selling a leucrotta hoof
-task: Selling a piercer tip
-task: Selling an orc snout
+task: Selling a gnome hat
+task: Selling a Fearsome Festoon of Silence
+task: Selling a rat tail
 task: Selling an ostrich beak
+task: Selling a wolf paw
+task: Selling a gray ooze gravy
+task: Selling a brown elf tusk
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing an undernourished Violet Fungi
-task: Executing an underage Iron Peasant
+task: Executing an undernourished Carrion Crawler
+task: Executing a Hippogriff
+task: Executing a Violet Fungi
 task: Executing an undernourished Poroid
-task: Executing a Harpy
-task: Executing an undernourished Caveman
-task: Executing a sick Man-o-war
-task: Executing an underage Doppelganger
-task: Executing a Triton
+task: Executing a Green Slime
+task: Executing an Orc
+task: Executing an Octopus
+task: Executing an underage Peryton
+task: Executing Mr. Protmoob the Panda Man
+task: Executing a passing Will o' the Wisp Hunter Strangler
+task: Executing a Pirate
+task: Executing an Octopus
+task: Executing an Eel
+task: Executing an undernourished Eel
+task: Executing a Ghoul
+task: Executing a Battle-Eel
+task: Executing a Hobgoblin
+task: Executing an underage Caveman
+task: Executing a greater Brown Elf
+task: Executing a sick Ghast
+task: Executing a sick Hippogriff
+task: Executing a greater Fly
+task: Executing a teenage Violet Fungi
+task: Heading to market to sell loot
+task: Selling a carrion crawler egg
+task: Selling 2 hippogriff eggs
+task: Selling 2 violet fungi spores
+task: Selling a poroid node
+task: Selling a green slime sample
+task: Selling an orc snout
+task: Selling 2 octopus beaks
+task: Selling a peryton antler
+task: Selling a Grandiose Corset of Domination
+task: Selling a Reverential Gimlet of Prurience
+task: Selling a pirate booty
+task: Selling 3 eel sashimis
+task: Selling a ghoul muscle
+task: Selling a hobgoblin patella
+task: Selling a caveman club
+task: Selling a brown elf tusk
+task: Selling a ghast vomit
+task: Selling a Grandiose Orb of Hunger
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an undernourished Harpy
+task: Executing a Multicell
+task: Executing a Merman
+task: Executing Captain Vietyaep the Half Man
+task: Executing a Rat
+task: Executing a Camel
 task: Executing a Bat
 task: Executing an Uruk
 task: Executing a Hogbird
@@ -691,15 +700,16 @@ task: Executing an undernourished Dryad
 task: Executing a Stun Worm
 task: Executing an Uruk
 task: Executing a Were-Midge
+task: Executing a Battle-Koala
+task: Executing a Multicell
+task: Executing a massive Centipede
 task: Heading to market to sell loot
-task: Selling a violet fungi spore
-task: Selling an iron peasant chaff
-task: Selling a poroid node
 task: Selling a harpy mascara
-task: Selling a caveman club
-task: Selling a man-o-war tentacle
-task: Selling a doppelganger face
-task: Selling a triton scale
+task: Selling 2 multicell dendrites
+task: Selling a merman trident
+task: Selling a Golden Galoon of Cruelty
+task: Selling a rat tail
+task: Selling a camel hump
 task: Selling a bat wing
 task: Selling 2 uruk boots
 task: Selling a hogbird curl
@@ -713,11 +723,10 @@ task: Selling a wolog lemma
 task: Selling a dryad acorn
 task: Selling a stun worm trode
 task: Selling a midge corpse
+task: Selling a koala heart
+task: Selling a centipede leg
+task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a Sea Elf
-task: Executing a sick Gelatinous Cube
-task: Executing a Battle-Dwarf
-task: Executing a Boogie
 task: Executing a Battle-Merman
 task: Executing a Merman
 task: Executing an underage Gray Ooze
@@ -736,11 +745,12 @@ task: Executing a Yellow Mold
 task: Executing a Sylph
 task: Executing a Battle-Rat
 task: Executing an undernourished Caveman
+task: Executing a greater Rot Grub
+task: Executing an underage Octopus
+task: Executing a Battle-Stirge
+task: Executing a comatose Su-monster
+task: Executing a Battle-Ostrich
 task: Heading to market to sell loot
-task: Selling a sea elf jerkin
-task: Selling a gelatinous cube jam
-task: Selling a dwarf drawers
-task: Selling a boogie slime
 task: Selling 2 merman tridents
 task: Selling a gray ooze gravy
 task: Selling a lizard man tail
@@ -758,766 +768,748 @@ task: Selling a yellow mold spore
 task: Selling a sylph thigh
 task: Selling a rat tail
 task: Selling a caveman club
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Berserker
-task: Executing a Battle-Stirge
-task: Executing a comatose Su-monster
-task: Executing a Battle-Ostrich
-task: Executing a Triton
-task: Executing a Camel
-task: Executing a Merman
-task: Executing a Battle-Eel
-task: Executing an undernourished Wolog
-task: Executing an undernourished Sea Hag
-task: Executing a Homunculus
-task: Executing an undernourished Boy Scout
-task: Executing a Ghoul
-task: Executing a Sea Elf
-task: Executing an underage Sylph
-task: Executing a Cub Scout
-task: Executing a Dwarf
-task: Executing a Shrieker
-task: Executing a massive Dwarf
-task: Executing a Multicell
-task: Executing a Stun Worm
-task: Executing a greater Orc
-task: Heading to market to sell loot
-task: Selling a berserker shirt
+task: Selling a rot grub eggsac
+task: Selling an octopus beak
 task: Selling a stirge proboscis
 task: Selling a su-monster tail
 task: Selling an ostrich beak
-task: Selling a triton scale
-task: Selling a camel hump
-task: Selling a merman trident
-task: Selling an eel sashimi
-task: Selling a wolog lemma
-task: Selling a sea hag wart
-task: Selling a homunculus fluid
-task: Selling a boy scout merit badge
-task: Selling a ghoul muscle
-task: Selling a sea elf jerkin
-task: Selling a sylph thigh
-task: Selling a cub scout neckerchief
-task: Selling 2 dwarf drawerses
-task: Selling a shrieker stalk
-task: Selling a multicell dendrite
-task: Selling a stun worm trode
-task: Selling an orc snout
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
+task: Executing a Battle-Moth
+task: Executing a Mermaid
+task: Executing a greater Homunculus
+task: Executing a Battle-Leprechaun
+task: Executing a Battle-Homunculus
+task: Executing a Boy Scout
+task: Executing a Ghoul
+task: Executing a passing Double Hobbit Battle-Felon
 task: Executing a Jumpskin
-task: Executing a Gnome
-task: Executing a Gelatinous Cube
-task: Executing an undernourished Shadow
-task: Executing an underage Hogbird
-task: Executing a Skeleton
-task: Executing a teenage Sea Hag
-task: Executing a greater Gnoll
-task: Executing an underage Zombie
-task: Executing a Koala
-task: Executing a Swamp Elf
-task: Executing a Camel
-task: Executing a sick Triton
-task: Executing a greater Skeleton
-task: Executing a Battle-Nixie
-task: Executing Ms. Shemwhaz the Enchanted Motorcycle
-task: Executing a sick Doppelganger
-task: Executing a Gnome
-task: Executing a sick Harpy
-task: Executing a Girl Scout
-task: Executing a veteran Violet Fungi
-task: Executing an Orc
+task: Executing a Cub Scout
+task: Executing a greater Dwarf
+task: Executing an Octopus
+task: Executing a Battle-Hobgoblin
+task: Executing an underage Doppelganger
+task: Executing a teenage Malebranche
+task: Executing a passing Hob-Hobbit Shiv-Knight
+task: Executing a sick Wraith
+task: Executing a Dryad
+task: Executing a Mini Giant
+task: Executing a Green Slime
+task: Executing a Gnoll
+task: Executing an undernourished Zombie
+task: Executing an undernourished Mummy
 task: Heading to market to sell loot
+task: Selling a moth dust
+task: Selling a mermaid gills
+task: Selling 2 homunculus fluids
+task: Selling a leprechaun wallet
+task: Selling a boy scout merit badge
+task: Selling a ghoul muscle
+task: Selling a Gleaming Sceptre of Solitude
 task: Selling a jumpskin shin
-task: Selling 2 gnome hats
-task: Selling a gelatinous cube jam
-task: Selling a shadow silhouette
-task: Selling a hogbird curl
-task: Selling 2 skeleton clavicles
-task: Selling a sea hag wart
+task: Selling a cub scout neckerchief
+task: Selling a dwarf drawers
+task: Selling an octopus beak
+task: Selling a hobgoblin patella
+task: Selling a doppelganger face
+task: Selling a malebranche fork
+task: Selling an Enchanted Amethyst of Incarceration
+task: Selling a wraith finger
+task: Selling a dryad acorn
+task: Selling a mini giant pompadour
+task: Selling a green slime sample
 task: Selling a gnoll collar
 task: Selling a zombie forehead
-task: Selling a koala heart
-task: Selling a swamp elf lilypad
-task: Selling a camel hump
+task: Selling a mummy gauze
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an undernourished Triton
+task: Executing a Nixie
+task: Executing Ms. Shemwhaz the Enchanted Motorcycle
+task: Executing a teenage Minotaur
+task: Executing a Green Slime
+task: Executing an undernourished Wight
+task: Executing a veteran Violet Fungi
+task: Executing a Battle-Orc
+task: Executing a sick Minotaur
+task: Executing a greater Homunculus
+task: Executing an undernourished Hogbird
+task: Executing an Uruk
+task: Executing a Mini Giant
+task: Executing a veteran Sea Elf
+task: Executing a Violet Fungi
+task: Executing an underage Homunculus
+task: Executing a teenage Blink Dog
+task: Executing a massive Yellow Mold
+task: Executing a greater Multicell
+task: Executing a Jumpskin
+task: Executing a Mini Giant
+task: Executing a veteran Gray Ooze
+task: Executing a Battle-Troglodyte
+task: Heading to market to sell loot
 task: Selling a triton scale
 task: Selling a nixie webbing
 task: Selling a Precious Vulpeculum of Rapidity
-task: Selling a doppelganger face
-task: Selling a harpy mascara
-task: Selling a girl scout cookie
-task: Selling a violet fungi spore
-task: Selling an orc snout
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Homunculus
-task: Executing an Imp
-task: Executing a Battle-Ghoul
-task: Executing an underage Green Slime
-task: Executing a passing Panda Man Mage Illusioner
-task: Executing a passing Demicanadian Vermineer
-task: Executing a Bat
-task: Executing a Battle-Homunculus
-task: Executing a teenage Blink Dog
-task: Executing a massive Yellow Mold
-task: Executing a Jumpskin
-task: Executing an undernourished Ape
-task: Executing an undernourished Gray Ooze
-task: Executing an underage Jumpskin
-task: Executing a Billy Goat
-task: Executing an underage Troglodyte
-task: Executing a baby Plaid Dragon
-task: Executing an Imp
-task: Executing a Caveman
-task: Executing a Battle-Eel
-task: Executing a Gnome
-task: Executing a Man-o-war
-task: Heading to market to sell loot
-task: Selling 2 homunculus fluids
-task: Selling 2 imp tails
-task: Selling a ghoul muscle
+task: Selling 2 minotaur maps
 task: Selling a green slime sample
-task: Selling an Ormolu Bijou of Solitude
-task: Selling a Fearsome Vulpeculum of Comfort
-task: Selling a bat wing
+task: Selling a wight lung
+task: Selling 2 violet fungi spores
+task: Selling an orc snout
+task: Selling 2 homunculus fluids
+task: Selling a hogbird curl
+task: Selling an uruk boot
+task: Selling 2 mini giant pompadours
+task: Selling a sea elf jerkin
 task: Selling a blink dog eyelid
 task: Selling a yellow mold spore
-task: Selling 2 jumpskin shins
-task: Selling an ape ass
+task: Selling a multicell dendrite
+task: Selling a jumpskin shin
 task: Selling a gray ooze gravy
-task: Selling a billy goat beard
 task: Selling a troglodyte tail
-task: Selling a plaid dragon sporrin
-task: Selling a caveman club
-task: Selling an eel sashimi
-task: Selling a gnome hat
-task: Selling a man-o-war tentacle
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing an undernourished Silkie
-task: Executing an underage Su-monster
+task: Executing a Carrion Crawler
+task: Executing a Battle-Eel
+task: Executing a greater Gnome
+task: Executing a Battle-Man-o-war
+task: Executing a Green Slime
 task: Executing a Stun Worm
-task: Executing a Leprechaun
-task: Executing a Battle-Dryad
-task: Executing a greater Merman
-task: Executing an undernourished Gargoyle
-task: Executing a Dervish
-task: Executing a Skeleton
+task: Executing a passing Gyrognome Bastard Lunatic
+task: Executing a cursed Manes
+task: Executing a Battle-Triton
+task: Executing a Were-Dryad
+task: Executing a Battle-Merman
+task: Executing a greater Gargoyle
+task: Executing a Battle-Dervish
+task: Executing an Ape
 task: Executing a Battle-Camel
-task: Executing a veteran Gray Ooze
-task: Executing a greater Kobold
-task: Executing a veteran Stun Worm
+task: Executing a greater Gray Ooze
+task: Executing a greater Nixie
 task: Executing a massive Wasp
-task: Executing a greater Orc
-task: Executing an undernourished Stun Worm
-task: Executing a comatose Troll
-task: Executing a Triton
-task: Executing a sick baby Hydra
+task: Executing a Jumpskin
+task: Executing a Silkie
+task: Executing Mr. Jubmag the Panda Man
+task: Executing a greater Camel
 task: Executing an Eel
-task: Executing a sick Doppelganger
-task: Executing an underage Malebranche
 task: Heading to market to sell loot
-task: Selling a silkie fur
-task: Selling a su-monster tail
-task: Selling 3 stun worm trodes
-task: Selling a leprechaun wallet
+task: Selling a carrion crawler egg
+task: Selling 2 eel sashimis
+task: Selling a gnome hat
+task: Selling a man-o-war tentacle
+task: Selling a green slime sample
+task: Selling a stun worm trode
+task: Selling a Fearsome Brazier of the Bone
+task: Selling a manes tooth
+task: Selling a triton scale
 task: Selling a dryad acorn
 task: Selling a merman trident
 task: Selling a gargoyle gravel
 task: Selling a dervish robe
-task: Selling a skeleton clavicle
-task: Selling a camel hump
-task: Selling a gray ooze gravy
-task: Selling a kobold penis
-task: Selling a wasp stinger
-task: Selling an orc snout
-task: Selling a troll hide
-task: Selling a triton scale
-task: Selling a hydra gyrum
-task: Selling an eel sashimi
-task: Selling a doppelganger face
-task: Selling a malebranche fork
-task: Heading to the killing fields
-task: Executing a Caveman
-task: Executing a teenage Mini Giant
-task: Executing an Orc
-task: Executing a Nebbish
-task: Executing a preadolescent Plaid Dragon
-task: Executing an underage Boogie
-task: Executing a Sea Elf
-task: Executing a baby Leucrotta
-task: Executing an undernourished Koala
-task: Executing a greater Billy Goat
-task: Executing an underage Dryad
-task: Executing a Ghoul
-task: Executing an undernourished Carrion Crawler
-task: Executing a Manes
-task: Executing a Carrion Crawler
-task: Executing a Pixie
-task: Executing a passing Hob-Hobbit Runeloremaster
-task: Executing an Octopus
-task: Executing a greater Skeleton
-task: Executing a Goblin
-task: Executing a Brown Elf
-task: Heading to market to sell loot
-task: Selling a Legendary Laurel of Ra
-task: Selling a caveman club
-task: Selling a mini giant pompadour
-task: Selling an orc snout
-task: Selling a nebbish belly
-task: Selling a plaid dragon sporrin
-task: Selling a boogie slime
-task: Selling a sea elf jerkin
-task: Selling a leucrotta hoof
-task: Selling a koala heart
-task: Selling a billy goat beard
-task: Selling a dryad acorn
-task: Selling a ghoul muscle
-task: Selling 2 carrion crawler eggs
-task: Selling a manes tooth
-task: Selling a pixie dust
-task: Selling a Lucky Amethyst of Petulance
-task: Selling an octopus beak
-task: Selling a skeleton clavicle
-task: Selling a goblin ear
-task: Selling a brown elf tusk
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing an underage Hippogriff
-task: Executing Captain Krinjiet the Half Orc
-task: Executing a Lemure
-task: Executing a Doppelganger
-task: Executing a Battle-Pirate
-task: Executing a Nymph
-task: Executing a Kobold
-task: Executing a Berserker
-task: Executing a Silkie
-task: Executing a Manes
-task: Executing a cursed Rat
-task: Executing a Girl Scout
-task: Executing a greater Merman
-task: Executing an underage Gnoll
-task: Executing an underage Sea Hag
-task: Executing a Sylph
-task: Executing a Harpy
-task: Executing a veteran Cub Scout
-task: Executing a Cub Scout
-task: Executing a Dwarf
-task: Executing a preadolescent Hippocampus
-task: Executing a cursed Goblin
-task: Heading to market to sell loot
-task: Selling a hippogriff egg
-task: Selling a Sacred Galoon of Worry
-task: Selling a lemure blob
-task: Selling a doppelganger face
-task: Selling a pirate booty
-task: Selling a nymph hanky
-task: Selling a kobold penis
-task: Selling a berserker shirt
-task: Selling a silkie fur
-task: Selling a manes tooth
-task: Selling a rat tail
-task: Selling a girl scout cookie
-task: Selling a merman trident
-task: Selling a gnoll collar
-task: Selling a sea hag wart
-task: Selling a sylph thigh
-task: Selling a harpy mascara
-task: Selling 2 cub scout neckerchieves
-task: Selling a dwarf drawers
-task: Selling a hippocampus mane
-task: Selling a goblin ear
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing an Eel
-task: Executing a sick Nymph
-task: Executing an undernourished Camel
-task: Executing an underage Octopus
-task: Executing an undernourished Sea Hag
-task: Executing a Koala
-task: Executing a Brown Elf
-task: Executing an Uruk
-task: Executing a greater Whippet
-task: Executing an undernourished Lemure
-task: Executing a Gnoll
-task: Executing a Battle-Nixie
-task: Executing a Hippogriff
-task: Executing a cursed Spider
-task: Executing a sick Ogre
-task: Executing an undernourished Sylph
-task: Executing a Dwarf
-task: Executing an undernourished Sea Hag
-task: Executing a greater Eel
-task: Executing a greater Pirate
-task: Executing an underage Wolog
-task: Executing a Manes
-task: Heading to market to sell loot
-task: Selling 2 eel sashimis
-task: Selling a nymph hanky
-task: Selling a camel hump
-task: Selling an octopus beak
-task: Selling 2 sea hag warts
-task: Selling a koala heart
-task: Selling a brown elf tusk
-task: Selling an uruk boot
-task: Selling a whippet collar
-task: Selling a lemure blob
-task: Selling a gnoll collar
-task: Selling a nixie webbing
-task: Selling a hippogriff egg
-task: Selling a spider web
-task: Selling an ogre talon
-task: Selling a sylph thigh
-task: Selling a dwarf drawers
-task: Selling a pirate booty
-task: Selling a wolog lemma
-task: Selling a manes tooth
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Sylph
-task: Executing a veteran Brown Elf
-task: Executing a greater Grid Bug
-task: Executing an underage Shrieker
-task: Executing a veteran Swamp Elf
-task: Executing a greater Nixie
-task: Executing a Girl Scout
-task: Executing a Stun Worm
-task: Executing a greater Fly
-task: Executing a Zombie
-task: Executing a sick Gargoyle
-task: Executing an Orc
-task: Executing an Eel
-task: Executing an underage Lizard Man
-task: Executing a Man-o-war
-task: Executing a Nixie
-task: Executing a teenage Ghast
-task: Executing a Rot Grub
-task: Executing a comatose Stun Bear
-task: Executing an undernourished Mini Giant
-task: Executing a Green Slime
-task: Executing an undernourished Violet Fungi
-task: Heading to market to sell loot
-task: Selling a sylph thigh
-task: Selling a brown elf tusk
-task: Selling a grid bug carapace
-task: Selling a shrieker stalk
-task: Selling a swamp elf lilypad
-task: Selling 2 nixie webbings
-task: Selling a girl scout cookie
-task: Selling a stun worm trode
-task: Selling a Gleaming Ankh of Envy
-task: Selling a zombie forehead
-task: Selling a gargoyle gravel
-task: Selling an orc snout
-task: Selling an eel sashimi
-task: Selling a lizard man tail
-task: Selling a man-o-war tentacle
-task: Selling a ghast vomit
-task: Selling a rot grub eggsac
-task: Selling a stun bear tooth
-task: Selling a mini giant pompadour
-task: Selling a green slime sample
-task: Selling a violet fungi spore
-task: Heading to the killing fields
-task: Executing a sick Hippogriff
-task: Executing a teenage Hippogriff
-task: Executing a Whippet
-task: Executing a Centaur
-task: Executing a greater Triton
-task: Executing a veteran Cub Scout
-task: Executing a Multicell
-task: Executing an Uruk
-task: Executing a Camel
-task: Executing a Camel
-task: Executing a Kobold
-task: Executing a Jumpskin
-task: Executing an undernourished Troglodyte
-task: Executing a Pixie
-task: Executing a Multicell
-task: Executing an underage Violet Fungi
-task: Executing Chief Frogmiek the Half Halfling
-task: Executing an underage Ghast
-task: Executing a Ghoul
-task: Executing a massive Imp
-task: Executing an undernourished Pegasus
-task: Executing a greater Sprite
-task: Heading to market to sell loot
-task: Selling 2 hippogriff eggs
-task: Selling a whippet collar
-task: Selling a centaur rib
-task: Selling a triton scale
-task: Selling a cub scout neckerchief
-task: Selling 2 multicell dendrites
-task: Selling an uruk boot
+task: Selling an ape ass
 task: Selling 2 camel humps
-task: Selling a kobold penis
+task: Selling a gray ooze gravy
+task: Selling a nixie webbing
+task: Selling a wasp stinger
 task: Selling a jumpskin shin
-task: Selling a troglodyte tail
-task: Selling a pixie dust
-task: Selling a violet fungi spore
-task: Selling a Blessed Arrow of Fear
-task: Selling a ghast vomit
-task: Selling a ghoul muscle
-task: Selling an imp tail
-task: Selling a pegasus aileron
-task: Selling a sprite can
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing an undernourished Jumpskin
-task: Executing an undernourished Boogie
-task: Executing an underage Eel
-task: Executing a greater Ostrich
-task: Executing an Iron Peasant
-task: Executing a Centaur
-task: Executing an undernourished Sea Hag
-task: Executing an underage Mini Giant
-task: Executing a greater Gray Ooze
-task: Executing a Battle-Nebbish
-task: Executing a Rust Monster
-task: Executing a Shadow
-task: Executing a Carrion Crawler
-task: Executing an undernourished Rust Monster
-task: Executing an undernourished Wight
-task: Executing an underage Boogie
-task: Executing a Gray Ooze
-task: Executing a cursed Quasit
-task: Executing an Iron Peasant
-task: Executing a Hogbird
-task: Executing a Poroid
-task: Executing an underage Wraith
-task: Heading to market to sell loot
-task: Selling a jumpskin shin
-task: Selling 2 boogie slimes
-task: Selling an eel sashimi
-task: Selling an ostrich beak
-task: Selling 2 iron peasant chafves
-task: Selling a centaur rib
-task: Selling a sea hag wart
-task: Selling a mini giant pompadour
-task: Selling 2 gray ooze gravies
-task: Selling a nebbish belly
-task: Selling 2 rust monster shavingses
-task: Selling a shadow silhouette
-task: Selling a carrion crawler egg
-task: Selling a wight lung
-task: Selling a quasit tail
-task: Selling a hogbird curl
-task: Selling a poroid node
-task: Selling a wraith finger
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Gelatinous Cube
-task: Executing an enormous Kobold
-task: Executing an undernourished Hippocampus
-task: Executing a teenage Otyugh
-task: Executing a Battle-Triton
-task: Executing a Ghast
-task: Executing a Bugbear
-task: Executing a Bugbear
-task: Executing a Bugbear
-task: Executing a cursed Green Slime
-task: Executing an underage Bugbear
-task: Executing a veteran Stun Worm
-task: Executing an underage Silkie
-task: Executing a Sea Elf
-task: Executing a sick Bugbear
-task: Executing a Bugbear
-task: Executing a Kobold
-task: Executing a Bugbear
-task: Executing an underage Sea Hag
-task: Executing a greater Kobold
-task: Executing a Piercer
-task: Executing a Goblin
-task: Heading to market to sell loot
-task: Selling a gelatinous cube jam
-task: Selling 3 kobold penises
-task: Selling a hippocampus mane
-task: Selling an otyugh organ
-task: Selling a triton scale
-task: Selling a ghast vomit
-task: Selling 7 bugbear skins
-task: Selling a green slime sample
-task: Selling a stun worm trode
 task: Selling a silkie fur
-task: Selling a sea elf jerkin
-task: Selling a sea hag wart
-task: Selling a piercer tip
-task: Selling a goblin ear
+task: Selling an Iron Sceptre of Awe
+task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a Wolog
-task: Executing Mrs. Akprap the Half Man
-task: Executing a greater Violet Fungi
-task: Executing a Battle-Bugbear
-task: Executing a Bugbear
+task: Executing a cursed Caveman
+task: Executing a greater Homunculus
+task: Executing an underage Ape
+task: Executing a Gelatinous Cube
+task: Executing a Battle-Jumpskin
+task: Executing a Battle-Kobold
 task: Executing a greater Jumpskin
-task: Executing a Shadow
-task: Executing a Koala
-task: Executing a Battle-Homunculus
-task: Executing an Ape
-task: Executing a Battle-Hippogriff
-task: Executing a Rat
-task: Executing a Bugbear
-task: Executing a Man-o-war
-task: Executing a teenage Bugbear
-task: Executing a Harpy
-task: Executing an Imp
-task: Executing a Triton
-task: Executing a Battle-Centipede
-task: Executing an Iron Peasant
-task: Executing an Iron Peasant
-task: Executing a cursed Moth
+task: Executing an underage Blink Dog
+task: Executing an Ogre Mage
+task: Executing an underage Stun Bear
+task: Executing a Boogie
+task: Executing a Ghoul
+task: Executing a greater Manes
+task: Executing a Battle-Manes
+task: Executing a massive Stun Worm
+task: Executing a Hogbird
+task: Executing a sick Succubus
+task: Executing Mrs. Rubib the Enchanted Motorcycle
+task: Executing a massive Brown Elf
+task: Executing an undernourished Ghast
+task: Executing a Manes
+task: Executing a Gray Ooze
+task: Executing an undernourished Rust Monster
 task: Heading to market to sell loot
-task: Selling a wolog lemma
-task: Selling a Gilded Ornament of Joy
-task: Selling a violet fungi spore
-task: Selling 4 bugbear skins
-task: Selling a jumpskin shin
-task: Selling a shadow silhouette
-task: Selling a koala heart
+task: Selling a caveman club
 task: Selling a homunculus fluid
 task: Selling an ape ass
-task: Selling a hippogriff egg
-task: Selling a rat tail
-task: Selling a man-o-war tentacle
-task: Selling a harpy mascara
-task: Selling an imp tail
-task: Selling a triton scale
-task: Selling a centipede leg
-task: Selling 2 iron peasant chafves
-task: Selling a moth dust
+task: Selling a gelatinous cube jam
+task: Selling 2 jumpskin shins
+task: Selling a kobold penis
+task: Selling a blink dog eyelid
+task: Selling an ogre mage apparel
+task: Selling a stun bear tooth
+task: Selling a boogie slime
+task: Selling a ghoul muscle
+task: Selling 3 manes tooths
+task: Selling a stun worm trode
+task: Selling a hogbird curl
+task: Selling a succubus bra
+task: Selling a Crafted Scabbard of Dignard
+task: Selling a brown elf tusk
+task: Selling a ghast vomit
+task: Selling a gray ooze gravy
+task: Selling a rust monster shavings
 task: Negotiating purchase of better equipment
 task: Heading to the killing fields
-task: Executing a preadolescent Succubus
-task: Executing an enormous Multicell
-task: Executing a Bugbear
-task: Executing a Hell Hound
-task: Executing a greater Stun Worm
-task: Executing a Rust Monster
-task: Executing an underage Bugbear
-task: Executing a Battle-Gnome
-task: Executing a teenage Bugbear
-task: Executing a passing Demicanadian Shiv-Knight
-task: Executing a Battle-Bugbear
-task: Executing an underage Silkie
-task: Executing an undernourished Centaur
+task: Executing an underage Gargoyle
+task: Executing an underage Wight
+task: Executing an Eagle Scout
+task: Executing a preadolescent Wyvern
+task: Executing a Wolf
+task: Executing a Peryton
+task: Executing an undernourished Griffon
+task: Executing an Eagle Scout
+task: Executing an underage Rust Monster
+task: Executing a Sylph
+task: Executing a Battle-Harpy
+task: Executing a teenage Su-monster
+task: Executing a greater Green Slime
+task: Executing a Shadow
+task: Executing an enormous Goblin
+task: Executing a Sprite
+task: Executing a cursed Eel
+task: Executing a greater Silkie
+task: Executing a Camel
+task: Executing a Pixie
+task: Executing a greater Sea Hag
+task: Executing an undernourished Mini Giant
+task: Executing a Boogie
+task: Heading to market to sell loot
+task: Selling a gargoyle gravel
+task: Selling a wight lung
+task: Selling 2 eagle scout merit badges
+task: Selling a wyvern wing
+task: Selling a wolf paw
+task: Selling a peryton antler
+task: Selling a griffon nest
+task: Selling a rust monster shavings
+task: Selling a sylph thigh
+task: Selling a harpy mascara
+task: Selling a su-monster tail
+task: Selling a green slime sample
+task: Selling a shadow silhouette
+task: Selling a goblin ear
+task: Selling a sprite can
+task: Selling an eel sashimi
+task: Selling a silkie fur
+task: Selling a camel hump
+task: Selling a pixie dust
+task: Selling a sea hag wart
+task: Selling a mini giant pompadour
+task: Selling a boogie slime
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a massive Whippet
+task: Executing a Gnoll
+task: Executing an underage Man-o-war
 task: Executing a Gray Ooze
-task: Executing a Multicell
-task: Executing an undernourished Bugbear
-task: Executing a sick Manticore
-task: Executing a passing Half Orc Battle-Felon
+task: Executing a greater Mini Giant
+task: Executing Sir Luxdrov the Dung Elf
+task: Executing a Battle-Lemure
+task: Executing an Owlbear
+task: Executing a greater Eel
+task: Executing a Hell Hound
+task: Executing a Manes
+task: Executing a veteran Brown Elf
+task: Executing a Gargoyle
+task: Executing a Shrieker
+task: Executing a Nymph
+task: Executing a Were-Dervish
+task: Executing a Were-Dervish
+task: Executing a Gelatinous Cube
+task: Executing a Battle-Fly
+task: Executing a Battle-Zombie
+task: Executing an undead Dervish
+task: Executing an Eel
+task: Executing a Dervish
+task: Heading to market to sell loot
+task: Selling a whippet collar
+task: Selling a gnoll collar
+task: Selling a man-o-war tentacle
+task: Selling a gray ooze gravy
+task: Selling a mini giant pompadour
+task: Selling a Magnificent Gimcrack of Solitude
+task: Selling a lemure blob
+task: Selling an owlbear feather
+task: Selling 2 eel sashimis
+task: Selling a hell hound tongue
+task: Selling a manes tooth
+task: Selling a brown elf tusk
+task: Selling a gargoyle gravel
+task: Selling a shrieker stalk
+task: Selling a nymph hanky
+task: Selling 4 dervish robes
+task: Selling a gelatinous cube jam
+task: Selling a Fearsome Brocade of Perspicacity
+task: Selling a zombie forehead
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a veteran Mini Giant
+task: Executing a Battle-Dervish
+task: Executing a Wolf
+task: Executing an undead Dervish
+task: Executing a greater Green Slime
+task: Executing a Boogie
+task: Executing a greater Ostrich
+task: Executing a sick Doppelganger
+task: Executing an undernourished Hippogriff
+task: Executing an underage Mummy
+task: Executing a Ghoul
+task: Executing a greater Pegasus
+task: Executing an underage Poroid
+task: Executing a Battle-Dervish
+task: Executing a Poroid
+task: Executing a Battle-Triton
+task: Executing a Battle-Bugboar
+task: Executing an Eagle Scout
+task: Executing a greater Dervish
+task: Executing a Shadow
+task: Executing a Bat
+task: Executing a Were-Dervish
+task: Executing a Hippogriff
+task: Heading to market to sell loot
+task: Selling a mini giant pompadour
+task: Selling 5 dervish robes
+task: Selling a wolf paw
+task: Selling a green slime sample
+task: Selling a boogie slime
+task: Selling an ostrich beak
+task: Selling a doppelganger face
+task: Selling 2 hippogriff eggs
+task: Selling a mummy gauze
+task: Selling a ghoul muscle
+task: Selling a pegasus aileron
+task: Selling 2 poroid nodes
+task: Selling a triton scale
+task: Selling a bugboar tusk
+task: Selling an eagle scout merit badge
+task: Selling a shadow silhouette
+task: Selling a bat wing
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a Battle-Sprite
+task: Executing a Doppelganger
+task: Executing a greater Sea Elf
+task: Executing a cursed Dervish
+task: Executing an Eel
+task: Executing a greater Dervish
+task: Executing a massive Dervish
+task: Executing a Centaur
+task: Executing an underage Sea Hag
+task: Executing a greater Dervish
+task: Executing a massive Gnome
+task: Executing an enormous Dervish
+task: Executing a Boogie
+task: Executing a cursed Dervish
+task: Executing an underage Rust Monster
+task: Executing an undead Dervish
+task: Executing a veteran Cub Scout
+task: Executing a teenage Medusa
+task: Executing a Boogie
+task: Executing a Dervish
+task: Executing a giant Dervish
+task: Executing a cursed Sprite
+task: Executing a Zombie
+task: Heading to market to sell loot
+task: Selling 2 sprite cans
+task: Selling a doppelganger face
+task: Selling a sea elf jerkin
+task: Selling 9 dervish robes
+task: Selling an eel sashimi
+task: Selling a centaur rib
+task: Selling a sea hag wart
+task: Selling a gnome hat
+task: Selling 2 boogie slimes
+task: Selling a rust monster shavings
+task: Selling a cub scout neckerchief
+task: Selling a medusa eye
+task: Selling a zombie forehead
+task: Heading to the killing fields
+task: Executing a Poroid
+task: Executing an undernourished Wraith
+task: Executing a greater Dervish
+task: Executing a massive Silkie
+task: Executing a Battle-Dervish
 task: Executing a Peryton
 task: Executing a Stun Bear
-task: Executing an underage Bugbear
-task: Executing an undernourished Lemure
-task: Heading to market to sell loot
-task: Selling a succubus bra
-task: Selling 2 multicell dendrites
-task: Selling 6 bugbear skins
-task: Selling a hell hound tongue
-task: Selling a stun worm trode
-task: Selling a rust monster shavings
-task: Selling a gnome hat
-task: Selling a Cruciate Fleece of Submission
-task: Selling a silkie fur
-task: Selling a centaur rib
-task: Selling a gray ooze gravy
-task: Selling a manticore spike
-task: Selling a Proverbial Tome of Happiness
-task: Selling a peryton antler
-task: Selling a stun bear tooth
-task: Selling a lemure blob
-task: Negotiating purchase of better equipment
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
 task: Executing a Stun Bear
-task: Executing a passing Talking Pony Ur-Paladin
-task: Executing an underage Bugbear
-task: Executing a greater Stun Worm
-task: Executing a Caveman
-task: Executing a Boy Scout
-task: Executing a Carrion Crawler
-task: Executing an undernourished Boy Scout
-task: Executing a Caveman
-task: Executing a comatose Hell Hound
-task: Executing an underage Bugbear
-task: Executing a greater Boy Scout
-task: Executing a Hippogriff
-task: Executing a Battle-Hippogriff
-task: Executing an Imp
-task: Executing a massive Imp
-task: Executing a Battle-Caveman
-task: Executing an underage Man-o-war
-task: Executing an undernourished Bugbear
-task: Executing a teenage Bugbear
-task: Executing a Battle-Berserker
-task: Executing a Dervish
-task: Heading to market to sell loot
-task: Selling a stun bear tooth
-task: Selling a Dual Brocade of Rapidity
-task: Selling 4 bugbear skins
-task: Selling a stun worm trode
-task: Selling 3 caveman clubs
-task: Selling 3 boy scout merit badges
-task: Selling a carrion crawler egg
-task: Selling a hell hound tongue
-task: Selling 2 hippogriff eggs
-task: Selling 2 imp tails
-task: Selling a man-o-war tentacle
-task: Selling a berserker shirt
-task: Selling a dervish robe
-task: Heading to the killing fields
-task: Executing an underage Ogre
-task: Executing a greater Carrion Crawler
-task: Executing an Owlbear
-task: Executing a greater Pixie
-task: Executing a Shadow
-task: Executing an undernourished Bugbear
-task: Executing a Were-Stirge
-task: Executing a Bugboar
-task: Executing a Bugbear
-task: Executing an undernourished Stun Bear
-task: Executing a Sea Hag
-task: Executing a Stun Worm
-task: Executing an underage Boogie
-task: Executing a Battle-Triton
-task: Executing a Multicell
-task: Executing a Bugbear
-task: Executing a greater Cub Scout
-task: Executing a Nymph
-task: Executing a Battle-Ghast
-task: Executing a Homunculus
-task: Executing an underage Bugbear
-task: Executing a Gray Ooze
-task: Executing a Gray Ooze
-task: Heading to market to sell loot
-task: Selling an ogre talon
-task: Selling a carrion crawler egg
-task: Selling an owlbear feather
-task: Selling a pixie dust
-task: Selling a shadow silhouette
-task: Selling 4 bugbear skins
-task: Selling a stirge proboscis
-task: Selling a bugboar tusk
-task: Selling a stun bear tooth
-task: Selling a sea hag wart
-task: Selling a stun worm trode
-task: Selling a boogie slime
-task: Selling a triton scale
-task: Selling a multicell dendrite
-task: Selling a cub scout neckerchief
-task: Selling a nymph hanky
-task: Selling a ghast vomit
-task: Selling a homunculus fluid
-task: Selling 2 gray ooze gravies
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Ghoul
-task: Executing Sgt. Modfrock the Battle-Finch
-task: Executing a greater Hobgoblin
-task: Executing a Camel
-task: Executing an undernourished Ghast
-task: Executing a Battle-Moth
-task: Executing an enormous Dwarf
-task: Executing a Rust Monster
-task: Executing an underage Uruk
+task: Executing a Ghast
+task: Executing an underage Lemure
+task: Executing an undernourished Cockatrice
+task: Executing a Battle-Dervish
+task: Executing a cursed Green Slime
+task: Executing a Battle-Dervish
+task: Executing a veteran Stun Worm
+task: Executing an underage Silkie
+task: Executing a Battle-Whippet
+task: Executing a Green Slime
 task: Executing a Centaur
-task: Executing a Battle-Imp
-task: Executing an undernourished Centaur
-task: Executing a greater Gnoll
-task: Executing Sir Krudmov the Eel Man
-task: Executing a passing Gyrognome Slow Poisoner
-task: Executing an underage Piercer
-task: Executing a Ghoul
-task: Executing an undernourished Man-o-war
-task: Executing an underage Rust Monster
-task: Executing a preadolescent Medusa
-task: Executing a teenage Blink Dog
-task: Executing an Imp
-task: Executing a Battle-Stirge
-task: Heading to market to sell loot
-task: Selling 2 ghoul muscles
-task: Selling an Astral Brazier of Silence
-task: Selling a hobgoblin patella
-task: Selling a camel hump
-task: Selling a ghast vomit
-task: Selling a moth dust
-task: Selling a dwarf drawers
-task: Selling 2 rust monster shavingses
-task: Selling an uruk boot
-task: Selling 2 centaur ribs
-task: Selling 2 imp tails
-task: Selling a gnoll collar
-task: Selling a Reverential Hood of Suffering
-task: Selling a Reverential Gimcrack of Intrusion
-task: Selling a piercer tip
-task: Selling a man-o-war tentacle
-task: Selling a medusa eye
-task: Selling a blink dog eyelid
-task: Selling a stirge proboscis
-task: Negotiating purchase of better equipment
-task: Heading to the killing fields
-task: Executing a Poroid
-task: Executing an Iron Peasant
-task: Executing a massive Manes
-task: Executing a Bat
-task: Executing a greater Octopus
-task: Executing a Battle-Manes
-task: Executing an Uruk
-task: Executing a sick Mummy
-task: Executing a Shrieker
-task: Executing a Stun Worm
-task: Executing an undernourished Quasit
-task: Executing a massive Hogbird
-task: Executing a Mermaid
-task: Executing a Battle-Orc
-task: Executing a sick Stun Bear
-task: Executing a Centaur
-task: Executing a Boogie
-task: Executing a crippled Medusa
-task: Executing a cursed Yellow Mold
-task: Executing a Battle-Zombie
-task: Executing a Su-monster
-task: Executing a Wight
-task: Executing a Wolog
+task: Executing a Manes
+task: Executing a massive Kobold
+task: Executing a Piercer
+task: Executing a crippled Eagle Scout
 task: Heading to market to sell loot
 task: Selling a poroid node
-task: Selling an iron peasant chaff
-task: Selling 2 manes tooths
-task: Selling a bat wing
-task: Selling an octopus beak
+task: Selling a wraith finger
+task: Selling 4 dervish robes
+task: Selling 2 silkie furs
+task: Selling a peryton antler
+task: Selling 2 stun bear tooths
+task: Selling a ghast vomit
+task: Selling a lemure blob
+task: Selling a cockatrice wattle
+task: Selling 2 green slime samples
+task: Selling a stun worm trode
+task: Selling a whippet collar
+task: Selling a centaur rib
+task: Selling a manes tooth
+task: Selling a kobold penis
+task: Selling a piercer tip
+task: Selling an eagle scout merit badge
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an underage Lemure
+task: Executing an Uruk
+task: Executing a passing Enchanted Motorcycle Mu-Fu Monk
+task: Executing a greater Blink Dog
+task: Executing a Girl Scout
+task: Executing a Jumpskin
+task: Executing a Hogbird
+task: Executing a Bugbear
+task: Executing Mrs. Shougxan the Will o' the Wisp
+task: Executing a passing Eel Man Ur-Paladin
+task: Executing an underage Satyr
+task: Executing a Peryton
+task: Executing an underage Man-o-war
+task: Executing a massive Centipede
+task: Executing an undernourished Ghast
+task: Executing a greater Triton
+task: Executing an underage Triton
+task: Executing a Battle-Centipede
+task: Executing an underage Iron Peasant
+task: Executing an Iron Peasant
+task: Executing a Caveman
+task: Executing a Triton
+task: Executing a cursed Man-o-war
+task: Heading to market to sell loot
+task: Selling a lemure blob
 task: Selling an uruk boot
-task: Selling a mummy gauze
+task: Selling a Deadly Gimcrack of Punctuality
+task: Selling a blink dog eyelid
+task: Selling a girl scout cookie
+task: Selling a jumpskin shin
+task: Selling a hogbird curl
+task: Selling a bugbear skin
+task: Selling a Crafted Amethyst of Cruelty
+task: Selling a Benevolent Hymnal of Punctuality
+task: Selling a satyr hoof
+task: Selling a peryton antler
+task: Selling 2 man-o-war tentacles
+task: Selling 2 centipede legs
+task: Selling a ghast vomit
+task: Selling 3 triton scales
+task: Selling 2 iron peasant chafves
+task: Selling a caveman club
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a Shrieker
+task: Executing a greater Sea Hag
+task: Executing a massive Billy Goat
+task: Executing a Boogie
+task: Executing an undernourished Malebranche
+task: Executing a Silkie
+task: Executing a cursed Boogie
+task: Executing a Wolog
+task: Executing a greater Koala
+task: Executing a cursed Boogie
+task: Executing a Manticore
+task: Executing an underage Ape
+task: Executing a Wraith
+task: Executing an undernourished Stun Bear
+task: Executing a Hippogriff
+task: Executing an underage Ghast
+task: Executing a Su-monster
+task: Executing an undernourished Invisible Stalker
+task: Executing a cursed Imp
+task: Executing a Boogie
+task: Executing a Battle-Boogie
+task: Executing a warrior Yellow Mold
+task: Executing a Were-Boogie
+task: Heading to market to sell loot
 task: Selling a shrieker stalk
+task: Selling a sea hag wart
+task: Selling a billy goat beard
+task: Selling 6 boogie slimes
+task: Selling a malebranche fork
+task: Selling a silkie fur
+task: Selling a wolog lemma
+task: Selling a koala heart
+task: Selling a manticore spike
+task: Selling an ape ass
+task: Selling a wraith finger
+task: Selling a stun bear tooth
+task: Selling a hippogriff egg
+task: Selling a ghast vomit
+task: Selling a su-monster tail
+task: Selling an One True Tiara of Internment
+task: Selling an imp tail
+task: Selling a yellow mold spore
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an underage Shrieker
+task: Executing a sick Hell Hound
+task: Executing a Boogie
+task: Executing a White Dragon
+task: Executing a greater Hippocampus
+task: Executing a Boogie
+task: Executing a greater Ogre
+task: Executing a cursed Lemure
+task: Executing a sick Ochre Jelly
+task: Executing a teenage Catoblepas
+task: Executing a Hogbird
+task: Executing a greater Boogie
+task: Executing an underage Poroid
+task: Executing an Ogre
+task: Executing a Carrion Crawler
+task: Executing a Battle-Owlbear
+task: Executing a greater Ape
+task: Executing a greater Wolog
+task: Executing an Ape
+task: Executing a Bugboar
+task: Executing a greater Boogie
+task: Executing a greater Ghast
+task: Executing a Gargoyle
+task: Heading to market to sell loot
+task: Selling a shrieker stalk
+task: Selling a hell hound tongue
+task: Selling 4 boogie slimes
+task: Selling a white dragon tooth
+task: Selling a hippocampus mane
+task: Selling 2 ogre talons
+task: Selling a lemure blob
+task: Selling an ochre jelly nucleus
+task: Selling a catoblepas neck
+task: Selling a hogbird curl
+task: Selling a poroid node
+task: Selling a carrion crawler egg
+task: Selling an owlbear feather
+task: Selling 2 ape asses
+task: Selling a wolog lemma
+task: Selling a bugboar tusk
+task: Selling a ghast vomit
+task: Selling a gargoyle gravel
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a cursed Boogie
+task: Executing a Battle-Triton
+task: Executing a massive Multicell
+task: Executing a greater Man-o-war
+task: Executing a massive Boogie
+task: Executing a Ghast
+task: Executing a Homunculus
+task: Executing a Battle-Boogie
+task: Executing a Wolog
+task: Executing a Boogie
+task: Executing a massive Sea Hag
+task: Executing a massive Boogie
+task: Executing a cursed Zombie
+task: Executing a Boogie
+task: Executing a Battle-Bugbear
+task: Executing Chief Prizun the Enchanted Motorcycle
+task: Executing a Mini Giant
+task: Executing a teenage Griffon
+task: Executing a Boogie
+task: Executing an underage Centaur
+task: Executing a Shadow
+task: Executing a greater Rust Monster
+task: Executing a Battle-Minotaur
+task: Heading to market to sell loot
+task: Selling 7 boogie slimes
+task: Selling a triton scale
+task: Selling a multicell dendrite
+task: Selling a man-o-war tentacle
+task: Selling a ghast vomit
+task: Selling a homunculus fluid
+task: Selling a wolog lemma
+task: Selling a sea hag wart
+task: Selling a zombie forehead
+task: Selling a bugbear skin
+task: Selling a Garlanded Phial of Foreboding
+task: Selling a mini giant pompadour
+task: Selling a griffon nest
+task: Selling a centaur rib
+task: Selling a shadow silhouette
+task: Selling a rust monster shavings
+task: Selling a minotaur map
+task: Heading to the killing fields
+task: Executing a massive Boogie
+task: Executing a Girl Scout
+task: Executing a Boogie
+task: Executing a Battle-Boogie
+task: Executing a greater Boogie
+task: Executing a cursed Boogie
+task: Executing a Xorn
+task: Executing a Piercer
+task: Executing a Malebranche
+task: Executing a Battle-Ape
+task: Executing a Su-monster
+task: Executing a Battle-Ghast
+task: Executing a Ghast
+task: Executing a sick Catoblepas
+task: Executing an underage Peryton
+task: Executing an undernourished Ogre Mage
+task: Executing a Gargoyle
+task: Executing a Stun Worm
+task: Executing a Quasit
+task: Executing an enormous Hogbird
+task: Executing a greater Mermaid
+task: Executing a Gnoll
+task: Executing a teenage Eagle Scout
+task: Heading to market to sell loot
+task: Selling 5 boogie slimes
+task: Selling a girl scout cookie
+task: Selling a xorn jaw
+task: Selling a piercer tip
+task: Selling a malebranche fork
+task: Selling an ape ass
+task: Selling a su-monster tail
+task: Selling 2 ghast vomits
+task: Selling a catoblepas neck
+task: Selling a peryton antler
+task: Selling an ogre mage apparel
+task: Selling a gargoyle gravel
 task: Selling a stun worm trode
 task: Selling a quasit tail
 task: Selling a hogbird curl
 task: Selling a mermaid gills
-task: Selling an orc snout
-task: Selling a stun bear tooth
-task: Selling a centaur rib
+task: Selling a gnoll collar
+task: Selling an eagle scout merit badge
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an undernourished Medusa
+task: Executing an undernourished Medusa
+task: Executing a Su-monster
+task: Executing a greater Wight
+task: Executing a Wolog
+task: Executing an enormous Multicell
+task: Executing a warrior Swamp Elf
+task: Executing an enormous Cub Scout
+task: Executing a Satyr
+task: Executing a Gray Ooze
+task: Executing a veteran Gelatinous Cube
+task: Executing an undernourished Cockatrice
+task: Executing a Rust Monster
+task: Executing a Peryton
+task: Executing an undernourished Troll
+task: Executing an underage Wolog
+task: Executing an undernourished Balor
+task: Executing a Wolf
+task: Executing a teenage Xorn
+task: Executing a greater Homunculus
+task: Executing an undernourished Troll
+task: Executing a Battle-Unicorn
+task: Executing a Poroid
+task: Heading to market to sell loot
+task: Selling 2 medusa eyes
+task: Selling a su-monster tail
+task: Selling a wight lung
+task: Selling 2 wolog lemmas
+task: Selling a multicell dendrite
+task: Selling a swamp elf lilypad
+task: Selling a cub scout neckerchief
+task: Selling a satyr hoof
+task: Selling a gray ooze gravy
+task: Selling a gelatinous cube jam
+task: Selling a cockatrice wattle
+task: Selling a rust monster shavings
+task: Selling a peryton antler
+task: Selling 2 troll hides
+task: Selling a balor whip
+task: Selling a wolf paw
+task: Selling a xorn jaw
+task: Selling a homunculus fluid
+task: Selling an unicorn blood
+task: Selling a poroid node
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing an Ape
+task: Executing a cursed Hobgoblin
+task: Executing an undernourished Succubus
+task: Executing a Hippocampus
+task: Executing a Battle-Lemure
+task: Executing a massive Boogie
+task: Executing a Ghast
+task: Executing a teenage Moakum
+task: Executing a Violet Fungi
+task: Executing a Cockatrice
+task: Executing an undernourished Su-monster
+task: Executing a Rust Monster
+task: Executing a Gargoyle
+task: Executing a veteran Violet Fungi
+task: Executing an undernourished Owlbear
+task: Executing a cursed Multicell
+task: Executing an enormous Dryad
+task: Executing an enormous Gnome
+task: Executing a sick Catoblepas
+task: Executing a Malebranche
+task: Executing a veteran Gelatinous Cube
+task: Executing a veteran Boy Scout
+task: Heading to market to sell loot
+task: Selling an ape ass
+task: Selling a hobgoblin patella
+task: Selling a succubus bra
+task: Selling a hippocampus mane
+task: Selling a lemure blob
 task: Selling a boogie slime
-task: Selling a medusa eye
-task: Selling a yellow mold spore
-queued: Oh sweet relief! You've reached the protection of the good Queen of the Talking Pony
-queued: There is rejoicing, and an unnerving encounter with Queen of the Talking Pony in private
-queued: You forget your chicken and go back to get it
+task: Selling a ghast vomit
+task: Selling a moakum frenum
+task: Selling 2 violet fungi spores
+task: Selling a cockatrice wattle
+task: Selling a su-monster tail
+task: Selling a rust monster shavings
+task: Selling a gargoyle gravel
+task: Selling an owlbear feather
+task: Selling a multicell dendrite
+task: Selling a dryad acorn
+task: Selling a gnome hat
+task: Selling a catoblepas neck
+task: Selling an Ostentatious Hymnal of Ra
+task: Selling a malebranche fork
+task: Selling a gelatinous cube jam
+task: Selling a boy scout merit badge
+task: Negotiating purchase of better equipment
+task: Heading to the killing fields
+task: Executing a sick Griffon
+task: Executing an underage Succubus
+task: Executing a greater Green Slime
+task: Executing a Mini Giant
+task: Executing a greater Ostrich
+task: Executing a warrior Grid Bug
+task: Executing an Uruk
+task: Executing a cursed Shadow
+task: Executing a greater Wight
+task: Oh sweet relief! You've reached the protection of the good Queen of the Enchanted Motorcycle
+queued: There is rejoicing, and an unnerving encounter with Queen of the Enchanted Motorcycle in private
+queued: You forget your pint and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Queen of the Talking Pony be a dirty double-dealer?
+queued: Could Queen of the Enchanted Motorcycle be a dirty double-dealer?
 queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Princess of Whuvdrum
-queued: There is rejoicing, and an unnerving encounter with Princess of Whuvdrum in private
-queued: You forget your twig and go back to get it
+queued: Oh sweet relief! You've reached the protection of the good Mayor of the Talking Pony
+queued: There is rejoicing, and an unnerving encounter with Mayor of the Talking Pony in private
+queued: You forget your counterpane and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Princess of Whuvdrum be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Archbishop of the Half Halfling
-queued: There is rejoicing, and an unnerving encounter with Archbishop of the Half Halfling in private
-queued: You forget your writ and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Archbishop of the Half Halfling be a dirty double-dealer?
+queued: Could Mayor of the Talking Pony be a dirty double-dealer?
 queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
@@ -1525,69 +1517,56 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Princess of the Panda Man
-queued: There is rejoicing, and an unnerving encounter with Princess of the Panda Man in private
-queued: You forget your vest and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Princess of the Panda Man be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Ripyick the Wight
-queued: Locked in grim combat with Ripyick the Wight
-queued: Victory! Ripyick the Wight is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Ogkrob the Marilith
+queued: Victory! Ogkrob the Marilith is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Frooxzoot the Vrock
-queued: Victory! Frooxzoot the Vrock is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Krekprek the Brass Dragon
+queued: Locked in grim combat with Krekprek the Brass Dragon
+queued: Krekprek the Brass Dragon seems to have the upper hand
+queued: Victory! Krekprek the Brass Dragon is slain! Exhausted, you lose consciousness
+queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good Prince of the Half Halfling
+queued: There is rejoicing, and an unnerving encounter with Prince of the Half Halfling in private
+queued: You forget your lunchpail and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Prince of the Half Halfling be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Your quarry is in sight, but a mighty enemy bars your path!
+queued: A desperate struggle commences with Ogyim the Otyugh
+queued: Locked in grim combat with Ogyim the Otyugh
+queued: Victory! Ogyim the Otyugh is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
 queued: Loading Act II
 queued: Oh sweet relief! You've reached the protection of the good Boss of the Crested Dwarf
 queued: There is rejoicing, and an unnerving encounter with Boss of the Crested Dwarf in private
-queued: You forget your letter and go back to get it
+queued: You forget your bucket and go back to get it
 queued: What's this!? You overhear something shocking!
 queued: Could Boss of the Crested Dwarf be a dirty double-dealer?
 queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Prince of Whopbrat
-queued: There is rejoicing, and an unnerving encounter with Prince of Whopbrat in private
-queued: You forget your credenza and go back to get it
+queued: Your quarry is in sight, but a mighty enemy bars your path!
+queued: A desperate struggle commences with Numjup the Will-o'-the-Wisp
+queued: Locked in grim combat with Numjup the Will-o'-the-Wisp
+queued: You seem to gain the advantage over Numjup the Will-o'-the-Wisp
+queued: Victory! Numjup the Will-o'-the-Wisp is slain! Exhausted, you lose consciousness
+queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good King of the Will o' the Wisp
+queued: There is rejoicing, and an unnerving encounter with King of the Will o' the Wisp in private
+queued: You forget your chicken and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Prince of Whopbrat be a dirty double-dealer?
+queued: Could King of the Will o' the Wisp be a dirty double-dealer?
 queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Lord of the Lesser Dwarf
-queued: There is rejoicing, and an unnerving encounter with Lord of the Lesser Dwarf in private
-queued: You forget your bunny and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Lord of the Lesser Dwarf be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Princess of Ocknip
-queued: There is rejoicing, and an unnerving encounter with Princess of Ocknip in private
-queued: You forget your writ and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Princess of Ocknip be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Frimyoot the Copper Dragon
-queued: Locked in grim combat with Frimyoot the Copper Dragon
-queued: Victory! Frimyoot the Copper Dragon is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Lord of Yodven
-queued: There is rejoicing, and an unnerving encounter with Lord of Yodven in private
-queued: You forget your needle and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Lord of Yodven be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
@@ -1600,20 +1579,11 @@ queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Zanvoz the Black Pudding
-queued: You seem to gain the advantage over Zanvoz the Black Pudding
-queued: Victory! Zanvoz the Black Pudding is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Krouzfrav the Brass Dragon
+queued: Krouzfrav the Brass Dragon seems to have the upper hand
+queued: You seem to gain the advantage over Krouzfrav the Brass Dragon
+queued: Victory! Krouzfrav the Brass Dragon is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Triezmug the Medusa
-queued: Victory! Triezmug the Medusa is slain! Exhausted, you lose consciousness
-queued: You awake in a friendly place, but the road awaits
-queued: Loading Act II
-queued: Exhausted, you arrive at a friendly oasis in a hostile land
-queued: You greet old friends and meet new allies
-queued: You are privy to a council of powerful do-gooders
-queued: There is much to be done. You are chosen!
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
@@ -1621,14 +1591,14 @@ queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Trobyip the Hydra
-queued: Victory! Trobyip the Hydra is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Branmoup the Mind Flayer
+queued: Victory! Branmoup the Mind Flayer is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
 queued: Loading Act II
 queued: Your quarry is in sight, but a mighty enemy bars your path!
-queued: A desperate struggle commences with Kraepid the Violet Fungi
-queued: You seem to gain the advantage over Kraepid the Violet Fungi
-queued: Victory! Kraepid the Violet Fungi is slain! Exhausted, you lose consciousness
+queued: A desperate struggle commences with Brutcroz the White Dragon
+queued: Locked in grim combat with Brutcroz the White Dragon
+queued: Victory! Brutcroz the White Dragon is slain! Exhausted, you lose consciousness
 queued: You awake in a friendly place, but the road awaits
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
@@ -1636,37 +1606,23 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Princess of the Hob-Hobbit
-queued: There is rejoicing, and an unnerving encounter with Princess of the Hob-Hobbit in private
-queued: You forget your writ and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Princess of the Hob-Hobbit be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Viceroy of the Eel Man
-queued: There is rejoicing, and an unnerving encounter with Viceroy of the Eel Man in private
-queued: You forget your tuppence and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Viceroy of the Eel Man be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Viceroy of the Hob-Hobbit
-queued: There is rejoicing, and an unnerving encounter with Viceroy of the Hob-Hobbit in private
-queued: You forget your toothpick and go back to get it
-queued: What's this!? You overhear something shocking!
-queued: Could Viceroy of the Hob-Hobbit be a dirty double-dealer?
-queued: Who can possibly be trusted with this news!? ... Oh yes, of course
-queued: Loading Act II
-queued: Oh sweet relief! You've reached the protection of the good Queen of Meptrad
-queued: There is rejoicing, and an unnerving encounter with Queen of Meptrad in private
+queued: Oh sweet relief! You've reached the protection of the good Viceroy of the Battle-Finch
+queued: There is rejoicing, and an unnerving encounter with Viceroy of the Battle-Finch in private
 queued: You forget your cookie and go back to get it
 queued: What's this!? You overhear something shocking!
-queued: Could Queen of Meptrad be a dirty double-dealer?
+queued: Could Viceroy of the Battle-Finch be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good Chief of the Land Squid
+queued: There is rejoicing, and an unnerving encounter with Chief of the Land Squid in private
+queued: You forget your vest and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Chief of the Land Squid be a dirty double-dealer?
 queued: Who can possibly be trusted with this news!? ... Oh yes, of course
 queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
@@ -1674,198 +1630,249 @@ queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good Chief of the Double Hobbit
+queued: There is rejoicing, and an unnerving encounter with Chief of the Double Hobbit in private
+queued: You forget your inkwell and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Chief of the Double Hobbit be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Your quarry is in sight, but a mighty enemy bars your path!
+queued: A desperate struggle commences with Fratjop the Banshee
+queued: Victory! Fratjop the Banshee is slain! Exhausted, you lose consciousness
+queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good Chief of the Half Orc
+queued: There is rejoicing, and an unnerving encounter with Chief of the Half Orc in private
+queued: You forget your needle and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Chief of the Half Orc be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Oh sweet relief! You've reached the protection of the good Mayor of Itag
+queued: There is rejoicing, and an unnerving encounter with Mayor of Itag in private
+queued: You forget your letter and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Mayor of Itag be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Your quarry is in sight, but a mighty enemy bars your path!
+queued: A desperate struggle commences with Grouvan the Bone Devil
+queued: Locked in grim combat with Grouvan the Bone Devil
+queued: Grouvan the Bone Devil seems to have the upper hand
+queued: Victory! Grouvan the Bone Devil is slain! Exhausted, you lose consciousness
+queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
 queued: Exhausted, you arrive at a friendly oasis in a hostile land
 queued: You greet old friends and meet new allies
 queued: You are privy to a council of powerful do-gooders
 queued: There is much to be done. You are chosen!
 queued: Loading Act II
-monster: Executing a Swamp Elf 6000
-monster: Executing an underage Koala 3000
-monster: Executing a Centaur 8000
-monster: Executing an Iguanadon 9000
-monster: Executing an underage Gelatinous Cube 3600
-monster: Executing a Mind Flayer 8000
-monster: Executing a Vrock 6857
-monster: Executing a Minotaur 4500
-monster: Executing a veteran Tin Dragon 6000
-monster: Executing an undernourished Ghost 5400
-monster: Executing a Bone Devil 4909
-monster: Executing a giant Were-Marilith 7000
-monster: Executing a sick Purple Worm 6000
-monster: Executing a giant Pentasaurus 6857
-monster: Executing an enormous Gorgosaurus 6400
-monster: Executing a greater Stegosaurus 7125
-monster: Executing 3 sick Balors 6352
-monster: Executing a greater demon Vrock 4666
-monster: Executing an undead Pentasaurus 5052
-monster: Executing 3 undernourished Spectres 5400
-monster: Executing a giant Ice Devil 4285
-monster: Executing a titanic Were-Baluchitherium 6000
-monster: Executing a messianic Black Pudding 5217
-monster: Executing 4 undernourished Plaid Dragons 6000
-monster: Executing 4 undernourished Hill Giants 6720
-monster: Executing a messianic Leather Golem 5769
-monster: Executing 2 greater Beef Giants 5333
-monster: Executing 3 cursed Copper Dragons 6428
-monster: Executing 3 underage Shambling Mounds 5586
-monster: Executing 5 Xorns 7000
-monster: Executing 3 Neo-Otyughs 6387
-monster: Executing 4 Bronze Dragons 6750
-monster: Executing 3 greater Efreets 6000
-monster: Executing a massive Dispater 5647
-monster: Executing an imaginary Demogorgon 6171
-monster: Executing a titanic Brontosaurus 5833
-monster: Executing 2 Jubilexes 5513
-monster: Executing 2 preadolescent Yeenoghus 6947
-monster: Executing 3 baby Rocs 6461
-monster: Executing a messianic Brontosaurus 6000
-monster: Executing 3 undernourished Cardboard Golems 5707
-monster: Executing a messianic Orcus 5714
-monster: Executing 8 undernourished White Dragons 5581
-monster: Executing 3 Triceratopses 6545
-monster: Executing 4 undernourished Beef Giants 5333
-monster: Executing a demon Baalzebul 6260
-monster: Executing 2 giant Platinum Dragons 6382
-monster: Executing an undernourished foetal Asmodeus 5750
-monster: Executing 2 sick baby Brontosauri 5877
-monster: Executing 2 cursed Platinum Dragons 5520
-monster: Executing 3 Pit Fiends 4588
-monster: Executing 5 Megalosauri 6923
-monster: Executing 13 undernourished Ogres 4415
-monster: Executing 3 Oxygen Golems 5666
-monster: Executing 5 Bacon Elementals 5454
-monster: Executing a messianic Orcus 5571
-monster: Executing 7 undernourished Porcelain Giants 5894
-monster: Executing 4 baby Oxygen Golems 5379
-monster: Executing 5 undernourished Trappers 5593
-monster: Executing 5 Fire Giants 5500
-monster: Executing 3 crippled preadolescent Yeenoghus 5606
-monster: Executing 6 underage Black Puddings 5225
-monster: Executing 2 imaginary Baalzebuls 5904
-monster: Executing 4 preadolescent Rocs 5625
-monster: Executing 7 Bronze Dragons 5815
-monster: Executing Chief Yietnouck the Talking Pony 6000
-monster: Executing 3 underage Diplodoci 6179
-monster: Executing 4 cursed Purple Worms 6000
-monster: Executing 4 veteran Leather Golems 5565
-monster: Executing 4 sick Titans 6171
-monster: Executing 6 undernourished Pentasauri 5577
-monster: Executing 7 Porcelain Giants 5250
-monster: Executing a messianic Asmodeus 5506
-monster: Executing 5 greater Mastodons 5270
-monster: Executing 8 Black Puddings 6400
-monster: Executing 4 undernourished Platinum Dragons 6315
-monster: Executing 7 undernourished Lurkers 4909
-monster: Executing 4 greater Tyrannosaurus Rexes 5846
-monster: Executing 8 Ghosts 6075
-monster: Executing 2 demon Geryons 5250
-monster: Executing a passing Enchanted Motorcycle Lowling 6222
-monster: Executing 3 preadolescent Geryons 5926
-monster: Executing 5 teenage Rocs 5783
-monster: Executing 9 Glabrezus 6428
-monster: Executing 7 Mastodons 5929
-monster: Executing 12 undernourished Umber Hulks 5860
-monster: Executing 3 undead Yeenoghus 6000
-monster: Executing 7 Humidity Giants 5727
-monster: Executing 3 enormous Orci 6067
-monster: Executing 5 underage Titans 6333
-monster: Executing 7 undernourished Beer Golems 6461
-monster: Executing 6 undernourished Oxygen Golems 6260
-monster: Executing a messianic Asmodeus 6258
-monster: Executing 7 underage Pentasauri 4914
-monster: Executing 7 teenage Storm Giants 5747
-monster: Executing 6 Elasmosauri 5625
-monster: Executing 6 veteran Chromatic Dragons 6309
-monster: Executing 4 comatose Brontosauri 6367
-monster: Executing 2 underage Asmodei 6181
-level: 3
+queued: Oh sweet relief! You've reached the protection of the good Viceroy of Crumfrim
+queued: There is rejoicing, and an unnerving encounter with Viceroy of Crumfrim in private
+queued: You forget your bucket and go back to get it
+queued: What's this!? You overhear something shocking!
+queued: Could Viceroy of Crumfrim be a dirty double-dealer?
+queued: Who can possibly be trusted with this news!? ... Oh yes, of course
+queued: Loading Act II
+queued: Your quarry is in sight, but a mighty enemy bars your path!
+queued: A desperate struggle commences with Jangraet the Troll
+queued: Victory! Jangraet the Troll is slain! Exhausted, you lose consciousness
+queued: You awake in a friendly place, but the road awaits
+queued: Loading Act II
+monster: Executing a Merman 6000
+monster: Executing a Battle-Hobgoblin 6000
+monster: Executing a greater Dervish 4000
+monster: Executing a Man-o-war 4500
+monster: Executing an underage White Dragon 6000
+monster: Executing a greater Ghoul 3000
+monster: Executing a Minotaur 5142
+monster: Executing a Shedu 6750
+monster: Executing a cursed Anhkheg 5333
+monster: Executing an undernourished Megalosaurus 6600
+monster: Executing an undernourished Lich 5454
+monster: Executing an enormous Moakum 5500
+monster: Executing a titanic undead Eagle Scout 6000
+monster: Executing a giant Lich 6428
+monster: Executing 4 Owlbears 8000
+monster: Executing a warrior Fire Giant 5250
+monster: Executing a titanic Were-Gorgon 5647
+monster: Executing Sgt. Rokmook the Battle-Finch 6333
+monster: Executing 3 Djinns 6631
+monster: Executing a cursed Titan 6600
+monster: Executing Mr. Brebloz the Skraeling 4857
+monster: Executing a Titan 5454
+monster: Executing 3 Moakums 6260
+monster: Executing a massive Jubilex 4750
+monster: Executing 4 underage Wyverns 5760
+monster: Executing a preadolescent Dispater 6230
+monster: Executing 3 teenage Humidity Giants 6666
+monster: Executing a messianic Platinum Dragon 6642
+monster: Executing 4 Moakums 6620
+monster: Executing 4 underage Will-o'-the-Wisps 6400
+monster: Executing 3 teenage Cloud Giants 5806
+monster: Executing 2 veteran Cheese Elementals 5625
+monster: Executing 3 sick Dragon Turtles 6000
+monster: Executing a giant Geryon 6000
+monster: Executing a passing Eel Man Shiv-Knight 6514
+monster: Executing an imaginary Asmodeus 6166
+monster: Executing 2 cursed Triceratopses 5837
+monster: Executing 3 crippled Oxygen Golems 6631
+monster: Executing 3 teenage Elasmosauri 6000
+monster: Executing a messianic Geryon 6300
+monster: Executing 3 teenage Beer Golems 5707
+monster: Executing 2 Rocs 5142
+monster: Executing 3 Were-Sphinxes 5441
+monster: Executing 5 Battle-Vrocks 6136
+monster: Executing 5 Nagas 6000
+monster: Executing a messianic Geryon 5739
+monster: Executing 3 teenage Oxygen Golems 5744
+monster: Executing 3 Chromatic Dragons 6000
+monster: Executing 4 veteran Ice Devils 5877
+monster: Executing 3 undernourished Hair Elementals 5400
+monster: Executing 3 Beer Golems 5294
+monster: Executing 2 comatose Dispaters 6000
+monster: Executing 2 underage Yeenoghus 5433
+monster: Executing 3 enormous Hair Elementals 6333
+monster: Executing 2 giant cursed Platinum Dragons 5890
+monster: Executing 4 greater Mastodons 5571
+monster: Executing 2 enormous demon Titans 5894
+monster: Executing 3 greater Rocs 5896
+monster: Executing 3 dead Diplodoci 5796
+monster: Executing 3 enormous Chromatic Dragons 5700
+monster: Executing 4 greater Elasmosauri 6295
+monster: Executing 7 underage Quartz Giants 6096
+monster: Executing 3 massive Jubilexes 5428
+monster: Executing a messianic Baalzebul 5906
+monster: Executing 3 crippled baby Dispaters 6369
+monster: Executing 2 greater Brontosauri 5636
+monster: Executing 2 greater Dispaters 5552
+monster: Executing 5 greater Porn Elementals 5735
+monster: Executing 4 cursed Baluchitheriums 5565
+monster: Executing 7 Quartz Giants 6000
+monster: Executing 4 sick Platinum Dragons 6422
+monster: Executing 6 Shambling Mounds 5000
+monster: Executing Sgt. Lotiez the Half Man 6246
+monster: Executing 8 underage Frost Giants 5837
+monster: Executing 3 teenage Yeenoghus 5520
+monster: Executing 3 Diplodoci 5684
+monster: Executing 4 foetal Yeenoghus 6233
+monster: Executing 7 Ice Devils 5923
+monster: Executing 5 Hair Elementals 6075
+monster: Executing 9 underage Beholders 6075
+monster: Executing 7 Cloud Giants 6222
+monster: Executing 5 greater Triceratopses 6219
+monster: Executing 10 Mind Flayers 5783
+monster: Executing 8 Black Puddings 5714
+monster: Executing 22 underage Wologs 4658
+monster: Executing 5 Tyrannosaurus Rexes 6279
+monster: Executing 7 undernourished Cardboard Golems 6275
+monster: Executing 8 Liches 6000
+monster: Executing a messianic Asmodeus 6000
+monster: Executing 2 imaginary Demogorgons 5333
+monster: Executing 2 dead preadolescent Asmodei 5802
+monster: Executing 8 Neo-Otyughs 5739
+monster: Executing 7 veteran Pit Fiends 6322
+monster: Executing 9 underage Pentasauri 6319
+monster: Executing 9 Black Puddings 5684
+monster: Executing 8 Battle-Neo-Otyughs 6000
+monster: Executing 2 undernourished Asmodei 6309
+monster: Executing 9 Ropers 6061
+monster: Executing 4 sick Yeenoghus 5575
+level: 4
 act: 1
-gold: 99
+gold: 84
 stat: STR 13
-stat: CON 12
-stat: DEX 11
+stat: CON 15
+stat: DEX 10
 stat: INT 13
-stat: WIS 15
-stat: CHA 9
-stat: HP Max 20
-stat: MP Max 21
-equipment: Weapon Andiron
-equipment: Hauberk -1 Macrame
-equipment: Brassairts Rusty Corroded Bearskin
-equipment: Helm +1 Macrame
-equipment: Cuisses Threadbare Flannel
-equipment: Shield +1 Garbage Can Lid
-equipment: Sollerets -1 Canvas
-equipment: Greaves -1 Canvas
-equipment: Gambeson Gilded Lace
-equipment: Vambraces -2 Flannel
-equipment: Gauntlets Macrame
-inventory: yellow mold spore 1
-inventory: zombie forehead 1
-inventory: su-monster tail 1
+stat: WIS 17
+stat: CHA 11
+stat: HP Max 22
+stat: MP Max 25
+equipment: Weapon Crowbar
+equipment: Hauberk Canvas
+equipment: Brassairts -1 Flannel
+equipment: Helm -1 Mildewed Pleathers
+equipment: Cuisses Studded Burlap
+equipment: Vambraces Holey Burlap
+equipment: Sollerets Canvas
+equipment: Gauntlets Burlap
+equipment: Greaves Burlap
+equipment: Shield Holey Carapace
+equipment: Gambeson Canvas
+inventory: griffon nest 1
+inventory: succubus bra 1
+inventory: green slime sample 1
+inventory: mini giant pompadour 1
+inventory: ostrich beak 1
+inventory: grid bug carapace 1
+inventory: uruk boot 1
+inventory: shadow silhouette 1
 inventory: wight lung 1
-inventory: wolog lemma 1
-inventory: Gilded Diadem of Fortune 1
-inventory: Gilded Bijou of Silence 1
-inventory: Magnificent Tome of Punctuality 1
-inventory: Crafted Gammel of Acrimony 1
-inventory: Legendary Albatross of Torpor 1
-inventory: Dual Scabbard of Joy 1
-inventory: Enchanted Orb of Suffering 1
-inventory: Austere Gammel of Efficiency 1
-inventory: Spectral Gemstone of Efficiency 1
-inventory: Deadly Tome of Guile 1
-inventory: Crystalline Sceptre of Joy 1
-inventory: Magnificent Brocade of Guile 1
-spell: Magnetic Orb 1
-spell: Slime Finger 3
-spell: Shoelaces 2
-spell: Hastiness 1
+inventory: Sacred Albatross of the Bone 1
+inventory: Gleaming Diadem of Grob 1
+inventory: Fearsome Sphere of Comfort 1
+inventory: Fearsome Hymnal of Extroversion 1
+inventory: Reverential Vulpeculum of Fealty 1
+inventory: One True Diadem of Hunger 1
+inventory: Deadly Gimlet of Grob 1
+inventory: Gilded Spangle of Foreboding 1
+inventory: Gleaming Brooch of Punctuality 1
+inventory: Unearthly Albatross of Prurience 1
+spell: Magnetic Orb 3
+spell: Slime Finger 2
+spell: Hastiness 2
+spell: Invisible Hands 1
+spell: Rabbit Punch 1
+spell: Good Move 2
+spell: Seasick 3
+spell: Cone of Annoyance 2
+spell: Sadness 2
+spell: Aqueous Humor 1
 spell: Spectral Miasma 1
-spell: Seasick 1
-spell: Good Move 3
-spell: Hydrophobia 1
-spell: Lockjaw 1
+spell: Inoculate 1
 quest: Fetch me a teratoma
 quest: Deliver this nail
 quest: Deliver this egg
 quest: Placate the Ogre Mages
-quest: Seek the Filigreed Talisman
-quest: Exterminate the Green Slimes
-quest: Placate the Medusas
-quest: Deliver this trowel
-quest: Placate the Malebranches
+quest: Placate the Unicorns
+quest: Seek the Legendary Talisman
+quest: Deliver this axle
+quest: Placate the Sea Hags
+quest: Exterminate the Dervishes
+quest: Fetch me an egg
 quest: Fetch me a counterpane
-quest: Deliver this plank
-quest: Exterminate the Bugbears
-quest: Placate the Sprites
-quest: Deliver this vest
-quest: Placate the Piercers
-quest: Placate the Ghouls
-quest: Deliver this rock
-quest: Deliver this anvil
-quest: Exterminate the Shadows
-quest: Deliver this dirtclod
-quest: Placate the Imps
-quest: Exterminate the Octopi
-quest: Deliver this newspaper
-quest: Seek the Astral Orb
-quest: Seek the One True Brocade
-quest: Fetch me a teratoma
-quest: Placate the Beholders
-quest: Seek the Precious Cobble
-quest: Seek the Ormolu Lamp
-quest: Deliver this trowel
-quest: Seek the Enchanted Fleece
-quest: Placate the Whippets
-quest: Deliver this bunny
-quest: Exterminate the Malebranches
-quest: Placate the Medusas
+quest: Exterminate the Boogies
+quest: Seek the Grandiose Festoon
+quest: Exterminate the Wights
 quest: Fetch me a sock
-quest: Placate the Porcelain Giants
-quest: Placate the Mini Giants
-quest: Placate the Mind Flayers
-quest: Seek the Puissant Hood
-quest: Placate the Pit Fiends
-quest: Placate the Catoblepases
-quest: Fetch me a trowel
+quest: Exterminate the Otyughs
+quest: Fetch me a toothpick
+quest: Deliver this carrot
+quest: Deliver this cookie
+quest: Fetch me an anvil
+quest: Fetch me a sock
+quest: Exterminate the Violet Fungis
+quest: Exterminate the Bunnies
+quest: Seek the One True Sceptre
+quest: Seek the Spectral Cobble
+quest: Placate the Sprites
+quest: Fetch me a pole
+quest: Exterminate the Satyrs
+quest: Seek the Lucky Arrow
+quest: Fetch me an I.O.U.
+quest: Fetch me a pole
+quest: Exterminate the Banshees
+quest: Deliver this casket
+quest: Exterminate the Manticores
+quest: Exterminate the Spiders
+quest: Fetch me a needle
+quest: Fetch me a hat
+quest: Seek the Lucky Spangle
+quest: Placate the Bone Devils
+quest: Fetch me a tuppence
+quest: Fetch me a writ
+quest: Exterminate the Ogres
+quest: Placate the Storm Giants
+quest: Seek the Fearsome Candelabra
