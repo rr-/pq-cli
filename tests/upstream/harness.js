@@ -114,8 +114,26 @@ function snapshot() {
 
 function play(request) {
   newGame(request.spec);
+  return run(request.ticks, request.tasks);
+}
+
+// Play a game to some point, then return its save, as .pqw files hold it.
+function exportGame(request) {
+  newGame(request.spec);
+  run(request.ticks, request.tasks);
+  SaveGame();
+  return JSON.parse(store.roster)[request.spec.name];
+}
+
+// Load a save and keep playing it.
+function resume(request) {
+  LoadGame(JSON.parse(JSON.stringify(request.game)));
+  return run(request.ticks, request.tasks);
+}
+
+function run(ticks, tasks) {
   const snapshots = [];
-  for (let i = 0; i < request.ticks; i++) {
+  for (let i = 0; i < ticks; i++) {
     const completing = TaskBar.done();
     now += 100;
     clock.lasttick = now - 100;
@@ -123,7 +141,7 @@ function play(request) {
     if (completing) {
       // copy, since game's lists keep changing after this tick
       snapshots.push(JSON.parse(JSON.stringify(snapshot())));
-      if (snapshots.length >= request.tasks) break;
+      if (snapshots.length >= tasks) break;
     }
   }
   return snapshots;
@@ -148,7 +166,24 @@ function lists() {
   return result;
 }
 
-const handlers = { play: play, call: call, lists: lists };
+// The roster page's .pqw encoding, from roster.js.
+function encode(request) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(request.game))));
+}
+
+function decode(request) {
+  return JSON.parse(decodeURIComponent(escape(atob(request.text))));
+}
+
+const handlers = {
+  encode: encode,
+  decode: decode,
+  play: play,
+  export: exportGame,
+  resume: resume,
+  call: call,
+  lists: lists,
+};
 const requests = JSON.parse(fs.readFileSync(0, "utf8"));
 const responses = requests.map((request) => handlers[request.cmd](request));
 process.stdout.write(JSON.stringify(responses));

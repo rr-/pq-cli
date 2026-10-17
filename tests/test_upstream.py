@@ -13,11 +13,13 @@ from pqcli import random
 from pqcli.game_data import DATA_FILES, load_game_data
 from pqcli.lingo import generate_name
 from pqcli.mechanic import (
+    Simulation,
     impressive_guy,
     monster_task,
     named_monster,
     special_item,
 )
+from pqcli.pqw import decode, encode, export_game, import_game
 from pqcli.random import Alea, RngState
 
 pytestmark = pytest.mark.skipif(
@@ -133,7 +135,14 @@ def test_game_matches_upstream(seed: str, race: str, class_: str) -> None:
         [{"cmd": "play", "spec": spec, "ticks": ticks, "tasks": tasks}]
     )
     ours = bridge.play(DATA, spec, ticks, tasks)
-    assert len(ours) == len(theirs) == tasks
+    assert len(ours) == tasks
+    assert_same_games(ours, theirs)
+
+
+def assert_same_games(
+    ours: list[dict[str, Any]], theirs: list[dict[str, Any]]
+) -> None:
+    assert len(ours) == len(theirs)
     for i, (mine, upstream) in enumerate(zip(ours, theirs)):
         if mine != upstream:
             previous = [snap["caption"] for snap in ours[max(0, i - 5) : i]]
@@ -150,3 +159,43 @@ def test_game_matches_upstream(seed: str, race: str, class_: str) -> None:
                     for key, (ours_value, theirs_value) in fields.items()
                 )
             )
+
+
+# (tasks, ticks): stop right after a task, or in the middle of one
+SAVE_POINTS = [(3000, 10**9), (10**9, 123457), (10**9, 1)]
+
+
+@pytest.mark.parametrize("tasks,ticks", SAVE_POINTS)
+def test_import_from_upstream_plays_on_identically(
+    tasks: int, ticks: int
+) -> None:
+    spec = bridge.make_spec("import", "Eel Man", "Inner Mason")
+    (game,) = bridge.run_harness(
+        [{"cmd": "export", "spec": spec, "ticks": ticks, "tasks": tasks}]
+    )
+    (text, theirs) = bridge.run_harness(
+        [
+            {"cmd": "encode", "game": game},
+            {"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 3000},
+        ]
+    )
+    player, warnings = import_game(decode(text), DATA)
+    assert warnings == []
+    ours = bridge.run(Simulation(player, DATA), 10**9, 3000)
+    assert_same_games(ours, theirs)
+
+
+@pytest.mark.parametrize("tasks,ticks", SAVE_POINTS)
+def test_export_to_upstream_plays_on_identically(
+    tasks: int, ticks: int
+) -> None:
+    spec = bridge.make_spec("export", "Panda Man", "Robot Monk")
+    simulation = bridge.new_simulation(DATA, spec)
+    bridge.run(simulation, ticks, tasks)
+    text = encode(export_game(simulation.player, DATA))
+    (game,) = bridge.run_harness([{"cmd": "decode", "text": text}])
+    (theirs,) = bridge.run_harness(
+        [{"cmd": "resume", "game": game, "ticks": 10**9, "tasks": 3000}]
+    )
+    ours = bridge.run(simulation, 10**9, 3000)
+    assert_same_games(ours, theirs)

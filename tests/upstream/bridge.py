@@ -146,6 +146,10 @@ def play(
     data: GameData, spec: dict[str, Any], ticks: int, tasks: int
 ) -> list[dict[str, Any]]:
     """Play pqcli the way the harness plays upstream: 100 ms ticks."""
+    return run(new_simulation(data, spec), ticks, tasks)
+
+
+def new_simulation(data: GameData, spec: dict[str, Any]) -> Simulation:
     race = next(race for race in data.races if race.name == spec["race"])
     class_ = next(c for c in data.classes if c.name == spec["class"])
     seed = cast(RngState, tuple(spec["seed"]))
@@ -159,6 +163,14 @@ def play(
     )
     simulation = Simulation(player, data)
     simulation.tick(0)  # sets up the Prologue, as upstream's sold() does
+    return simulation
+
+
+def run(
+    simulation: Simulation, ticks: int, tasks: int
+) -> list[dict[str, Any]]:
+    """Keep playing in 100 ms ticks, snapshotting after each task."""
+    player = simulation.player
     snapshots = []
     for _ in range(ticks):
         completing = player.task_bar.done
