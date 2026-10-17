@@ -167,30 +167,36 @@ def test_quest_log_keeps_100_quests() -> None:
 
 
 def test_prologue_fills_plot_bar() -> None:
-    # upstream advances the plot bar on any task while act == 0
-    random.seed("prologue")
+    # upstream advances the plot bar on any task while act == 0, and starts
+    # act I as its loading task starts
     simulation = make_simulation()
     player = simulation.player
-    positions = []
-    player.connect(
-        "new_task",
-        lambda: positions.append(
-            (player.task.description, player.quest_book.plot_bar.position)
-        ),
-    )
-    while player.quest_book.act == 0:
+    seen: list[tuple[str, float, int, int]] = []
+
+    def record() -> None:
+        assert player.task is not None
+        bar = player.quest_book.plot_bar
+        seen.append(
+            (
+                player.task.description,
+                bar.position,
+                bar.max_,
+                player.quest_book.act,
+            )
+        )
+
+    player.connect("new_task", record)
+    while len(seen) < 7:
         simulation.tick(100000.0)
-    assert player.quest_book.plot_bar.max_ != 26  # reset by act I
-    assert [position for _, position in positions[:6]] == [
-        0,
-        0,
-        10,
-        16,
-        22,
-        26,
+    assert [(position, act) for _, position, _, act in seen[:5]] == [
+        (0, 0),
+        (0, 0),
+        (10, 0),
+        (16, 0),
+        (22, 0),
     ]
-    assert positions[5][0] == "Loading Act I"
-    assert positions[6][0] == "Heading to the killing fields"
+    assert seen[5] == ("Loading Act I", 0, 21600, 1)
+    assert seen[6][0] == "Heading to the killing fields"
 
 
 def test_player_rng_survives_save_and_load() -> None:

@@ -618,12 +618,17 @@ class Simulation:
                     )
                     break
 
-            elif isinstance(self.player.task, PlotTask):
-                self.complete_act()
-
             old = self.player.task
             if self.player.queue:
-                self.player.set_task(self.player.queue.pop(0))
+                task = self.player.queue.pop(0)
+                if isinstance(task, PlotTask):
+                    # the act starts as its loading task does, as upstream
+                    self.complete_act()
+                    task = PlotTask(
+                        f"Loading {act_name(self.player.quest_book.act)}",
+                        task.duration,
+                    )
+                self.player.set_task(task)
             elif self.player.inventory.encum_bar.done:
                 self.player.set_task(
                     HeadingToMarketTask("Heading to market to sell loot", 4000)
