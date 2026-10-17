@@ -97,7 +97,7 @@ def plural(subject: str) -> str:
 
 def indefinite(subject: str, qty: int) -> str:
     if qty == 1:
-        if subject.startswith(tuple("AEIOU?aeiou?")):
+        if subject.startswith(tuple("AEIOUÜaeiouü")):
             return "an " + subject
         return "a " + subject
     return str(qty) + " " + plural(subject)
