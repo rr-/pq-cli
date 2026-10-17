@@ -1,8 +1,8 @@
 import datetime
 import json
 import pickle
-import typing as T
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -18,7 +18,7 @@ from pqcli.game_data import (
 from pqcli.mechanic import Player, Stats, monster_task
 
 
-def write(directory: Path, name: str, value: T.Any) -> Path:
+def write(directory: Path, name: str, value: Any) -> Path:
     path = directory / f"{name}.json"
     path.write_text(json.dumps(value), encoding="utf-8")
     return path
@@ -98,7 +98,7 @@ def test_unknown_file_warns(
     ],
 )
 def test_invalid_override_raises(
-    tmp_path: Path, name: str, value: T.Any, message: str
+    tmp_path: Path, name: str, value: Any, message: str
 ) -> None:
     write(tmp_path, name, value)
     with pytest.raises(DataError) as excinfo:

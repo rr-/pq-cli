@@ -4,8 +4,9 @@ import logging
 import signal
 import sys
 import time
-import typing as T
+from collections.abc import Sequence
 from datetime import datetime, timedelta
+from typing import Any
 
 from pqcli import lingo
 from pqcli.config import PRIME_STATS
@@ -36,13 +37,13 @@ class BasicUserInterface(BaseUserInterface):
     def __init__(
         self,
         roster: Roster,
-        player: T.Optional[Player],
+        player: Player | None,
         args: argparse.Namespace,
         data: GameData,
     ) -> None:
         super().__init__(roster, player, args, data)
 
-        def signal_handler(sig: T.Any, frame: T.Any) -> None:
+        def signal_handler(sig: Any, frame: Any) -> None:
             logging.info("Quitting")
             if self.args.use_saves:
                 self.roster.save()
@@ -103,7 +104,7 @@ class BasicUserInterface(BaseUserInterface):
                 self.quit()
                 break
 
-    def create_player(self, *, auto_play: bool = True) -> T.Optional[Player]:
+    def create_player(self, *, auto_play: bool = True) -> Player | None:
         name = input("Name your new character: ")
         if not name:
             print("Cancelled.")
@@ -196,7 +197,7 @@ class BasicUserInterface(BaseUserInterface):
         if self.args.use_saves:
             self.roster.save()
 
-    def choose_player(self) -> T.Optional[Player]:
+    def choose_player(self) -> Player | None:
         if not self.roster.players:
             print("No characters to choose from!")
             return None
@@ -216,9 +217,9 @@ class BasicUserInterface(BaseUserInterface):
 
     def menu(
         self,
-        options: T.Sequence[T.Tuple[T.Any, str]],
-        title: T.Optional[str] = None,
-    ) -> T.Any:
+        options: Sequence[tuple[Any, str]],
+        title: str | None = None,
+    ) -> Any:
         print()
         if title:
             print(f"{title}:")

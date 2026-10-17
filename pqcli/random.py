@@ -1,8 +1,9 @@
 import contextlib
 import time
-import typing as T
+from collections.abc import Callable, Iterator, Sequence
+from typing import Any
 
-RngState = T.Tuple[float, float, float, int]
+RngState = tuple[float, float, float, int]
 
 _2_POW_32 = 0x100000000
 _2_POW_MINUS_32 = 2.3283064365386963e-10
@@ -13,7 +14,7 @@ def _to_uint32(value: float) -> float:
     return float(int(value) % _2_POW_32)
 
 
-def _mash() -> T.Callable[[str], float]:
+def _mash() -> Callable[[str], float]:
     n = float(0xEFC8249D)
 
     def mash(data: str) -> float:
@@ -90,7 +91,7 @@ def seed(source: str) -> None:
 
 
 @contextlib.contextmanager
-def using(rng: Alea) -> T.Iterator[None]:
+def using(rng: Alea) -> Iterator[None]:
     """Draw from rng instead of the shared generator inside the block."""
     global _current
     previous = _current
@@ -101,11 +102,11 @@ def using(rng: Alea) -> T.Iterator[None]:
         _current = previous
 
 
-def choice(source: T.Sequence[T.Any]) -> T.Any:
+def choice(source: Sequence[Any]) -> Any:
     return source[below(len(source))]
 
 
-def choice_low(source: T.Sequence[T.Any]) -> T.Any:
+def choice_low(source: Sequence[Any]) -> Any:
     return source[below_low(len(source))]
 
 

@@ -1,5 +1,4 @@
 import enum
-import typing as T
 from dataclasses import dataclass
 
 
@@ -60,16 +59,16 @@ class EquipmentPreset:
 class Monster:
     name: str
     level: int
-    item: T.Optional[str]
+    item: str | None
 
 
 @dataclass
 class Race:
     name: str
-    attr: T.List[StatType]
+    attr: list[StatType]
 
 
 @dataclass
 class Class:
     name: str
-    attr: T.List[StatType]
+    attr: list[StatType]

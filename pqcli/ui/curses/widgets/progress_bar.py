@@ -1,6 +1,6 @@
 import curses
 import datetime
-import typing as T
+from typing import Any
 
 from pqcli.lingo import format_timespan
 from pqcli.ui.curses.colors import COLOR_PROGRESSBAR, has_colors
@@ -9,7 +9,7 @@ from pqcli.ui.curses.widgets.base import WindowWrapper
 
 class ProgressBar(WindowWrapper):
     def __init__(
-        self, parent: T.Any, h: int, w: int, y: int, x: int, show_time: bool
+        self, parent: Any, h: int, w: int, y: int, x: int, show_time: bool
     ) -> None:
         super().__init__(parent, h, w, y, x)
 
@@ -17,10 +17,10 @@ class ProgressBar(WindowWrapper):
         self._max_pos = 1.0
 
         self._show_time = show_time
-        self._last_tick: T.Optional[T.Tuple[datetime.datetime, float]] = None
+        self._last_tick: tuple[datetime.datetime, float] | None = None
 
     @property
-    def time_left(self) -> T.Optional[datetime.timedelta]:
+    def time_left(self) -> datetime.timedelta | None:
         if self._last_tick is None:
             return None
         time_then, pos_then = self._last_tick

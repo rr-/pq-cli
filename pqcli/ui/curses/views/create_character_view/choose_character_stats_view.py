@@ -1,5 +1,5 @@
 import curses.ascii
-import typing as T
+from typing import Any
 
 from pqcli.config import PRIME_STATS
 from pqcli.mechanic import StatsBuilder
@@ -10,15 +10,15 @@ from pqcli.ui.curses.widgets.focusable import focus_standout
 
 
 class ChooseCharacterStatsView(BaseView):
-    def __init__(self, screen: T.Any) -> None:
+    def __init__(self, screen: Any) -> None:
         super().__init__(screen)
 
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
         self._active_widget = 0
-        self._win: T.Optional[T.Any] = None
-        self._stats_win: T.Optional[T.Any] = None
+        self._win: Any | None = None
+        self._stats_win: Any | None = None
 
         self._stats_builder = StatsBuilder()
         self._stats = self._stats_builder.roll()

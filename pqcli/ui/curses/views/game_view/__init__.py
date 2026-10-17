@@ -1,7 +1,7 @@
 import argparse
 import curses
 import datetime
-import typing as T
+from typing import Any
 
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player, SignalMixin, Simulation
@@ -30,7 +30,7 @@ from .task_progress_window import TaskProgressWindow
 class GameView(BaseView):
     def __init__(
         self,
-        screen: T.Any,
+        screen: Any,
         roster: Roster,
         player: Player,
         args: argparse.Namespace,
@@ -225,7 +225,7 @@ class GameView(BaseView):
             x=0,
         )
 
-        self._focusable_children: T.List[Focusable] = [
+        self._focusable_children: list[Focusable] = [
             self._char_sheet_win,
             self._spell_book_win,
             self._equipment_win,
@@ -233,7 +233,7 @@ class GameView(BaseView):
             self._plot_win,
             self._quest_book_win,
         ]
-        self._children: T.List[Widget] = self._focusable_children + [
+        self._children: list[Widget] = self._focusable_children + [
             self._task_win
         ]
 

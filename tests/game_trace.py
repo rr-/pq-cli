@@ -1,5 +1,4 @@
 import datetime
-import typing as T
 from pathlib import Path
 
 from pqcli import random
@@ -20,7 +19,7 @@ STATS = {
 }
 
 
-def run_trace(seed: str, ticks: int = 3000) -> T.List[str]:
+def run_trace(seed: str, ticks: int = 3000) -> list[str]:
     """Play a deterministic game and return everything that happened."""
     data = load_game_data()
     player = Player(
@@ -34,7 +33,7 @@ def run_trace(seed: str, ticks: int = 3000) -> T.List[str]:
     random.seed(seed)
     simulation = Simulation(player, data)
 
-    lines: T.List[str] = []
+    lines: list[str] = []
     player.connect(
         "new_task",
         lambda: lines.append(f"task: {player.task.description}"),

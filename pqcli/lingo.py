@@ -1,5 +1,4 @@
 import datetime
-import typing as T
 
 from pqcli import random
 
@@ -114,7 +113,7 @@ def definite(subject: str, qty: int) -> str:
     return "the " + subject
 
 
-def prefix(a: T.List[str], m: int, subject: str, sep: str = " ") -> str:
+def prefix(a: list[str], m: int, subject: str, sep: str = " ") -> str:
     m = abs(m)
     if m < 1 or m > len(a):
         return subject

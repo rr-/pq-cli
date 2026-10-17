@@ -1,6 +1,5 @@
 import logging
 import pickle
-import typing as T
 from datetime import datetime
 from pathlib import Path
 
@@ -8,13 +7,13 @@ from pqcli.mechanic import Player
 
 
 class Roster:
-    def __init__(self, path: Path, players: T.List[Player]) -> None:
+    def __init__(self, path: Path, players: list[Player]) -> None:
         self.path = path
         self.players = players
         self._last_save = datetime.now()
 
     @staticmethod
-    def load(path: T.Union[str, Path]) -> "Roster":
+    def load(path: str | Path) -> "Roster":
         real_path = Path(path)
         if real_path.exists():
             return Roster(

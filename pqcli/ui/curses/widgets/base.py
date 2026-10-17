@@ -1,5 +1,5 @@
 import curses
-import typing as T
+from typing import Any
 
 
 class Widget:
@@ -12,10 +12,10 @@ class Widget:
 
 class WindowWrapper(Widget):
     def __init__(
-        self, parent: T.Optional[T.Any], h: int, w: int, y: int, x: int
+        self, parent: Any | None, h: int, w: int, y: int, x: int
     ) -> None:
         self._parent = parent
-        self._win: T.Optional[T.Any]
+        self._win: Any | None
 
         if not parent:
             self._win = None
@@ -30,12 +30,12 @@ class WindowWrapper(Widget):
         del self._win
         self._win = None
 
-    def getbegyx(self) -> T.Tuple[int, int]:
+    def getbegyx(self) -> tuple[int, int]:
         if not self._win:
             return (0, 0)
         return self._win.getbegyx()
 
-    def getmaxyx(self) -> T.Tuple[int, int]:
+    def getmaxyx(self) -> tuple[int, int]:
         if not self._win:
             return (0, 0)
         return self._win.getmaxyx()

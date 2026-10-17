@@ -1,4 +1,4 @@
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import Choice
@@ -8,7 +8,7 @@ from pqcli.ui.curses.widgets import Menu
 
 class MenuView(BaseView):
     def __init__(
-        self, screen: T.Any, title: str, active_choice: int = 0
+        self, screen: Any, title: str, active_choice: int = 0
     ) -> None:
         super().__init__(screen)
 
@@ -16,7 +16,7 @@ class MenuView(BaseView):
         self.on_confirm = EventHandler()
 
         self._title = f"{title}:"
-        self._choices: T.List[Choice] = []
+        self._choices: list[Choice] = []
         self._active_choice = active_choice
 
     def start(self) -> None:

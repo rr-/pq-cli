@@ -3,7 +3,7 @@ import curses
 import os
 import signal
 import time
-import typing as T
+from typing import Any, cast
 
 from pqcli import lingo
 from pqcli.config import Class, Race
@@ -68,7 +68,7 @@ class CursesUserInterface(BaseUserInterface):
             curses.init_pair(COLOR_PROGRESSBAR, 0, 9)
             curses.init_pair(COLOR_HIGHLIGHT, 3, -1)
 
-        def signal_handler(sig: T.Any, frame: T.Any) -> None:
+        def signal_handler(sig: Any, frame: Any) -> None:
             if self.args.use_saves:
                 self.roster.save()
             exit(0)
@@ -91,7 +91,7 @@ class CursesUserInterface(BaseUserInterface):
                 self._switch_to_roster_view()
 
             while True:
-                key = T.cast(int, self._screen.getch())
+                key = cast(int, self._screen.getch())
 
                 if key == curses.ERR:
                     time.sleep(0.1)
@@ -115,7 +115,7 @@ class CursesUserInterface(BaseUserInterface):
         self._switch_view(self._roster_view)
 
     def _switch_to_create_char_name_view(
-        self, player_name: T.Optional[str] = None
+        self, player_name: str | None = None
     ) -> None:
         view = ChooseCharacterNameView(self._screen, player_name)
         view.on_cancel += self._switch_to_roster_view
@@ -123,7 +123,7 @@ class CursesUserInterface(BaseUserInterface):
         self._switch_view(view)
 
     def _switch_to_create_char_race_view(
-        self, player_name: str, race: T.Optional[Race] = None
+        self, player_name: str, race: Race | None = None
     ) -> None:
         view = ChooseCharacterRaceView(self._screen, self.data.races, race)
         view.on_cancel += lambda: self._switch_to_create_char_name_view(
@@ -135,7 +135,7 @@ class CursesUserInterface(BaseUserInterface):
         self._switch_view(view)
 
     def _switch_to_create_char_class_view(
-        self, player_name: str, race: Race, class_: T.Optional[Class] = None
+        self, player_name: str, race: Race, class_: Class | None = None
     ) -> None:
         view = ChooseCharacterClassView(
             self._screen, self.data.classes, class_

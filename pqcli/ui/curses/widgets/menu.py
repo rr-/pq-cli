@@ -1,6 +1,6 @@
 import curses
 import curses.ascii
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.util import KEYS_CYCLE, KEYS_DOWN, KEYS_UP, Choice
 from pqcli.ui.curses.widgets.focusable import focus_standout
@@ -12,7 +12,7 @@ class Menu(Widget):
     def __init__(
         self,
         header: str,
-        choices: T.List[Choice],
+        choices: list[Choice],
         active_choice: int,
         scr_height: int,
         scr_width: int,
@@ -28,7 +28,7 @@ class Menu(Widget):
 
         w = max(map(len, all_lines)) + 1
         h = len(all_lines) + 1
-        self._pad: T.Optional[T.Any] = curses.newpad(h, w)
+        self._pad: Any | None = curses.newpad(h, w)
 
         for y, line in enumerate(self._header_lines):
             self._pad.move(y, 0)
@@ -40,7 +40,7 @@ class Menu(Widget):
         del self._pad
         self._pad = None
 
-    def getmaxyx(self) -> T.Tuple[int, int]:
+    def getmaxyx(self) -> tuple[int, int]:
         if not self._pad:
             return (0, 0)
         return self._pad.getmaxyx()

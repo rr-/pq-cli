@@ -1,4 +1,4 @@
-import typing as T
+from typing import Any
 
 from pqcli.mechanic import Player
 from pqcli.ui.curses.widgets import (
@@ -11,7 +11,7 @@ from pqcli.ui.curses.widgets import (
 
 class TaskProgressWindow(Focusable, WindowWrapper):
     def __init__(
-        self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
+        self, player: Player, parent: Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(parent, h, w, y, x)
 

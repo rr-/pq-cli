@@ -1,9 +1,10 @@
 import json
 import sys
-import typing as T
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, fields
 from importlib import resources
 from pathlib import Path
+from typing import Any, cast
 
 from pqcli.config import (
     Class,
@@ -23,24 +24,24 @@ class DataError(Exception):
 
 @dataclass(frozen=True)
 class GameData:
-    spells: T.Tuple[str, ...]
-    offense_attrib: T.Tuple[Modifier, ...]
-    defense_attrib: T.Tuple[Modifier, ...]
-    offense_bad: T.Tuple[Modifier, ...]
-    defense_bad: T.Tuple[Modifier, ...]
-    shields: T.Tuple[EquipmentPreset, ...]
-    armors: T.Tuple[EquipmentPreset, ...]
-    weapons: T.Tuple[EquipmentPreset, ...]
-    specials: T.Tuple[str, ...]
-    item_attrib: T.Tuple[str, ...]
-    item_ofs: T.Tuple[str, ...]
-    boring_items: T.Tuple[str, ...]
-    monsters: T.Tuple[Monster, ...]
-    races: T.Tuple[Race, ...]
-    classes: T.Tuple[Class, ...]
-    titles: T.Tuple[str, ...]
-    impressive_titles: T.Tuple[str, ...]
-    combat_verbs: T.Tuple[str, ...]
+    spells: tuple[str, ...]
+    offense_attrib: tuple[Modifier, ...]
+    defense_attrib: tuple[Modifier, ...]
+    offense_bad: tuple[Modifier, ...]
+    defense_bad: tuple[Modifier, ...]
+    shields: tuple[EquipmentPreset, ...]
+    armors: tuple[EquipmentPreset, ...]
+    weapons: tuple[EquipmentPreset, ...]
+    specials: tuple[str, ...]
+    item_attrib: tuple[str, ...]
+    item_ofs: tuple[str, ...]
+    boring_items: tuple[str, ...]
+    monsters: tuple[Monster, ...]
+    races: tuple[Race, ...]
+    classes: tuple[Class, ...]
+    titles: tuple[str, ...]
+    impressive_titles: tuple[str, ...]
+    combat_verbs: tuple[str, ...]
 
 
 DATA_FILES = tuple(field.name for field in fields(GameData))
@@ -55,8 +56,8 @@ class _Context:
 
 
 def _check_keys(
-    ctx: _Context, where: str, obj: T.Any, keys: T.Sequence[str]
-) -> T.Dict[str, T.Any]:
+    ctx: _Context, where: str, obj: Any, keys: Sequence[str]
+) -> dict[str, Any]:
     if not isinstance(obj, dict):
         raise ctx.error(f"{where} must be an object")
     missing = [key for key in keys if key not in obj]
@@ -68,19 +69,19 @@ def _check_keys(
     return obj
 
 
-def _str(ctx: _Context, where: str, value: T.Any) -> str:
+def _str(ctx: _Context, where: str, value: Any) -> str:
     if not isinstance(value, str):
         raise ctx.error(f"{where} must be a string")
     return value
 
 
-def _int(ctx: _Context, where: str, value: T.Any) -> int:
+def _int(ctx: _Context, where: str, value: Any) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise ctx.error(f"{where} must be an integer")
     return value
 
 
-def _stat(ctx: _Context, where: str, value: T.Any) -> StatType:
+def _stat(ctx: _Context, where: str, value: Any) -> StatType:
     _str(ctx, where, value)
     for stat in StatType:
         if value.lower() in (stat.value.lower(), stat.name):
@@ -89,18 +90,18 @@ def _stat(ctx: _Context, where: str, value: T.Any) -> StatType:
     raise ctx.error(f"{where}: unknown stat {value!r} (use one of {allowed})")
 
 
-def _parse_str(ctx: _Context, where: str, item: T.Any) -> str:
+def _parse_str(ctx: _Context, where: str, item: Any) -> str:
     return _str(ctx, where, item)
 
 
-def _parse_verb(ctx: _Context, where: str, item: T.Any) -> str:
+def _parse_verb(ctx: _Context, where: str, item: Any) -> str:
     verb = _str(ctx, where, item)
     if TARGET_PLACEHOLDER not in verb:
         raise ctx.error(f"{where} must contain {TARGET_PLACEHOLDER}")
     return verb
 
 
-def _parse_modifier(ctx: _Context, where: str, item: T.Any) -> Modifier:
+def _parse_modifier(ctx: _Context, where: str, item: Any) -> Modifier:
     obj = _check_keys(ctx, where, item, ["name", "quality"])
     return Modifier(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -108,7 +109,7 @@ def _parse_modifier(ctx: _Context, where: str, item: T.Any) -> Modifier:
     )
 
 
-def _parse_preset(ctx: _Context, where: str, item: T.Any) -> EquipmentPreset:
+def _parse_preset(ctx: _Context, where: str, item: Any) -> EquipmentPreset:
     obj = _check_keys(ctx, where, item, ["name", "quality"])
     return EquipmentPreset(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -116,7 +117,7 @@ def _parse_preset(ctx: _Context, where: str, item: T.Any) -> EquipmentPreset:
     )
 
 
-def _parse_monster(ctx: _Context, where: str, item: T.Any) -> Monster:
+def _parse_monster(ctx: _Context, where: str, item: Any) -> Monster:
     obj = _check_keys(ctx, where, item, ["name", "level", "item"])
     loot = obj["item"]
     return Monster(
@@ -126,13 +127,13 @@ def _parse_monster(ctx: _Context, where: str, item: T.Any) -> Monster:
     )
 
 
-def _parse_attrs(ctx: _Context, where: str, value: T.Any) -> T.List[StatType]:
+def _parse_attrs(ctx: _Context, where: str, value: Any) -> list[StatType]:
     if not isinstance(value, list):
         raise ctx.error(f"{where} must be a list of stats")
     return [_stat(ctx, f"{where}[{i}]", stat) for i, stat in enumerate(value)]
 
 
-def _parse_race(ctx: _Context, where: str, item: T.Any) -> Race:
+def _parse_race(ctx: _Context, where: str, item: Any) -> Race:
     obj = _check_keys(ctx, where, item, ["name", "attr"])
     return Race(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -140,7 +141,7 @@ def _parse_race(ctx: _Context, where: str, item: T.Any) -> Race:
     )
 
 
-def _parse_class(ctx: _Context, where: str, item: T.Any) -> Class:
+def _parse_class(ctx: _Context, where: str, item: Any) -> Class:
     obj = _check_keys(ctx, where, item, ["name", "attr"])
     return Class(
         _str(ctx, f"{where}.name", obj["name"]),
@@ -148,7 +149,7 @@ def _parse_class(ctx: _Context, where: str, item: T.Any) -> Class:
     )
 
 
-_PARSERS: T.Dict[str, T.Callable[[_Context, str, T.Any], T.Any]] = {
+_PARSERS: dict[str, Callable[[_Context, str, Any], Any]] = {
     "spells": _parse_str,
     "offense_attrib": _parse_modifier,
     "defense_attrib": _parse_modifier,
@@ -171,7 +172,7 @@ _PARSERS: T.Dict[str, T.Callable[[_Context, str, T.Any], T.Any]] = {
 assert set(_PARSERS) == set(DATA_FILES)
 
 
-def _parse(name: str, path: str, text: str) -> T.Tuple[T.Any, ...]:
+def _parse(name: str, path: str, text: str) -> tuple[Any, ...]:
     ctx = _Context(path)
     try:
         value = json.loads(text)
@@ -185,26 +186,26 @@ def _parse(name: str, path: str, text: str) -> T.Tuple[T.Any, ...]:
     return tuple(parser(ctx, f"[{i}]", item) for i, item in enumerate(value))
 
 
-def _builtin_dir() -> T.Any:
+def _builtin_dir() -> Any:
     return resources.files("pqcli") / "data"
 
 
-def _read_text(path: T.Any, display: str) -> str:
+def _read_text(path: Any, display: str) -> str:
     try:
-        return T.cast(str, path.read_text(encoding="utf-8"))
+        return cast(str, path.read_text(encoding="utf-8"))
     except UnicodeDecodeError as ex:
         raise DataError(f"{display}: not valid UTF-8: {ex}") from ex
     except OSError as ex:
         raise DataError(f"{display}: cannot read: {ex}") from ex
 
 
-def load_game_data(override_dir: T.Optional[Path] = None) -> GameData:
+def load_game_data(override_dir: Path | None = None) -> GameData:
     """Load the built-in word lists, replacing any that override_dir has.
 
     A missing override_dir is fine. Each <name>.json in it replaces the
     whole built-in list of that name.
     """
-    overrides: T.Set[str] = set()
+    overrides: set[str] = set()
     if override_dir is not None and override_dir.exists():
         if not override_dir.is_dir():
             raise DataError(f"{override_dir}: not a directory")
@@ -218,11 +219,11 @@ def load_game_data(override_dir: T.Optional[Path] = None) -> GameData:
                     file=sys.stderr,
                 )
 
-    values: T.Dict[str, T.Tuple[T.Any, ...]] = {}
+    values: dict[str, tuple[Any, ...]] = {}
     for name in DATA_FILES:
         if name in overrides:
             assert override_dir is not None
-            source: T.Any = override_dir / f"{name}.json"
+            source: Any = override_dir / f"{name}.json"
             display = str(source)
         else:
             source = _builtin_dir() / f"{name}.json"
@@ -231,7 +232,7 @@ def load_game_data(override_dir: T.Optional[Path] = None) -> GameData:
     return GameData(**values)
 
 
-def dump_builtin_data(target_dir: Path) -> T.List[Path]:
+def dump_builtin_data(target_dir: Path) -> list[Path]:
     """Copy the built-in data files to target_dir, never overwriting."""
     targets = [target_dir / f"{name}.json" for name in DATA_FILES]
     existing = [path for path in targets if path.exists()]

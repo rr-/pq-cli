@@ -1,5 +1,5 @@
 import curses
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_LOGO, COLOR_LOGO_ALT, has_colors
 from pqcli.ui.curses.event_handler import EventHandler
@@ -29,7 +29,7 @@ LOGO = """
 
 class MainMenu(Menu):
     def __init__(
-        self, choices: T.List[Choice], scr_height: int, scr_width: int
+        self, choices: list[Choice], scr_height: int, scr_width: int
     ) -> None:
         super().__init__(
             header=LOGO,
@@ -50,7 +50,7 @@ class MainMenu(Menu):
 
 
 class RosterView(BaseView):
-    def __init__(self, screen: T.Any) -> None:
+    def __init__(self, screen: Any) -> None:
         super().__init__(screen)
 
         self.on_create = EventHandler()
@@ -58,7 +58,7 @@ class RosterView(BaseView):
         self.on_delete = EventHandler()
         self.on_quit = EventHandler()
 
-        self.choices: T.List[Choice] = [
+        self.choices: list[Choice] = [
             Choice(
                 keys=list(map(ord, "cC")),
                 desc="[C] Create new character",

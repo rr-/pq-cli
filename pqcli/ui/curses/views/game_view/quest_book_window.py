@@ -1,4 +1,4 @@
-import typing as T
+from typing import Any
 
 from pqcli.mechanic import Player
 from pqcli.ui.curses.widgets import Focusable
@@ -10,7 +10,7 @@ class QuestBookWindow(Focusable, ListBoxProgressBarWindow):
     cutoff = 100
 
     def __init__(
-        self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
+        self, player: Player, parent: Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(parent, h, w, y, x, " Quests ", show_time=True)
         self._on_focus_change += self._render

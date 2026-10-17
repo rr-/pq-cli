@@ -1,5 +1,5 @@
 import curses
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.colors import (
     COLOR_SCROLLBAR_THUMB,
@@ -11,11 +11,11 @@ from .base import WindowWrapper
 
 
 class Scrollable(WindowWrapper):
-    def __init__(self, parent: T.Any, h: int, w: int, y: int, x: int) -> None:
+    def __init__(self, parent: Any, h: int, w: int, y: int, x: int) -> None:
         super().__init__(parent, h, w, y, x)
         self._scroll_pos = 0
-        self._pad: T.Optional[T.Any] = curses.newpad(1, 1)
-        self._items: T.List[T.Any] = []
+        self._pad: Any | None = curses.newpad(1, 1)
+        self._items: list[Any] = []
 
     def clear(self) -> None:
         self._items = []

@@ -1,8 +1,8 @@
-import typing as T
+from typing import Any
 
 
 class BaseView:
-    def __init__(self, screen: T.Any) -> None:
+    def __init__(self, screen: Any) -> None:
         self.screen = screen
 
     def start(self) -> None:

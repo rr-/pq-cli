@@ -1,13 +1,14 @@
 import contextlib
 import curses
-import typing as T
+from collections.abc import Generator
+from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_FOCUSED, has_colors
 from pqcli.ui.curses.event_handler import EventHandler
 
 
 @contextlib.contextmanager
-def focus_standout(focused: bool, win: T.Any) -> T.Generator:
+def focus_standout(focused: bool, win: Any) -> Generator:
     if focused:
         if has_colors():
             win.attron(curses.color_pair(COLOR_FOCUSED))
@@ -22,7 +23,7 @@ def focus_standout(focused: bool, win: T.Any) -> T.Generator:
 
 
 class Focusable:
-    def __init__(self, *args: T.Any, **kwargs: T.Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self._focused = False
         self._on_focus_change = EventHandler()
         super().__init__(*args, **kwargs)
@@ -37,6 +38,6 @@ class Focusable:
         self._on_focus_change()
 
     @contextlib.contextmanager
-    def focus_standout(self, win: T.Any) -> T.Generator:
+    def focus_standout(self, win: Any) -> Generator:
         with focus_standout(self._focused, win):
             yield

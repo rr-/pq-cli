@@ -1,7 +1,7 @@
 import argparse
 import sys
-import typing as T
 from pathlib import Path
+from typing import Any
 
 from xdg_base_dirs import xdg_config_home
 
@@ -84,7 +84,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def list_players(roster: Roster, file: T.Optional[T.Any] = None) -> None:
+def list_players(roster: Roster, file: Any | None = None) -> None:
     for i, player in enumerate(roster.players, start=1):
         print(f"{i}. {player.name}", file=file)
 
@@ -130,7 +130,7 @@ def main() -> None:
         list_players(roster)
         exit(0)
 
-    player: T.Optional[Player] = None
+    player: Player | None = None
     if args.load_save:
         try:
             player = list(roster.players)[args.load_save - 1]

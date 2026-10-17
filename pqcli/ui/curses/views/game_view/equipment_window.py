@@ -1,4 +1,4 @@
-import typing as T
+from typing import Any
 
 from pqcli.mechanic import EquipmentType, Player
 from pqcli.ui.curses.widgets import DataTable, Focusable, WindowWrapper
@@ -6,7 +6,7 @@ from pqcli.ui.curses.widgets import DataTable, Focusable, WindowWrapper
 
 class EquipmentWindow(Focusable, WindowWrapper):
     def __init__(
-        self, player: Player, parent: T.Any, h: int, w: int, y: int, x: int
+        self, player: Player, parent: Any, h: int, w: int, y: int, x: int
     ) -> None:
         super().__init__(parent, h, w, y, x)
         self._on_focus_change += self._render
@@ -39,7 +39,7 @@ class EquipmentWindow(Focusable, WindowWrapper):
         self._render()
 
     def _sync_equipment_change(
-        self, equipment_type: EquipmentType, item_name: T.Optional[str]
+        self, equipment_type: EquipmentType, item_name: str | None
     ) -> None:
         self._data_table.set(equipment_type.value, item_name or "")
         self._data_table.select(equipment_type.value)

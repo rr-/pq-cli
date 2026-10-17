@@ -46,7 +46,7 @@ dev = ["prek>=0.2", "pytest>=8.0"]
 line-length = 79
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I"]
+select = ["E", "F", "W", "I", "UP"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["pqcli"]

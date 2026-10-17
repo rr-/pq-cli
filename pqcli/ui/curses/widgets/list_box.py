@@ -1,5 +1,5 @@
 import curses
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_HIGHLIGHT, has_colors
 
@@ -7,11 +7,11 @@ from .scrollable import Scrollable
 
 
 class ListBox(Scrollable):
-    _items: T.List[str]
+    _items: list[str]
 
-    def __init__(self, parent: T.Any, h: int, w: int, y: int, x: int) -> None:
+    def __init__(self, parent: Any, h: int, w: int, y: int, x: int) -> None:
         super().__init__(parent, h, w, y, x)
-        self._selected: T.Optional[int] = None
+        self._selected: int | None = None
 
     def add(self, text: str) -> None:
         self._items.append(text)
@@ -22,7 +22,7 @@ class ListBox(Scrollable):
             idx %= len(self._items)
         self._items[idx] = value
 
-    def get(self, idx: int) -> T.Optional[str]:
+    def get(self, idx: int) -> str | None:
         if not self._items:
             return None
         if idx < 0:
@@ -35,7 +35,7 @@ class ListBox(Scrollable):
     def delete(self, idx: int, count: int = 1) -> None:
         del self._items[idx : idx + count]
 
-    def select(self, idx: T.Optional[int]) -> None:
+    def select(self, idx: int | None) -> None:
         if idx < 0 and len(self._items):
             idx %= len(self._items)
         self._selected = idx

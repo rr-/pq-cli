@@ -1,5 +1,6 @@
 import functools
-import typing as T
+from collections.abc import Sequence
+from typing import Any
 
 from pqcli.config import Class
 from pqcli.ui.curses.util import KEYS_CANCEL, Choice
@@ -9,9 +10,9 @@ from pqcli.ui.curses.views.menu_view import MenuView
 class ChooseCharacterClassView(MenuView):
     def __init__(
         self,
-        screen: T.Any,
-        classes: T.Sequence[Class],
-        class_: T.Optional[Class] = None,
+        screen: Any,
+        classes: Sequence[Class],
+        class_: Class | None = None,
     ) -> None:
         super().__init__(
             screen,
@@ -20,7 +21,7 @@ class ChooseCharacterClassView(MenuView):
         )
 
         for y, class_ in enumerate(classes, 1):
-            key: T.Optional[str] = str(y % 10) if y <= 10 else None
+            key: str | None = str(y % 10) if y <= 10 else None
             self._choices.append(
                 Choice(
                     keys=[ord(key)] if key is not None else [],

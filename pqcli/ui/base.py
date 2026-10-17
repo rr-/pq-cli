@@ -1,6 +1,5 @@
 import abc
 import argparse
-import typing as T
 
 from pqcli.game_data import GameData
 from pqcli.mechanic import Player
@@ -11,7 +10,7 @@ class BaseUserInterface(abc.ABC):
     def __init__(
         self,
         roster: Roster,
-        player: T.Optional[Player],
+        player: Player | None,
         args: argparse.Namespace,
         data: GameData,
     ) -> None:

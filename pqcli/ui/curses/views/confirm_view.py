@@ -1,4 +1,4 @@
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import Choice
@@ -8,14 +8,14 @@ from .base_view import BaseView
 
 
 class ConfirmView(BaseView):
-    def __init__(self, screen: T.Any, title: str) -> None:
+    def __init__(self, screen: Any, title: str) -> None:
         super().__init__(screen)
 
         self.title = f"{title}:"
         self.on_cancel = EventHandler()
         self.on_confirm = EventHandler()
 
-        self.choices: T.List[Choice] = [
+        self.choices: list[Choice] = [
             Choice(
                 keys=list(map(ord, "yY")),
                 desc="[Y] Yes",

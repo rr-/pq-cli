@@ -1,5 +1,5 @@
 import functools
-import typing as T
+from typing import Any
 
 from pqcli.lingo import act_name, to_roman
 from pqcli.roster import Roster
@@ -8,11 +8,11 @@ from pqcli.ui.curses.views.menu_view import MenuView
 
 
 class ChooseCharacterView(MenuView):
-    def __init__(self, screen: T.Any, roster: Roster, title: str) -> None:
+    def __init__(self, screen: Any, roster: Roster, title: str) -> None:
         super().__init__(screen, title)
 
         for y, player in enumerate(roster.players, 1):
-            key: T.Optional[str] = str(y % 10) if y <= 10 else None
+            key: str | None = str(y % 10) if y <= 10 else None
 
             best_equip = player.equipment.best
 

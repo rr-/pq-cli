@@ -1,5 +1,5 @@
 import curses
-import typing as T
+from typing import Any
 
 from pqcli.ui.curses.colors import COLOR_HIGHLIGHT, has_colors
 
@@ -9,7 +9,7 @@ from .scrollable import Scrollable
 class DataTable(Scrollable):
     def __init__(
         self,
-        parent: T.Any,
+        parent: Any,
         h: int,
         w: int,
         y: int,
@@ -19,8 +19,8 @@ class DataTable(Scrollable):
         super().__init__(parent, h, w, y, x)
 
         self._align_right = align_right
-        self._items: T.List[T.Tuple[str, str]]
-        self._selected: T.Optional[int] = None
+        self._items: list[tuple[str, str]]
+        self._selected: int | None = None
 
     def add(self, text: str, value: str) -> None:
         self._items.append((text, value))
@@ -40,10 +40,10 @@ class DataTable(Scrollable):
             del self._items[idx]
             self.scroll_to_item(idx)
 
-    def select(self, text: T.Optional[str]) -> None:
+    def select(self, text: str | None) -> None:
         self._selected = None if text is None else self.get_idx(text)
 
-    def get_idx(self, text: str) -> T.Optional[int]:
+    def get_idx(self, text: str) -> int | None:
         for idx, row in enumerate(self._items):
             if row[0].strip() == text.strip():
                 return idx

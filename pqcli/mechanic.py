@@ -3,9 +3,10 @@ import functools
 import itertools
 import logging
 import math
-import typing as T
 from collections import defaultdict
+from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass
+from typing import Any, cast
 
 from pqcli import random
 from pqcli.config import (
@@ -35,23 +36,21 @@ from pqcli.random import Alea, RngState
 logger = logging.getLogger(__name__)
 
 
-_SIGNALS: T.Dict[
-    T.Tuple["SignalMixin", str], T.List[T.Callable[..., T.Any]]
-] = defaultdict(list)
+_SIGNALS: dict[tuple["SignalMixin", str], list[Callable[..., Any]]] = (
+    defaultdict(list)
+)
 
 
 class SignalMixin:
-    def emit(self, signal_name: str, *user_data: T.Any) -> None:
+    def emit(self, signal_name: str, *user_data: Any) -> None:
         for callback in _SIGNALS[self, signal_name]:
             callback(*user_data)
 
-    def connect(
-        self, signal_name: str, callback: T.Callable[..., T.Any]
-    ) -> None:
+    def connect(self, signal_name: str, callback: Callable[..., Any]) -> None:
         _SIGNALS[self, signal_name].append(callback)
 
     def disconnect(
-        self, signal_name: str, callback: T.Callable[..., T.Any]
+        self, signal_name: str, callback: Callable[..., Any]
     ) -> None:
         try:
             idx = _SIGNALS[self, signal_name].index(callback)
@@ -108,10 +107,10 @@ class Bar(SignalMixin):
 class Stats(SignalMixin):
     signals = ["change"]
 
-    def __init__(self, values: T.Dict[StatType, int]) -> None:
+    def __init__(self, values: dict[StatType, int]) -> None:
         self._values = values
 
-    def __iter__(self) -> T.Iterator[T.Tuple[StatType, int]]:
+    def __iter__(self) -> Iterator[tuple[StatType, int]]:
         return iter(self._values.items())
 
     def __getitem__(self, stat: StatType) -> int:
@@ -137,22 +136,22 @@ class QuestBook(SignalMixin):
     signals = ["start_act", "start_quest"]
 
     def __init__(self) -> None:
-        self._quests: T.List[str] = []
+        self._quests: list[str] = []
         self._act = 0
         self.plot_bar = Bar(max_=1)
         self.quest_bar = Bar(max_=1)
-        self.monster: T.Optional[Monster] = None
+        self.monster: Monster | None = None
 
     @property
     def act(self) -> int:
         return self._act
 
     @property
-    def quests(self) -> T.List[str]:
+    def quests(self) -> list[str]:
         return self._quests
 
     @property
-    def current_quest(self) -> T.Optional[str]:
+    def current_quest(self) -> str | None:
         if self._quests:
             return self._quests[-1]
         return None
@@ -178,7 +177,7 @@ class Inventory(SignalMixin):
 
     def __init__(self, capacity: int = 0) -> None:
         self._gold = 0
-        self._items: T.List[InventoryItem] = []
+        self._items: list[InventoryItem] = []
         self.encum_bar = Bar(max_=capacity)
 
     @property
@@ -188,7 +187,7 @@ class Inventory(SignalMixin):
     def __len__(self) -> int:
         return len(self._items)
 
-    def __iter__(self) -> T.Iterator[InventoryItem]:
+    def __iter__(self) -> Iterator[InventoryItem]:
         return iter(self._items)
 
     def __getitem__(self, idx: int) -> InventoryItem:
@@ -234,16 +233,16 @@ class Equipment(SignalMixin):
     signals = ["change"]
 
     def __init__(self) -> None:
-        self._items: T.Dict[EquipmentType, str] = {
+        self._items: dict[EquipmentType, str] = {
             EquipmentType.weapon: "Sharp Rock",
             EquipmentType.hauberk: "-3 Burlap",
         }
         self.best = self[EquipmentType.weapon]
 
-    def __iter__(self) -> T.Iterator[T.Tuple[EquipmentType, str]]:
+    def __iter__(self) -> Iterator[tuple[EquipmentType, str]]:
         return iter(self._items.items())
 
-    def __getitem__(self, equipment_type: EquipmentType) -> T.Optional[str]:
+    def __getitem__(self, equipment_type: EquipmentType) -> str | None:
         return self._items.get(equipment_type, None)
 
     def put(self, equipment_type: EquipmentType, item_name: str) -> None:
@@ -267,9 +266,9 @@ class SpellBook(SignalMixin):
     signals = ["add", "change"]
 
     def __init__(self) -> None:
-        self._spells: T.List[Spell] = []
+        self._spells: list[Spell] = []
 
-    def __iter__(self) -> T.Iterator[Spell]:
+    def __iter__(self) -> Iterator[Spell]:
         return iter(self._spells)
 
     def __bool__(self) -> bool:
@@ -292,7 +291,7 @@ class SpellBook(SignalMixin):
             self.emit("add", spell)
 
     @property
-    def best(self) -> T.Optional[Spell]:
+    def best(self) -> Spell | None:
         if not self._spells:
             return None
         return max(self._spells, key=lambda spell: spell.level)
@@ -306,7 +305,7 @@ class BaseTask:
 
 @dataclass
 class KillTask(BaseTask):
-    monster: T.Optional[Monster] = None
+    monster: Monster | None = None
 
 
 class BuyTask(BaseTask):
@@ -347,7 +346,7 @@ class Player(SignalMixin):
         race: Race,
         class_: Class,
         stats: Stats,
-        rng: T.Optional[Alea] = None,
+        rng: Alea | None = None,
     ) -> None:
         self.name: str = name
         self.birthday: datetime.datetime = birthday
@@ -366,10 +365,10 @@ class Player(SignalMixin):
         self.spell_book = SpellBook()
 
         self.task_bar = Bar(max_=1)
-        self.task: T.Optional[BaseTask] = None
-        self.queue: T.List[BaseTask] = []
+        self.task: BaseTask | None = None
+        self.queue: list[BaseTask] = []
 
-    def __setstate__(self, obj: T.Any) -> None:
+    def __setstate__(self, obj: Any) -> None:
         self.__dict__.update(obj)
         self.elapsed = obj.get("elapsed", 0.0)
         if "rng" not in obj:
@@ -402,7 +401,7 @@ class Player(SignalMixin):
         self.emit("level_up")
 
     def win_stat(self) -> bool:
-        chosen_stat: T.Optional[StatType] = None
+        chosen_stat: StatType | None = None
 
         if random.odds(1, 2):
             chosen_stat = random.choice(list(StatType))
@@ -437,9 +436,9 @@ class Player(SignalMixin):
     def win_equipment(self, data: GameData) -> None:
         choice = random.choice(list(EquipmentType))
 
-        stuff: T.Sequence[EquipmentPreset]
-        better: T.Sequence[Modifier]
-        worse: T.Sequence[Modifier]
+        stuff: Sequence[EquipmentPreset]
+        better: Sequence[Modifier]
+        worse: Sequence[Modifier]
 
         if choice == EquipmentType.weapon:
             stuff = data.weapons
@@ -566,7 +565,7 @@ class Simulation:
                     self.player.task_bar.max_ / 1000
                 )
         elif self.player.quest_book.act == 0 and not isinstance(
-            self.player.task, (LoadingTask, PlotTask)
+            self.player.task, LoadingTask | PlotTask
         ):
             # the Prologue story tasks fill the plot bar
             self.player.quest_book.plot_bar.increment(
@@ -599,7 +598,7 @@ class Simulation:
                 self.player.inventory.add_gold(-self.player.equip_price())
                 self.player.win_equipment(self.data)
 
-            elif isinstance(self.player.task, (HeadingToMarketTask, SellTask)):
+            elif isinstance(self.player.task, HeadingToMarketTask | SellTask):
                 if isinstance(self.player.task, SellTask):
                     item = self.player.inventory[0]
                     amount = item.quantity * self.player.level
@@ -629,7 +628,7 @@ class Simulation:
                 self.player.set_task(
                     HeadingToMarketTask("Heading to market to sell loot", 4000)
                 )
-            elif not isinstance(old, (KillTask, HeadingToKillingFieldsTask)):
+            elif not isinstance(old, KillTask | HeadingToKillingFieldsTask):
                 if self.player.inventory.gold > self.player.equip_price():
                     self.player.set_task(
                         BuyTask(
@@ -838,35 +837,35 @@ def special_item(data: GameData) -> str:
     return (
         interesting_item(data)
         + " of "
-        + T.cast(str, random.choice(data.item_ofs))
+        + cast(str, random.choice(data.item_ofs))
     )
 
 
 def interesting_item(data: GameData) -> str:
     return (
-        T.cast(str, random.choice(data.item_attrib))
+        cast(str, random.choice(data.item_attrib))
         + " "
-        + T.cast(str, random.choice(data.specials))
+        + cast(str, random.choice(data.specials))
     )
 
 
 def boring_item(data: GameData) -> str:
-    return T.cast(str, random.choice(data.boring_items))
+    return cast(str, random.choice(data.boring_items))
 
 
 def impressive_guy(data: GameData) -> str:
     if random.below(2):
-        title = T.cast(str, random.choice(data.impressive_titles))
-        race = T.cast(Race, random.choice(data.races))
+        title = cast(str, random.choice(data.impressive_titles))
+        race = cast(Race, random.choice(data.races))
         return f"the {title} of the {plural(race.name)}"
-    title = T.cast(str, random.choice(data.impressive_titles))
+    title = cast(str, random.choice(data.impressive_titles))
     return f"{title} {generate_name()} of {generate_name()}"
 
 
 def unnamed_monster(data: GameData, level: int, iterations: int) -> Monster:
-    result = T.cast(Monster, random.choice(data.monsters))
+    result = cast(Monster, random.choice(data.monsters))
     for _ in range(iterations):
-        alternative = T.cast(Monster, random.choice(data.monsters))
+        alternative = cast(Monster, random.choice(data.monsters))
         if abs(level - alternative.level) < abs(level - result.level):
             result = alternative
     return result
@@ -878,18 +877,18 @@ def named_monster(data: GameData, level: int) -> str:
 
 
 def pick_equipment(
-    source: T.Sequence[EquipmentPreset], goal: int
+    source: Sequence[EquipmentPreset], goal: int
 ) -> EquipmentPreset:
-    result = T.cast(EquipmentPreset, random.choice(source))
+    result = cast(EquipmentPreset, random.choice(source))
     for _ in range(5):
-        alternative = T.cast(EquipmentPreset, random.choice(source))
+        alternative = cast(EquipmentPreset, random.choice(source))
         if abs(goal - alternative.quality) < abs(goal - result.quality):
             result = alternative
     return result
 
 
 def monster_task(
-    data: GameData, player_level: int, quest_monster: T.Optional[Monster]
+    data: GameData, player_level: int, quest_monster: Monster | None
 ) -> KillTask:
     level = player_level
     for _ in range(level):
@@ -899,7 +898,7 @@ def monster_task(
         level = 1
 
     is_definite = False
-    monster: T.Optional[Monster] = None
+    monster: Monster | None = None
     if random.odds(1, 25):
         # use an NPC every once in a while
         race = random.choice(data.races)
@@ -968,7 +967,7 @@ def monster_task(
     verb = (
         data.combat_verbs[0]
         if len(data.combat_verbs) == 1
-        else T.cast(str, random.choice(data.combat_verbs))
+        else cast(str, random.choice(data.combat_verbs))
     )
     description = verb.replace(TARGET_PLACEHOLDER, result)
     return KillTask(description, duration, monster=monster)
@@ -982,9 +981,9 @@ class _Roll:
 
 
 class StatsBuilder:
-    def __init__(self, rng: T.Optional[Alea] = None) -> None:
+    def __init__(self, rng: Alea | None = None) -> None:
         self._rng = rng or Alea()
-        self.history: T.List[_Roll] = []
+        self.history: list[_Roll] = []
 
     @property
     def seed(self) -> RngState:
@@ -998,7 +997,7 @@ class StatsBuilder:
     def roll(self) -> Stats:
         seed = self._rng.state()
         with random.using(self._rng):
-            values: T.Dict[StatType, int] = {
+            values: dict[StatType, int] = {
                 stat: 3 + random.below(6) + random.below(6) + random.below(6)
                 for stat in PRIME_STATS
             }
@@ -1024,7 +1023,7 @@ def create_player(
     race: Race,
     class_: Class,
     stats: Stats,
-    seed: T.Optional[RngState] = None,
+    seed: RngState | None = None,
 ) -> Player:
     player = Player(
         birthday=datetime.datetime.now(),
